@@ -26,6 +26,10 @@ func (cli *CliInput) IsOperationAmbiguous() bool {
 	return cli.HasRegisterFlag() && cli.HasRemoveFlag()
 }
 
+func (cli *CliInput) HasFilename() bool {
+	return false
+}
+
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	register, _ := cmd.Flags().GetString("register")
 	remove, _ := cmd.Flags().GetString("remove")

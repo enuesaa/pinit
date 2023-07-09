@@ -1,5 +1,4 @@
 package handler
 
 func HandleApply() {
-
 }
