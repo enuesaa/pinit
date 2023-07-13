@@ -11,7 +11,7 @@ type CliInput struct {
 }
 
 func (cli *CliInput) HasRegisterFlag() bool {
-	return cli.Register == true
+	return cli.Register
 }
 
 func (cli *CliInput) HasTagFlag() bool {
@@ -19,7 +19,7 @@ func (cli *CliInput) HasTagFlag() bool {
 }
 
 func (cli *CliInput) HasRemoveFlag() bool {
-	return cli.Remove == true
+	return cli.Remove
 }
 
 func (cli *CliInput) IsOperationAmbiguous() bool {

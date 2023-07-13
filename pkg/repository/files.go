@@ -21,3 +21,23 @@ func GetRegistryPath() (string, error) {
 	}
 	return filepath.Join(homedir, ".pinit"), nil
 }
+
+
+
+type Item struct {
+	Tags []string
+	Filename string
+	Content string // todo 
+}
+
+// filename 
+// - .pinit/{tag}-{filename}
+// example
+// - .pinit/main-.gitignore
+// - .pinit/dev-index.js
+
+func ListItems() {}
+func ListItemsByTags(tags []string) {}
+func GetItem(tag string, filename string) {} // should return item struct
+func CreateItem(item Item) {}
+func DeleteItem(tag string, filename string) {}
