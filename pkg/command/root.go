@@ -10,6 +10,7 @@ import (
 func createRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "pinit",
+		Short: "A CLI tool to register useful files and make project setup easier.",
 		Args: cobra.MinimumNArgs(0),
 		Run:  func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
@@ -37,8 +38,8 @@ func CreateCli() *cobra.Command {
 	cli := createRootCmd()
 
 	// global options
-	cli.PersistentFlags().String("register", "", "Register file.")
-	cli.PersistentFlags().String("remove", "", "Remove file.")
+	cli.PersistentFlags().Bool("register", false, "Register file.")
+	cli.PersistentFlags().Bool("remove", false,  "Remove file.")
 	cli.PersistentFlags().String("tag", "", "Tag")
 
 	// disable default

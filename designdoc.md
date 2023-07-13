@@ -1,4 +1,10 @@
 # designdoc
+
+## コンセプト
+- prettier とか eslint だとかの設定をローカル(もしくはリモート)に保持して、いつでもコピペできるようにしたい
+- ユースケース(というか使うタイミング)は gh repo create に近い
+- ただし必ずしもアプリケーションの作成時ではない
+
 ## Commands
 
 ### List
@@ -18,11 +24,9 @@ $ pinit .gitignore
 Not found.
 
 To register, run following command:
-  # create from local file.
-  pinit .gitignore --tag main --register ./.gitignore
-
-  # create from remote file
-  pinit .gitignore --tag main --register https://raw.githubusercontent.com/example/example/blob/main/.gitignore
+  pinit .gitignore --tag main --register
+  pinit /something/path/.gitignore --tag main --register
+  pinit https://raw.githubusercontent.com/example/example/blob/main/.gitignore --tag main --register
 ```
 
 ### Remove

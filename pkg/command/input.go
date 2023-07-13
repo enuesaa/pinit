@@ -5,13 +5,13 @@ import (
 )
 
 type CliInput struct {
-	Register string
-	Remove   string
+	Register bool
+	Remove   bool
 	Tag      string
 }
 
 func (cli *CliInput) HasRegisterFlag() bool {
-	return cli.Register != ""
+	return cli.Register == true
 }
 
 func (cli *CliInput) HasTagFlag() bool {
@@ -19,7 +19,7 @@ func (cli *CliInput) HasTagFlag() bool {
 }
 
 func (cli *CliInput) HasRemoveFlag() bool {
-	return cli.Remove != ""
+	return cli.Remove == true
 }
 
 func (cli *CliInput) IsOperationAmbiguous() bool {
@@ -31,8 +31,8 @@ func (cli *CliInput) HasFilename() bool {
 }
 
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
-	register, _ := cmd.Flags().GetString("register")
-	remove, _ := cmd.Flags().GetString("remove")
+	register, _ := cmd.Flags().GetBool("register")
+	remove, _ := cmd.Flags().GetBool("remove")
 	tag, _ := cmd.Flags().GetString("tag")
 
 	input := CliInput {
