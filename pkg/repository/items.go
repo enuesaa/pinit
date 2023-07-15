@@ -5,7 +5,13 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 )
+
+type ItemInfo struct {
+	Tag string
+	Filename string
+}
 
 type Item struct {
 	Tag string
@@ -17,8 +23,8 @@ type ItemsRepositoryInterface interface {
 	CreateRegistry()
 	GetRegistryPath() string
 	GetItemPath(tag string, filename string) string
-	ListItems() []string
-	ListItemsByTags(tags []string) []string
+	ListItems() []ItemInfo
+	ListItemsByTags(tags []string) []ItemInfo
 	GetItem(tag string, filename string) (*Item, error)
 	CreateItem(item Item)
 	DeleteItem(tag string, filename string)
@@ -44,26 +50,38 @@ func (repo *ItemsRepository) GetItemPath(tag string, filename string) string {
 	return path.Join(registry, fmt.Sprintf("%s-%s", tag, filename))
 }
 
-func (repo *ItemsRepository) ListItems() []string {
+func (repo *ItemsRepository) ListItems() []ItemInfo {
 	path := repo.GetRegistryPath()
 	entries, _ := os.ReadDir(path)
 
-	names := make([]string, 0)
+	r := regexp.MustCompile(`^([A-Za-z0-9]+)-(.*)$`)
+	items := make([]ItemInfo, 0)
 	for _, entry := range entries {
-		names = append(names, entry.Name())
+		// todo handle error
+		matched := r.FindStringSubmatch(entry.Name())
+		items = append(items, ItemInfo {
+			Tag: matched[1],
+			Filename: matched[2],
+		})
 	}
-	return names
+	return items
 }
 
-func (repo *ItemsRepository) ListItemsByTags(tags []string) []string {
+func (repo *ItemsRepository) ListItemsByTags(tags []string) []ItemInfo {
 	path := repo.GetRegistryPath()
 	entries, _ := os.ReadDir(path)
 
-	names := make([]string, 0)
+	r := regexp.MustCompile(`^([A-Za-z0-9]+)-(.*)$`)
+	items := make([]ItemInfo, 0)
 	for _, entry := range entries {
-		names = append(names, entry.Name())
+		// todo handle error
+		matched := r.FindStringSubmatch(entry.Name())
+		items = append(items, ItemInfo {
+			Tag: matched[1],
+			Filename: matched[2],
+		})
 	}
-	return names
+	return items
 }
 
 func (repo *ItemsRepository) GetItem(tag string, filename string) (*Item, error) {
