@@ -1,4 +1,8 @@
 package handler
 
-func HandleApply() {
+import (
+	"github.com/enuesaa/pinit/pkg/repository"
+)
+
+func HandleApply(itemsRepo repository.ItemsRepository) {
 }

@@ -13,10 +13,14 @@ type Item struct {
 	Content string 
 }
 
+func NewItemsRepository() ItemsRepository {
+	return ItemsRepository{}
+}
+
 type ItemsRepository struct {}
 
 func (repo *ItemsRepository) CreateRegistry() {
-	path, _ := GetRegistryPath()
+	path := repo.GetRegistryPath()
 	os.Mkdir(path, 0755)
 }
 

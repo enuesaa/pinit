@@ -1,5 +1,9 @@
 package handler
 
-func HandleRemove() {
+import (
+	"github.com/enuesaa/pinit/pkg/repository"
+)
+
+func HandleRemove(itemsRepo repository.ItemsRepository) {
 
 }

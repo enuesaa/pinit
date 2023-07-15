@@ -3,8 +3,9 @@ package cli
 import (
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/enuesaa/pinit/pkg/handler"
+	"github.com/enuesaa/pinit/pkg/repository"
+	"github.com/spf13/cobra"
 )
 
 func createRootCmd() *cobra.Command {
@@ -15,18 +16,20 @@ func createRootCmd() *cobra.Command {
 		Run:  func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
 
+			itemsRepo := repository.NewItemsRepository()
+
 			switch {
 			case input.IsOperationAmbiguous():
 				fmt.Printf("Error: Operation Ambiguous\n\n")
 				fmt.Printf("Cannot use these flags at the same time: --register, --remove\n")
 			case input.Register:
-				handler.HandleRegister()
+				handler.HandleRegister(itemsRepo)
 			case input.Remove:
-				handler.HandleRemove()
+				handler.HandleRemove(itemsRepo)
 			case input.HasFilename():
 				fmt.Printf("apply command here.")
 			default:
-				handler.HandleList()
+				handler.HandleList(itemsRepo)
 			}
 		},
 	}
