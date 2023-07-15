@@ -52,3 +52,14 @@ To override .gitignore, run following command:
   rm .gitignore
   pinit .gitignore --tag main
 ```
+
+## 保存場所
+```
+~/.pinit/{tag}-{filename}
+```
+
+### Example
+```
+~/.pinit/main-.gitignore
+~/.pinit/dev-index.js
+```
