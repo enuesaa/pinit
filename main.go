@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/enuesaa/pinit/pkg/command"
+	"github.com/enuesaa/pinit/pkg/cli"
 )
 
 func main() {
-	cli := command.CreateCli()
-	cli.Execute()
+	app := cli.CreateCli()
+	app.Execute()
 }

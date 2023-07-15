@@ -1,4 +1,4 @@
-package command
+package cli
 
 import (
 	"github.com/spf13/cobra"
@@ -10,20 +10,12 @@ type CliInput struct {
 	Tag      string
 }
 
-func (cli *CliInput) HasRegisterFlag() bool {
-	return cli.Register
-}
-
 func (cli *CliInput) HasTagFlag() bool {
 	return cli.Tag != ""
 }
 
-func (cli *CliInput) HasRemoveFlag() bool {
-	return cli.Remove
-}
-
 func (cli *CliInput) IsOperationAmbiguous() bool {
-	return cli.HasRegisterFlag() && cli.HasRemoveFlag()
+	return cli.Register && cli.Remove
 }
 
 func (cli *CliInput) HasFilename() bool {

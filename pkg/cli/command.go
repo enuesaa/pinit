@@ -1,4 +1,4 @@
-package command
+package cli
 
 import (
 	"fmt"
@@ -19,9 +19,9 @@ func createRootCmd() *cobra.Command {
 			case input.IsOperationAmbiguous():
 				fmt.Printf("Error: Operation Ambiguous\n\n")
 				fmt.Printf("Cannot use these flags at the same time: --register, --remove\n")
-			case input.HasRegisterFlag():
+			case input.Register:
 				handler.HandleRegister()
-			case input.HasRemoveFlag():
+			case input.Remove:
 				handler.HandleRemove()
 			case input.HasFilename():
 				fmt.Printf("apply command here.")
@@ -49,3 +49,4 @@ func CreateCli() *cobra.Command {
 
 	return cli
 }
+ 

@@ -10,46 +10,38 @@ import (
 type Item struct {
 	Tag string
 	Filename string
-	Content string // todo 
+	Content string 
 }
 
 type ItemsRepository struct {}
 
-func (repo *ItemsRepository) CreateRegistry() error {
-	path, err := GetRegistryPath()
-	if err != nil {
-		return err
-	}
+func (repo *ItemsRepository) CreateRegistry() {
+	path, _ := GetRegistryPath()
 	os.Mkdir(path, 0755)
-	return nil
 }
 
-func (repo *ItemsRepository) GetRegistryPath() (string, error) {
-	homedir, err := os.UserHomeDir()
-	if err != nil {
-		return "", err
-	}
-	return filepath.Join(homedir, ".pinit"), nil
+func (repo *ItemsRepository) GetRegistryPath() string {
+	homedir, _ := os.UserHomeDir()
+	return filepath.Join(homedir, ".pinit")
 }
 
 func (repo *ItemsRepository) GetItemPath(tag string, filename string) string {
-	registry, _ := repo.GetRegistryPath()
+	registry := repo.GetRegistryPath()
 	return path.Join(registry, fmt.Sprintf("%s-%s", tag, filename))
 }
 
 func (repo *ItemsRepository) ListItems() {
-	path, _ := repo.GetRegistryPath()
+	path := repo.GetRegistryPath()
 	entries, _ := os.ReadDir(path)
 	fmt.Printf("%+v", entries)
 }
 
 func (repo *ItemsRepository) ListItemsByTags(tags []string) {
-	path, _ := repo.GetRegistryPath()
+	path := repo.GetRegistryPath()
 	entries, _ := os.ReadDir(path)
 	fmt.Printf("%+v", entries)
 }
 
-// should return item struct
 func (repo *ItemsRepository) GetItem(tag string, filename string) (*Item, error){
 	path := repo.GetItemPath(tag, filename)
 	file, err := os.ReadFile(path)
@@ -65,7 +57,11 @@ func (repo *ItemsRepository) GetItem(tag string, filename string) (*Item, error)
 }
 
 func (repo *ItemsRepository) CreateItem(item Item) {
-	// path := repo.GetItemPath(tag, filename)
+	path := repo.GetItemPath(item.Tag, item.Filename)
+
+	f, _ := os.Create(path)
+	defer f.Close()
+	f.Write([]byte(item.Content))
 }
 
 func (repo *ItemsRepository) DeleteItem(tag string, filename string) {
