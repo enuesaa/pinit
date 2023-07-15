@@ -4,5 +4,5 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
-func HandleApply(itemsRepo repository.ItemsRepository) {
+func HandleApply(itemsRepo repository.ItemsRepositoryInterface) {
 }

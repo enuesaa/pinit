@@ -13,11 +13,21 @@ type Item struct {
 	Content string 
 }
 
-func NewItemsRepository() ItemsRepository {
-	return ItemsRepository{}
+type ItemsRepositoryInterface interface {
+	CreateRegistry()
+	GetRegistryPath() string
+	GetItemPath(tag string, filename string) string
+	ListItems() []string
+	ListItemsByTags(tags []string) []string
+	GetItem(tag string, filename string) (*Item, error)
+	CreateItem(item Item)
+	DeleteItem(tag string, filename string)
 }
 
 type ItemsRepository struct {}
+func NewItemsRepository() *ItemsRepository {
+	return &ItemsRepository{}
+}
 
 func (repo *ItemsRepository) CreateRegistry() {
 	path := repo.GetRegistryPath()
@@ -34,19 +44,29 @@ func (repo *ItemsRepository) GetItemPath(tag string, filename string) string {
 	return path.Join(registry, fmt.Sprintf("%s-%s", tag, filename))
 }
 
-func (repo *ItemsRepository) ListItems() {
+func (repo *ItemsRepository) ListItems() []string {
 	path := repo.GetRegistryPath()
 	entries, _ := os.ReadDir(path)
-	fmt.Printf("%+v", entries)
+
+	names := make([]string, 0)
+	for _, entry := range entries {
+		names = append(names, entry.Name())
+	}
+	return names
 }
 
-func (repo *ItemsRepository) ListItemsByTags(tags []string) {
+func (repo *ItemsRepository) ListItemsByTags(tags []string) []string {
 	path := repo.GetRegistryPath()
 	entries, _ := os.ReadDir(path)
-	fmt.Printf("%+v", entries)
+
+	names := make([]string, 0)
+	for _, entry := range entries {
+		names = append(names, entry.Name())
+	}
+	return names
 }
 
-func (repo *ItemsRepository) GetItem(tag string, filename string) (*Item, error){
+func (repo *ItemsRepository) GetItem(tag string, filename string) (*Item, error) {
 	path := repo.GetItemPath(tag, filename)
 	file, err := os.ReadFile(path)
 	if err != nil {

@@ -31,6 +31,8 @@ func createRootCmd() *cobra.Command {
 			default:
 				handler.HandleList(itemsRepo)
 			}
+
+			fmt.Println()
 		},
 	}
 

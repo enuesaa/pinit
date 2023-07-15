@@ -4,6 +4,6 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
-func HandleRemove(itemsRepo repository.ItemsRepository) {
+func HandleRemove(itemsRepo repository.ItemsRepositoryInterface) {
 
 }
