@@ -29,7 +29,7 @@ func createRootCmd() *cobra.Command {
 			case input.HasFilename():
 				fmt.Printf("apply command here.")
 			default:
-				handler.HandleList(itemsRepo)
+				handler.HandleList(itemsRepo, input.Tag)
 			}
 		},
 	}

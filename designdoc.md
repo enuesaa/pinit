@@ -63,3 +63,5 @@ To override .gitignore, run following command:
 ~/.pinit/main-.gitignore
 ~/.pinit/dev-index.js
 ```
+### Memo
+これテンプレートとして sh とかバイナリ置かれたらそのまま実行でき困るので、別のフォーマットにしたい

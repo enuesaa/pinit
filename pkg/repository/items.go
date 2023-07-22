@@ -6,6 +6,8 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+
+	"golang.org/x/exp/slices"
 )
 
 type ItemInfo struct {
@@ -24,7 +26,7 @@ type ItemsRepositoryInterface interface {
 	GetRegistryPath() string
 	GetItemPath(tag string, filename string) string
 	ListItems() []ItemInfo
-	ListItemsByTags(tags []string) []ItemInfo
+	FilterItemsByTags(items []ItemInfo, tags []string) []ItemInfo
 	GetItem(tag string, filename string) (*Item, error)
 	CreateItem(item Item)
 	DeleteItem(tag string, filename string)
@@ -67,21 +69,15 @@ func (repo *ItemsRepository) ListItems() []ItemInfo {
 	return items
 }
 
-func (repo *ItemsRepository) ListItemsByTags(tags []string) []ItemInfo {
-	path := repo.GetRegistryPath()
-	entries, _ := os.ReadDir(path)
-
-	r := regexp.MustCompile(`^([A-Za-z0-9]+)-(.*)$`)
-	items := make([]ItemInfo, 0)
-	for _, entry := range entries {
-		// todo handle error
-		matched := r.FindStringSubmatch(entry.Name())
-		items = append(items, ItemInfo {
-			Tag: matched[1],
-			Filename: matched[2],
-		})
+func (repo *ItemsRepository) FilterItemsByTags(items []ItemInfo, tags []string) []ItemInfo {
+	list := make([]ItemInfo, 0)
+	for _, item := range items {
+		if slices.Contains(tags, item.Tag) {
+			list = append(list, item)
+		}
 	}
-	return items
+
+	return list
 }
 
 func (repo *ItemsRepository) GetItem(tag string, filename string) (*Item, error) {
