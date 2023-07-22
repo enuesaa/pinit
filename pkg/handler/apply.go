@@ -5,4 +5,7 @@ import (
 )
 
 func HandleApply(itemsRepo repository.ItemsRepositoryInterface) {
+	// get from registry
+
+	// apply
 }

@@ -21,6 +21,7 @@ type Item struct {
 	Content string 
 }
 
+// refactor: repository のレイヤーが高すぎてDIする意味がない
 type ItemsRepositoryInterface interface {
 	CreateRegistry()
 	GetRegistryPath() string
