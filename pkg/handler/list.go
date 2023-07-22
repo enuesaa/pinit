@@ -2,8 +2,10 @@ package handler
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/enuesaa/pinit/pkg/repository"
+	"github.com/olekukonko/tablewriter"
 )
 
 func HandleList(itemsRepo repository.ItemsRepositoryInterface) {
@@ -11,8 +13,11 @@ func HandleList(itemsRepo repository.ItemsRepositoryInterface) {
 
 	fmt.Printf("%d files found.\n\n", len(items))
 
-	fmt.Printf("  tag\tfilename\n")
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Tag", "Filename"})
+
 	for _, item := range items {
-		fmt.Printf("  %s\t%s\n", item.Tag, item.Filename)
+		table.Append([]string{item.Tag, item.Filename})
 	}
+	table.Render()
 }
