@@ -9,7 +9,7 @@
 
 ### List
 ```bash
-$ pinit
+$ pinit list
 
 FILENAME TAG
 .gitignore <main>
@@ -20,24 +20,24 @@ $ pinit --tag node
 
 ### Register
 ```bash
-$ pinit .gitignore
+$ pinit apply .gitignore
 Not found.
 
 To register, run following command:
-  pinit .gitignore --tag main --register
-  pinit /something/path/.gitignore --tag main --register
-  pinit https://raw.githubusercontent.com/example/example/blob/main/.gitignore --tag main --register
+  pinit register .gitignore --tag main
+  pinit register /something/path/.gitignore --tag main
+  pinit register https://raw.githubusercontent.com/example/example/blob/main/.gitignore --tag main
 ```
 
 ### Remove
 ```bash
-$ pinit .gitignore --tag main --remove
+$ pinit remove .gitignore --tag main
 ```
 
 ### Apply
 ```bash
-$ pinit .gitignore --tag main
-$ pinit .gitignore --tag node
+$ pinit apply .gitignore --tag main
+$ pinit apply .gitignore --tag node
 Not found.
 
 Other tags are found.
@@ -45,12 +45,12 @@ FILENAME TAG
 .gitignore <main>
 .gitignore <go>
 
-$ pinit .gitignore --tag main
+$ pinit apply .gitignore --tag main
 Already Exists.
 
 To override .gitignore, run following command:
   rm .gitignore
-  pinit .gitignore --tag main
+  pinit apply .gitignore --tag main
 ```
 
 ## 保存場所
