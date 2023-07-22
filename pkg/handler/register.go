@@ -1,6 +1,9 @@
 package handler
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -12,10 +15,15 @@ func HandleRegister(itemsRepo repository.ItemsRepositoryInterface, tag string, f
 	itemsRepo.CreateRegistry()
 
 	// read file
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Println(err)
+		return;
+	}
 
 	itemsRepo.CreateItem(repository.Item{
 		Tag: tag,
 		Filename: filename,
-		Content: "aaa",
+		Content: string(content),
 	})
 }

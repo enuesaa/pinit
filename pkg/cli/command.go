@@ -27,7 +27,7 @@ func createRootCmd() *cobra.Command {
 			case input.Remove:
 				handler.HandleRemove(itemsRepo, input.Tag, input.Filename)
 			case input.HasFilename():
-				fmt.Printf("apply command here.")
+				handler.HandleApply(itemsRepo, input.Tag, input.Filename)
 			default:
 				handler.HandleList(itemsRepo, input.Tag)
 			}
