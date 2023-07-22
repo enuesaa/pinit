@@ -8,10 +8,10 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-func HandleList(itemsRepo repository.ItemsRepositoryInterface, tags []string) {
+func HandleList(itemsRepo repository.ItemsRepositoryInterface, tag string) {
 	items := itemsRepo.ListItems()
-	if len(tags) > 0 {
-		items = itemsRepo.FilterItemsByTags(items, tags)
+	if tag != "" {
+		items = itemsRepo.FilterItemsByTags(items, []string{ tag })
 	}
 	fmt.Printf("\n")
 	fmt.Printf("%d files found.\n", len(items))

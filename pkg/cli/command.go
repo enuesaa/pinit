@@ -23,13 +23,13 @@ func createRootCmd() *cobra.Command {
 				fmt.Printf("Error: Operation Ambiguous\n\n")
 				fmt.Printf("Cannot use these flags at the same time: --register, --remove\n")
 			case input.Register:
-				handler.HandleRegister(itemsRepo)
+				handler.HandleRegister(itemsRepo, input.Tag, input.Filename)
 			case input.Remove:
 				handler.HandleRemove(itemsRepo)
 			case input.HasFilename():
 				fmt.Printf("apply command here.")
 			default:
-				handler.HandleList(itemsRepo, input.Tags)
+				handler.HandleList(itemsRepo, input.Tag)
 			}
 		},
 	}
