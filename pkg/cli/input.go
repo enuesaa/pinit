@@ -7,11 +7,11 @@ import (
 type CliInput struct {
 	Register bool
 	Remove   bool
-	Tag      string
+	Tags     []string
 }
 
 func (cli *CliInput) HasTagFlag() bool {
-	return cli.Tag != ""
+	return len(cli.Tags) > 0
 }
 
 func (cli *CliInput) IsOperationAmbiguous() bool {
@@ -26,11 +26,15 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	register, _ := cmd.Flags().GetBool("register")
 	remove, _ := cmd.Flags().GetBool("remove")
 	tag, _ := cmd.Flags().GetString("tag")
+	tags := make([]string, 0)
+	if tag != "" {
+		tags = append(tags, tag)
+	}
 
 	input := CliInput {
 		Register: register,
 		Remove: remove,
-		Tag: tag,
+		Tags: tags,
 	}
 
 	return input
