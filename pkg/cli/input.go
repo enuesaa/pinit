@@ -4,9 +4,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type Operation int
+
+const (
+    List Operation = iota
+    Register
+	Remove
+	Apply
+)
+
+
 type CliInput struct {
-	Register bool
-	Remove   bool
+	Operation Operation
 	Tag      string
 	Filename string
 }
@@ -19,13 +28,7 @@ func(cli *CliInput) HasFilename() bool {
 	return cli.Filename != ""
 }
 
-func (cli *CliInput) IsOperationAmbiguous() bool {
-	return cli.Register && cli.Remove
-}
-
-func ParseArgs(cmd *cobra.Command, args []string) CliInput {
-	register, _ := cmd.Flags().GetBool("register")
-	remove, _ := cmd.Flags().GetBool("remove")
+func ParseArgs(operation Operation, cmd *cobra.Command, args []string) CliInput {
 	tag, _ := cmd.Flags().GetString("tag")
 	filename := ""
 	if len(args) > 0 {
@@ -33,8 +36,7 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	}
 
 	input := CliInput {
-		Register: register,
-		Remove: remove,
+		Operation: operation,
 		Tag: tag,
 		Filename: filename,
 	}

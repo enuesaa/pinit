@@ -1,10 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
-	"github.com/enuesaa/pinit/pkg/handler"
-	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/spf13/cobra"
 )
 
@@ -14,23 +10,23 @@ func createRootCmd() *cobra.Command {
 		Short: "A CLI tool to register useful files and make project setup easier.",
 		Args: cobra.MinimumNArgs(0),
 		Run:  func(cmd *cobra.Command, args []string) {
-			input := ParseArgs(cmd, args)
+			// input := ParseArgs(cmd, args)
 
-			itemsRepo := repository.NewItemsRepository()
+			// itemsRepo := repository.NewItemsRepository()
 
-			switch {
-			case input.IsOperationAmbiguous():
-				fmt.Printf("Error: Operation Ambiguous\n\n")
-				fmt.Printf("Cannot use these flags at the same time: --register, --remove\n")
-			case input.Register:
-				handler.HandleRegister(itemsRepo, input.Tag, input.Filename)
-			case input.Remove:
-				handler.HandleRemove(itemsRepo, input.Tag, input.Filename)
-			case input.HasFilename():
-				handler.HandleApply(itemsRepo, input.Tag, input.Filename)
-			default:
-				handler.HandleList(itemsRepo, input.Tag)
-			}
+			// switch {
+			// case input.IsOperationAmbiguous():
+			// 	fmt.Printf("Error: Operation Ambiguous\n\n")
+			// 	fmt.Printf("Cannot use these flags at the same time: --register, --remove\n")
+			// case input.Register:
+			// 	handler.HandleRegister(itemsRepo, input.Tag, input.Filename)
+			// case input.Remove:
+			// 	handler.HandleRemove(itemsRepo, input.Tag, input.Filename)
+			// case input.HasFilename():
+			// 	handler.HandleApply(itemsRepo, input.Tag, input.Filename)
+			// default:
+			// 	handler.HandleList(itemsRepo, input.Tag)
+			// }
 		},
 	}
 
