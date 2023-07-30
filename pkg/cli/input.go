@@ -4,18 +4,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Operation int
-
-const (
-    List Operation = iota
-    Register
-	Remove
-	Apply
-)
-
-
+// todo: separate per sub command
 type CliInput struct {
-	Operation Operation
 	Tag      string
 	Filename string
 }
@@ -28,7 +18,7 @@ func(cli *CliInput) HasFilename() bool {
 	return cli.Filename != ""
 }
 
-func ParseArgs(operation Operation, cmd *cobra.Command, args []string) CliInput {
+func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	tag, _ := cmd.Flags().GetString("tag")
 	filename := ""
 	if len(args) > 0 {
@@ -36,7 +26,6 @@ func ParseArgs(operation Operation, cmd *cobra.Command, args []string) CliInput 
 	}
 
 	input := CliInput {
-		Operation: operation,
 		Tag: tag,
 		Filename: filename,
 	}
