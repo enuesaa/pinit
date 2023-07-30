@@ -14,7 +14,6 @@ func HandleRegister(itemsRepo repository.ItemsRepositoryInterface, tag string, f
 
 	itemsRepo.CreateRegistry()
 
-	// read file
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		fmt.Println(err)
