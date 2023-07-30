@@ -9,7 +9,10 @@ func createListCmd() *cobra.Command {
 		Use:  "list",
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
-			// todo
+			// input := ParseArgs(cmd, args)
+
+			// itemsRepo := repository.NewItemsRepository()
+			// handler.HandleRegister(itemsRepo, input.Tag, input.Filename)
 		},
 	}
 
