@@ -12,7 +12,7 @@ import (
 func Confirm() bool {
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Printf("Do you confirm? [y/n]: ")
-    scanner.Scan()
+	scanner.Scan()
 
 	answer := scanner.Text()
 	answer = strings.TrimSpace(answer)
@@ -31,7 +31,7 @@ func HandleApply(itemsRepo repository.ItemsRepositoryInterface, tag string, file
 	item, err := itemsRepo.GetItem(tag, filename)
 	if err != nil {
 		fmt.Printf("failed to find file named %s.", filename)
-		return;
+		return
 	}
 
 	if Confirm() {

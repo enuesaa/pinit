@@ -6,10 +6,10 @@ import (
 
 func createRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "pinit",
+		Use:   "pinit",
 		Short: "A CLI tool to register useful files and make project setup easier.",
-		Args: cobra.MinimumNArgs(0),
-		Run:  func(cmd *cobra.Command, args []string) {
+		Args:  cobra.MinimumNArgs(0),
+		Run: func(cmd *cobra.Command, args []string) {
 			cmd.Help()
 		},
 	}
@@ -26,7 +26,7 @@ func CreateCli() *cobra.Command {
 
 	// global options
 	cli.PersistentFlags().Bool("register", false, "Register file.")
-	cli.PersistentFlags().Bool("remove", false,  "Remove file.")
+	cli.PersistentFlags().Bool("remove", false, "Remove file.")
 	cli.PersistentFlags().String("tag", "", "Tag")
 
 	// disable default
@@ -47,7 +47,7 @@ func (cli *CliInput) HasTagFlag() bool {
 	return cli.Tag != ""
 }
 
-func(cli *CliInput) HasFilename() bool {
+func (cli *CliInput) HasFilename() bool {
 	return cli.Filename != ""
 }
 
@@ -58,8 +58,8 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 		filename = args[0]
 	}
 
-	input := CliInput {
-		Tag: tag,
+	input := CliInput{
+		Tag:      tag,
 		Filename: filename,
 	}
 

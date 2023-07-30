@@ -17,12 +17,12 @@ func HandleRegister(itemsRepo repository.ItemsRepositoryInterface, tag string, f
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		fmt.Println(err)
-		return;
+		return
 	}
 
 	itemsRepo.CreateItem(repository.Item{
-		Tag: tag,
+		Tag:      tag,
 		Filename: filename,
-		Content: string(content),
+		Content:  string(content),
 	})
 }

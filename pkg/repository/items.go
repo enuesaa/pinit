@@ -11,14 +11,14 @@ import (
 )
 
 type ItemInfo struct {
-	Tag string
+	Tag      string
 	Filename string
 }
 
 type Item struct {
-	Tag string
+	Tag      string
 	Filename string
-	Content string 
+	Content  string
 }
 
 // refactor: repository のレイヤーが高すぎてDIする意味がない
@@ -33,7 +33,8 @@ type ItemsRepositoryInterface interface {
 	DeleteItem(tag string, filename string)
 }
 
-type ItemsRepository struct {}
+type ItemsRepository struct{}
+
 func NewItemsRepository() *ItemsRepository {
 	return &ItemsRepository{}
 }
@@ -62,8 +63,8 @@ func (repo *ItemsRepository) ListItems() []ItemInfo {
 	for _, entry := range entries {
 		// todo handle error
 		matched := r.FindStringSubmatch(entry.Name())
-		items = append(items, ItemInfo {
-			Tag: matched[1],
+		items = append(items, ItemInfo{
+			Tag:      matched[1],
 			Filename: matched[2],
 		})
 	}
@@ -87,10 +88,10 @@ func (repo *ItemsRepository) GetItem(tag string, filename string) (*Item, error)
 	if err != nil {
 		return nil, err
 	}
-	item := Item {
-		Tag: tag,
+	item := Item{
+		Tag:      tag,
 		Filename: filename,
-		Content: string(file),
+		Content:  string(file),
 	}
 	return &item, nil
 }
@@ -106,7 +107,7 @@ func (repo *ItemsRepository) CreateItem(item Item) {
 func (repo *ItemsRepository) DeleteItem(tag string, filename string) {
 	path := repo.GetItemPath(tag, filename)
 	if _, err := os.Stat(path); err != nil {
-		return;
+		return
 	}
 	os.Remove(path)
 }
