@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/workspace:cached
+      - apps:/app/apps
+    tty: true
+    links:
+      - admin
+
+  admin:
+    build:
+      context: ./apps/admin
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace:cached
+      - node_modules:/workspace/apps/admin/node_modules
+    command: pnpm dev
+    tty: true
+
+volumes:
+  # to ignore dir.
+  apps:
+  node_modules:
