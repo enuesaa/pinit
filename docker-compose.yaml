@@ -23,6 +23,11 @@ services:
       - node_modules:/workspace/apps/admin/node_modules
     command: pnpm dev
     tty: true
+  
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
 
 volumes:
   # to ignore dir.
