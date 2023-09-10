@@ -1,26 +1,10 @@
 package main
 
 import (
-	"fmt"
-	// "log"
-	// "os"
-
-	"github.com/enuesaa/pinit/pkg/repository"
-	// "github.com/joho/godotenv"
+	"github.com/enuesaa/pinit/pkg/cli"
 )
 
 func main() {
-	repo := repository.ConfigRepository{}
-	config, _ := repo.ReadConfig()
-	fmt.Printf("%+v", config)
-
-	// if err := godotenv.Load(); err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
-
-	// env := repository.Env {
-	// 	DATABASE_DSN: os.Getenv("DATABASE_DSN"),
-	// }
-	// repos := repository.NewRepos(env)
-	// fmt.Printf("%+v\n", repos)
+	app := cli.CreateCli()
+	app.Execute()
 }

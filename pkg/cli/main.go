@@ -23,6 +23,7 @@ func CreateCli() *cobra.Command {
 	cli.AddCommand(createListCmd())
 	cli.AddCommand(createRegisterCmd())
 	cli.AddCommand(createRemoveCmd())
+	cli.AddCommand(createConfigureCmd())
 
 	// global options
 	cli.PersistentFlags().Bool("register", false, "Register file.")
