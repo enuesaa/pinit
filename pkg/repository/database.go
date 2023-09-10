@@ -42,3 +42,13 @@ func (repo *DatabaseRepository) RunRawSql(sql string) (*sql.Rows, error) {
 	return rows, nil
 }
 
+func (repo *DatabaseRepository) Create(data interface{}) error {
+	db, err := repo.db()
+	if err != nil {
+		return err
+	}
+	result := db.Create(data)
+
+	return result.Error
+}
+
