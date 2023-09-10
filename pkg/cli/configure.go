@@ -20,8 +20,7 @@ func createConfigureCmd() *cobra.Command {
 				if err != nil {
 					return
 				}
-				fmt.Printf("%+v", config)
-
+				fmt.Printf("Database DSN: %s \n", config.DatabaseDsn)
 			} else {
 				config := repository.Config {
 					DatabaseDsn: "",

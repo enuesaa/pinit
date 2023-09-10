@@ -1,8 +1,6 @@
 **Work in progress..**
 # pinit
-
-## コンセプト
-プログラマブルなメモ帳
+A personal note-taking app.
 
 ## Features
 - メモをかける
