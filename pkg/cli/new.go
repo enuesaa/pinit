@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func createAddCmd() *cobra.Command {
+func createNewCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "add",
+		Use: "new",
 		Run: func(cmd *cobra.Command, args []string) {
 			configRepo := repository.ConfigRepository{}
 			config, err := configRepo.ReadConfig()
@@ -18,16 +18,18 @@ func createAddCmd() *cobra.Command {
 				fmt.Printf("%+v", err)
 				return
 			}
-		
+
 			dbRepo := repository.DatabaseRepository{
 				Dsn: config.DatabaseDsn,
 			}
-		
-			dbRepo.Create(&service.Note {
-				Name: "a",
+
+			// create note
+			dbRepo.Create(&service.Note{
+				Name:    "a",
 				Content: "b",
 				Comment: "c",
 			})
+			// create tags
 		},
 	}
 

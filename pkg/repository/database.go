@@ -6,9 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type DatabaseRepositoryInterface interface {}
+type DatabaseRepositoryInterface interface{}
 
-type DatabaseRepository struct{
+type DatabaseRepository struct {
 	Dsn string
 }
 
@@ -51,4 +51,3 @@ func (repo *DatabaseRepository) Create(data interface{}) error {
 
 	return result.Error
 }
-

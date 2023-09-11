@@ -10,28 +10,28 @@ import (
 
 func createConfigureCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "configure",
+		Use: "configure",
 		Run: func(cmd *cobra.Command, args []string) {
 			repo := repository.ConfigRepository{}
 
 			isReadTask, _ := cmd.Flags().GetBool("read")
 			if isReadTask {
-				config, err := repo.ReadConfig() 
+				config, err := repo.ReadConfig()
 				if err != nil {
 					return
 				}
 				fmt.Printf("Database DSN: %s \n", config.DatabaseDsn)
 			} else {
-				config := repository.Config {
+				config := repository.Config{
 					DatabaseDsn: "",
 				}
-	
+
 				databaseDsn, err := textinput.New("Database DSN").RunPrompt()
 				if err != nil {
 					return
 				}
 				config.DatabaseDsn = databaseDsn
-	
+
 				if err := repo.WriteConfig(config); err != nil {
 					return
 				}

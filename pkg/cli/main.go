@@ -19,7 +19,10 @@ func createRootCmd() *cobra.Command {
 func CreateCli() *cobra.Command {
 	cli := createRootCmd()
 	cli.AddCommand(createConfigureCmd())
-	cli.AddCommand(createAddCmd())
+	cli.AddCommand(createNewCmd())
+	cli.AddCommand(createLsCmd())
+	cli.AddCommand(createDescribeCmd())
+	cli.AddCommand(createRmCmd())
 
 	// disable default
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})

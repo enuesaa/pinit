@@ -1,6 +1,6 @@
 # designdoc
 ```bash
-pinit configure # config
+pinit configure
 pinit new
 pinit rm <name>
 pinit ls
