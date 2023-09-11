@@ -12,11 +12,11 @@ func createConfigureCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "configure",
 		Run: func(cmd *cobra.Command, args []string) {
-			repo := repository.ConfigRepository{}
+			repos := repository.NewRepos()
 
 			isReadTask, _ := cmd.Flags().GetBool("read")
 			if isReadTask {
-				config, err := repo.ReadConfig()
+				config, err := repos.Config.ReadConfig()
 				if err != nil {
 					return
 				}
@@ -32,7 +32,7 @@ func createConfigureCmd() *cobra.Command {
 				}
 				config.DatabaseDsn = databaseDsn
 
-				if err := repo.WriteConfig(config); err != nil {
+				if err := repos.Config.WriteConfig(config); err != nil {
 					return
 				}
 			}
