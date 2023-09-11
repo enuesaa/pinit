@@ -15,22 +15,22 @@ type Note struct {
 
 type NoteService struct {}
 
-func (srv *NoteService) list() []Note {
+func (srv *NoteService) List() []Note {
 	return make([]Note, 0)
 }
 
-func (srv *NoteService) get() (Note, error) {
+func (srv *NoteService) Get() (Note, error) {
 	return *new(Note), nil
 }
 
-func (srv *NoteService) create() error {
+func (srv *NoteService) Create() error {
 	return nil
 }
 
-func (srv *NoteService) update() error {
+func (srv *NoteService) Update() error {
 	return nil
 }
 
-func (srv *NoteService) remove() error {
+func (srv *NoteService) Remove() error {
 	return nil
 }

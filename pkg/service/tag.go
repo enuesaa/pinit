@@ -16,22 +16,22 @@ type Tag struct {
 
 type TagService struct {}
 
-func (srv *TagService) list() []Tag {
+func (srv *TagService) List() []Tag {
 	return make([]Tag, 0)
 }
 
-func (srv *TagService) get() (Tag, error) {
+func (srv *TagService) Get() (Tag, error) {
 	return *new(Tag), nil
 }
 
-func (srv *TagService) create() error {
+func (srv *TagService) Create() error {
 	return nil
 }
 
-func (srv *TagService) update() error {
+func (srv *TagService) Update() error {
 	return nil
 }
 
-func (srv *TagService) remove() error {
+func (srv *TagService) Remove() error {
 	return nil
 }
