@@ -28,7 +28,6 @@ func createAddCmd() *cobra.Command {
 				Content: "b",
 				Comment: "c",
 			})
-
 		},
 	}
 
