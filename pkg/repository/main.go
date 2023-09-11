@@ -1,13 +1,13 @@
 package repository
 
 type Repos struct {
-	Config ConfigRepositoryInterface
+	Fshome FshomeRepositoryInterface
 	Database DatabaseRepositoryInterface
 }
 
 func NewRepos() Repos {
 	return Repos {
-		Config: &ConfigRepository{},
+		Fshome: &FshomeRepository{},
 		Database: &DatabaseRepository{},
 	}
 }
