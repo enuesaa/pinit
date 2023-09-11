@@ -6,10 +6,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type DatabaseRepositoryInterface interface{}
+type DatabaseRepositoryInterface interface {
+	WithDsn(dsn string)
+}
 
 type DatabaseRepository struct {
 	Dsn string
+}
+
+func (repo *DatabaseRepository) WithDsn(dsn string) {
+	repo.Dsn = dsn
 }
 
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {

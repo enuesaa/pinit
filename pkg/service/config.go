@@ -44,6 +44,14 @@ func (srv *ConfigService) Read() (*Config, error) {
 	return &config, nil
 }
 
+func (srv *ConfigService) ReadDatabaseDsn() (string, error) {
+	config, err := srv.Read()
+	if err != nil {
+		return "", err
+	}
+	return config.DatabaseDsn, nil
+}
+
 func (srv *ConfigService) Write(config Config) error {
 	if srv.repos.Fshome.IsRegistryExist(srv.registryName) {
 		return nil
@@ -58,4 +66,10 @@ func (srv *ConfigService) Write(config Config) error {
 	return srv.repos.Fshome.WriteFile(srv.registryName, srv.configFilename, buf.String())
 }
 
+func (srv *ConfigService) WriteDatabaseDsn(databaseDsn string) error {
+	config := Config {
+		DatabaseDsn: databaseDsn,
+	}
+	return srv.Write(config)
+}
 
