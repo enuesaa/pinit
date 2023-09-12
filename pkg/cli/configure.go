@@ -9,13 +9,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateConfigureCmd() *cobra.Command {
+func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "configure",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := parseConfigureInput(cmd)
-
-			repos := repository.NewRepos()
 			configSrv := service.NewConfigSevice(repos)
 
 			if input.read {
