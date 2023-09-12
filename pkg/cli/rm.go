@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func createRmCmd() *cobra.Command {
+func CreateRmCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:  "rm <name>",
 		Args: cobra.MinimumNArgs(1),

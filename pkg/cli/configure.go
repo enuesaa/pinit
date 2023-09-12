@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func createConfigureCmd() *cobra.Command {
+func CreateConfigureCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "configure",
 		Run: func(cmd *cobra.Command, args []string) {

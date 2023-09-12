@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func createLsCmd() *cobra.Command {
+func CreateLsCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "ls",
 		Run: func(cmd *cobra.Command, args []string) {

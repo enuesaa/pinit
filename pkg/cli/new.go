@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func createNewCmd() *cobra.Command {
+func CreateNewCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "new",
 		Run: func(cmd *cobra.Command, args []string) {

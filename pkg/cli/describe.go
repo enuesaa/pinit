@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func createDescribeCmd() *cobra.Command {
+func CreateDescribeCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:  "describe <name>",
 		Args: cobra.MinimumNArgs(1),
