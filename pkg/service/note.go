@@ -2,6 +2,8 @@ package service
 
 import (
 	"time"
+
+	"github.com/enuesaa/pinit/pkg/repository"
 )
 
 type Note struct {
@@ -13,14 +15,27 @@ type Note struct {
 	UpdatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp on update current_timestamp"`
 }
 
-type NoteService struct {}
+type NoteService struct {
+	repos repository.Repos
+}
+func NewNoteService(repos repository.Repos) *NoteService {
+	return &NoteService{
+		repos: repos,
+	}
+}
 
 func (srv *NoteService) List() []Note {
 	return make([]Note, 0)
 }
 
-func (srv *NoteService) Get(name string) (Note, error) {
-	return *new(Note), nil
+func (srv *NoteService) Get(name string) (*Note, error) {
+	note := Note {
+		Name: name,
+	}
+	if err := srv.repos.Database.WhereFirst(&note); err != nil {
+		return nil, err
+	}
+	return &note, nil
 }
 
 func (srv *NoteService) Create(note Note) error {
@@ -31,6 +46,6 @@ func (srv *NoteService) Update() error {
 	return nil
 }
 
-func (srv *NoteService) Remove() error {
+func (srv *NoteService) Remove(name string) error {
 	return nil
 }

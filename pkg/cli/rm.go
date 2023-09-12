@@ -11,8 +11,10 @@ func CreateRmCmd(repos repository.Repos) *cobra.Command {
 		Use:  "rm <name>",
 		Args: cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
+			name := args[0]
+
 			noteSrv := service.NoteService{}
-			noteSrv.Remove()
+			noteSrv.Remove(name)
 		},
 	}
 

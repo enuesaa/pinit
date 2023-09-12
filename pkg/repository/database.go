@@ -8,6 +8,7 @@ import (
 
 type DatabaseRepositoryInterface interface {
 	WithDsn(dsn string)
+	WhereFirst(data interface{}) error
 }
 
 type DatabaseRepository struct {
@@ -56,4 +57,13 @@ func (repo *DatabaseRepository) Create(data interface{}) error {
 	result := db.Create(data)
 
 	return result.Error
+}
+
+func (repo *DatabaseRepository) WhereFirst(data interface{}) error {
+	db, err := repo.db()
+	if err != nil {
+		return err
+	}
+	db.Where(data).First(&data)
+	return nil
 }

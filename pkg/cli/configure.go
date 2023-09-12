@@ -13,10 +13,10 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "configure",
 		Run: func(cmd *cobra.Command, args []string) {
-			input := parseConfigureInput(cmd)
+			isReadTask, _ := cmd.Flags().GetBool("read")
 			configSrv := service.NewConfigSevice(repos)
 
-			if input.read {
+			if isReadTask {
 				config, err := configSrv.Read()
 				if err != nil {
 					return
@@ -36,16 +36,4 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 	cmd.Flags().Bool("read", false, "Read Config")
 
 	return cmd
-}
-
-
-type ConfigureInput struct {
-	read bool
-}
-func parseConfigureInput(cmd *cobra.Command) ConfigureInput {
-	isReadTask, _ := cmd.Flags().GetBool("read")
-
-	return ConfigureInput{
-		read: isReadTask,
-	}
 }
