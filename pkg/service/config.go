@@ -53,11 +53,10 @@ func (srv *ConfigService) ReadDatabaseDsn() (string, error) {
 }
 
 func (srv *ConfigService) Write(config Config) error {
-	if srv.repos.Fshome.IsRegistryExist(srv.registryName) {
-		return nil
-	}
-	if err := srv.repos.Fshome.CreateRegistry(srv.registryName); err != nil {
-		return err
+	if !srv.repos.Fshome.IsRegistryExist(srv.registryName) {
+		if err := srv.repos.Fshome.CreateRegistry(srv.registryName); err != nil {
+			return err
+		}
 	}
     var buf bytes.Buffer
 	if err := toml.NewEncoder(&buf).Encode(config); err != nil {

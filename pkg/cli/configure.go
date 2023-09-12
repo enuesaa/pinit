@@ -28,6 +28,7 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 					return
 				}
 				if err := configSrv.WriteDatabaseDsn(databaseDsn); err != nil {
+					fmt.Println(err)
 					return
 				}
 			}
