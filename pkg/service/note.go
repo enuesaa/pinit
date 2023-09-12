@@ -19,11 +19,11 @@ func (srv *NoteService) List() []Note {
 	return make([]Note, 0)
 }
 
-func (srv *NoteService) Get() (Note, error) {
+func (srv *NoteService) Get(name string) (Note, error) {
 	return *new(Note), nil
 }
 
-func (srv *NoteService) Create() error {
+func (srv *NoteService) Create(note Note) error {
 	return nil
 }
 

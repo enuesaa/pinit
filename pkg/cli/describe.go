@@ -18,6 +18,9 @@ func createDescribeCmd() *cobra.Command {
 				return
 			}
 			repos.Database.WithDsn(databaseDsn)
+
+			noteSrv := service.NoteService{}
+			noteSrv.Get("")
 		},
 	}
 
