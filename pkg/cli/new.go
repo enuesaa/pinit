@@ -10,7 +10,7 @@ func CreateNewCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "new",
 		Run: func(cmd *cobra.Command, args []string) {
-			noteSrv := service.NoteService{}
+			noteSrv := service.NewNoteService(repos)
 			noteSrv.Create(service.Note{
 				Name:    "a",
 				Content: "b",

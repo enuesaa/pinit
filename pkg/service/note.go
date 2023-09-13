@@ -41,6 +41,9 @@ func (srv *NoteService) Get(name string) (*Note, error) {
 }
 
 func (srv *NoteService) Create(note Note) error {
+	if err := srv.repos.Database.Create(&note); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -48,6 +51,13 @@ func (srv *NoteService) Update() error {
 	return nil
 }
 
-func (srv *NoteService) Remove(name string) error {
+func (srv *NoteService) Delete(name string) error {
+	note, err := srv.Get(name)
+	if err != nil {
+		return err
+	}
+	if err := srv.repos.Database.Delete(&note); err != nil {
+		return err
+	}
 	return nil
 }

@@ -10,6 +10,8 @@ type DatabaseRepositoryInterface interface {
 	WithDsn(dsn string)
 	ListAll(data interface{}) error
 	WhereFirst(data interface{}) error
+	Delete(data interface{}) error
+	Create(data interface{}) error
 }
 
 type DatabaseRepository struct {
@@ -56,7 +58,15 @@ func (repo *DatabaseRepository) Create(data interface{}) error {
 		return err
 	}
 	result := db.Create(data)
+	return result.Error
+}
 
+func (repo *DatabaseRepository) Delete(data interface{}) error {
+	db, err := repo.db()
+	if err != nil {
+		return err
+	}
+	result := db.Delete(data)
 	return result.Error
 }
 
