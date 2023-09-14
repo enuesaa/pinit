@@ -1,10 +1,11 @@
 package cli
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
+	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
 
@@ -14,9 +15,14 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			noteSrv := service.NewNoteService(repos)
 			notes := noteSrv.List()
+			t := table.NewWriter()
+			t.SetOutputMirror(os.Stdout)
+			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "COMMENT", "CREATED AT"})
 			for _, note := range notes {
-				fmt.Printf("%+v\n", note)
+				t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.Comment, note.CreatedAt})
 			}
+			t.SetStyle(table.StyleLight)
+			t.Render()
 		},
 	}
 	cmd.Flags().StringArrayP("filter", "", []string{}, "search vavlue")
