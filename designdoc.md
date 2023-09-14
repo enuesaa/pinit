@@ -1,9 +1,9 @@
 # designdoc
 ```bash
 pinit configure
-pinit new
-pinit rm <name>
 pinit ls
 pinit describe <name>
-pinit update-comment <name> --comment <string>
+pinit new
+pinit edit <name>
+pinit rm <name>
 ```

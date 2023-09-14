@@ -47,7 +47,10 @@ func (srv *NoteService) Create(note Note) error {
 	return nil
 }
 
-func (srv *NoteService) Update() error {
+func (srv *NoteService) Update(note Note) error {
+	if err := srv.repos.Database.Update(&note); err != nil {
+		return err
+	}
 	return nil
 }
 

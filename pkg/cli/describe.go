@@ -2,9 +2,11 @@ package cli
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
+	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +21,12 @@ func CreateDescribeCmd(repos repository.Repos) *cobra.Command {
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Printf("%+v", note)
+				t := table.NewWriter()
+				t.SetOutputMirror(os.Stdout)
+				t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "COMMENT", "CREATED AT"})
+				t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.Comment, note.CreatedAt})
+				t.SetStyle(table.StyleLight)
+				t.Render()
 			}
 		},
 	}

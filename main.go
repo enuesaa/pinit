@@ -26,9 +26,10 @@ func main() {
 
 	// sub commands
 	cmd.AddCommand(cli.CreateConfigureCmd(repos))
-	cmd.AddCommand(cli.CreateNewCmd(repos))
 	cmd.AddCommand(cli.CreateLsCmd(repos))
 	cmd.AddCommand(cli.CreateDescribeCmd(repos))
+	cmd.AddCommand(cli.CreateNewCmd(repos))
+	cmd.AddCommand(cli.CreateEditCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
 
 	// disable default
