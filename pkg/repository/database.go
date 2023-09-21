@@ -2,12 +2,16 @@ package repository
 
 import (
 	"database/sql"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type DatabaseRepositoryInterface interface {
 	WithDsn(dsn string)
+	IsTableExist(schema interface{}) (bool, error)
+	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
 	WhereFirst(data interface{}) error
 	Create(data interface{}) error
@@ -24,18 +28,29 @@ func (repo *DatabaseRepository) WithDsn(dsn string) {
 }
 
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {
-	return gorm.Open(mysql.Open(repo.Dsn), &gorm.Config{})
+	return gorm.Open(mysql.Open(repo.Dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	  })
 }
 
-// this method might drop table in the future.
-func (repo *DatabaseRepository) Migrate(schema interface{}) error {
+func (repo *DatabaseRepository) IsTableExist(schema interface{}) (bool, error) {
+	db, err := repo.db()
+	if err != nil {
+		return false, err
+	}
+	var count int64
+	result := db.Model(schema).Count(&count)
+	countErr := result.Error
+
+	return countErr == nil, nil
+}
+
+func (repo *DatabaseRepository) CreateTable(schema interface{}) error {
 	db, err := repo.db()
 	if err != nil {
 		return err
 	}
-	// db.Migrator().CreateTable(&Note{})
-	// db.Migrator().DropTable(&Note{})
-	return db.AutoMigrate(schema)
+	return db.Migrator().CreateTable(schema)
 }
 
 // example `show tables;`
