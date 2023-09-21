@@ -22,16 +22,17 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 					return
 				}
 				fmt.Printf("Database DSN: %s \n", config.DatabaseDsn)
-			} else {
-				databaseDsn, err := textinput.New("Database DSN").RunPrompt()
-				if err != nil {
-					return
-				}
-				if err := configSrv.WriteDatabaseDsn(databaseDsn); err != nil {
-					fmt.Println(err)
-					return
-				}
+				return;
 			}
+
+			databaseDsn, err := textinput.New("Database DSN").RunPrompt()
+			if err != nil {
+				return
+			}
+			if err := configSrv.WriteDatabaseDsn(databaseDsn); err != nil {
+				fmt.Println(err)
+				return
+			}			
 		},
 	}
 	cmd.Flags().Bool("read", false, "Read Config")

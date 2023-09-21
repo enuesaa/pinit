@@ -10,7 +10,8 @@ import (
 func main() {
 	cmd := &cobra.Command{
 		Use:   "pinit",
-		Short: "A CLI client for a personal note-taking application.",
+		Short: "A personal note-taking app.",
+		Version: "0.0.1",
 		Run: func(cmd *cobra.Command, args []string) {
 			cmd.Help()
 		},
@@ -27,7 +28,7 @@ func main() {
 	// sub commands
 	cmd.AddCommand(cli.CreateConfigureCmd(repos))
 	cmd.AddCommand(cli.CreateLsCmd(repos))
-	cmd.AddCommand(cli.CreateDescribeCmd(repos))
+	cmd.AddCommand(cli.CreateLookupCmd(repos))
 	cmd.AddCommand(cli.CreateNewCmd(repos))
 	cmd.AddCommand(cli.CreateEditCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))

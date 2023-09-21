@@ -10,9 +10,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateDescribeCmd(repos repository.Repos) *cobra.Command {
+func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "describe <name>",
+		Use:  "lookup <name>",
 		Args: cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			name := args[0]
@@ -20,14 +20,15 @@ func CreateDescribeCmd(repos repository.Repos) *cobra.Command {
 			note, err := noteSrv.Get(name)
 			if err != nil {
 				fmt.Println(err)
-			} else {
-				t := table.NewWriter()
-				t.SetOutputMirror(os.Stdout)
-				t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "COMMENT", "CREATED AT"})
-				t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.Comment, note.CreatedAt})
-				t.SetStyle(table.StyleLight)
-				t.Render()
+				return;
 			}
+
+			t := table.NewWriter()
+			t.SetOutputMirror(os.Stdout)
+			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "COMMENT", "CREATED AT"})
+			t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.Comment, note.CreatedAt})
+			t.SetStyle(table.StyleLight)
+			t.Render()
 		},
 	}
 

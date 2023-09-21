@@ -19,24 +19,26 @@ func CreateEditCmd(repos repository.Repos) *cobra.Command {
 			note, err := noteSrv.Get(name)
 			if err != nil {
 				fmt.Println(err)
-			} else {
-				name, err := textinput.New("Name").RunPrompt()
-				if err != nil {
-					return
-				}
-				content, err := textinput.New("Content").RunPrompt()
-				if err != nil {
-					return
-				}
-				comment, err := textinput.New("Comment").RunPrompt()
-				if err != nil {
-					return
-				}
-				note.Name = name
-				note.Content = content
-				note.Comment = comment
-				noteSrv.Update(*note)
+				return;
 			}
+
+			newName, err := textinput.New("Name").RunPrompt()
+			if err != nil {
+				return
+			}
+			content, err := textinput.New("Content").RunPrompt()
+			if err != nil {
+				return
+			}
+			comment, err := textinput.New("Comment").RunPrompt()
+			if err != nil {
+				return
+			}
+			note.Name = newName
+			note.Content = content
+			note.Comment = comment
+			noteSrv.Update(*note)
+		
 		},
 	}
 
