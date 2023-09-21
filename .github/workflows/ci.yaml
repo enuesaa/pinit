@@ -27,6 +27,5 @@ jobs:
       - run: go version
 
       # migration
-      - run: mysql --protocol=tcp -h localhost --port 3306 -u root -e "USE testpinit; SHOW TABLES;"
       - run: go run . configure --migration --database-dsn "root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true"
       - run: mysql --protocol=tcp -h localhost --port 3306 -u root -e "USE testpinit; SHOW TABLES;"

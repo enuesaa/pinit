@@ -37,8 +37,6 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 				fmt.Println("this is migration task.")
 				isTableExist, err := repos.Database.IsTableExist(&service.Note{})
 
-				//root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true
-
 				if err != nil {
 					fmt.Printf("error: %s\n", err)
 					return
@@ -46,7 +44,9 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 				fmt.Printf("isTableExist: %t\n", isTableExist)
 				if !isTableExist {
 					repos.Database.CreateTable(&service.Note{})
-					fmt.Printf("table created.\n")
+					fmt.Printf("note table created.\n")
+					repos.Database.CreateTable(&service.Tag{})
+					fmt.Printf("tag table created.\n")
 				}
 				return
 			}
