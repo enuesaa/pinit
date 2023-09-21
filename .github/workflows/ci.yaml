@@ -21,4 +21,4 @@ jobs:
       - uses: actions/checkout@v4
 
       ## this is test
-      - run: echo 'select version();' | mysql -h 0.0.0.0 --port 3307 -u root -proot
+      - run: echo 'select version();' | mysql -h localhost --port 3306 -u root
