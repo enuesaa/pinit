@@ -31,3 +31,5 @@ jobs:
       - run: mysql --protocol=tcp -h localhost --port 3306 -u root -e "USE testpinit; SHOW TABLES;"
 
       - run: go test ./...
+        env:
+          TEST_DSN: root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true

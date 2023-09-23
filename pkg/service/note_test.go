@@ -1,6 +1,7 @@
 package service
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -8,9 +9,10 @@ import (
 )
 
 func TestNote(t *testing.T) {
+	dsn := os.Getenv("TEST_DSN")
+
 	repos := repository.NewRepos()
-	// TODO: refactor
-	repos.Database.WithDsn("root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true")
+	repos.Database.WithDsn(dsn)
 
 	noteSrv := NewNoteService(repos)
 	noteSrv.Create(Note{
@@ -22,6 +24,6 @@ func TestNote(t *testing.T) {
 	note, err := noteSrv.Get("aaa")
 	assert.Equal(t, err, nil)
 	assert.Equal(t, note.Name, "aaa")
-	assert.Equal(t, note.Content, "aaa-contenet")
+	assert.Equal(t, note.Content, "aaa-content")
 	assert.Equal(t, note.Comment, "aaa-comment")
 }
