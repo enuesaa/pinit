@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/enuesaa/pinit/pkg/repository"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNote(t *testing.T) {
@@ -16,7 +16,7 @@ func TestNote(t *testing.T) {
 
 	noteSrv := NewNoteService(repos)
 	noteSrv.Create(Note{
-		Name: "aaa",
+		Name:    "aaa",
 		Content: "aaa-content",
 		Comment: "aaa-comment",
 	})

@@ -30,7 +30,7 @@ func (repo *DatabaseRepository) WithDsn(dsn string) {
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {
 	return gorm.Open(mysql.Open(repo.Dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
-	  })
+	})
 }
 
 func (repo *DatabaseRepository) IsTableExist(schema interface{}) (bool, error) {

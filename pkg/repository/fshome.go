@@ -13,7 +13,7 @@ type FshomeRepositoryInterface interface {
 	WriteFile(registryName string, path string, content string) error
 	ReadFile(registryName string, path string) (string, error)
 }
-type FshomeRepository struct {}
+type FshomeRepository struct{}
 
 func (repo *FshomeRepository) isFileOrDirExist(path string) bool {
 	if _, err := os.Stat(path); os.IsNotExist(err) {

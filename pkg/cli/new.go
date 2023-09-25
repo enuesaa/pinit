@@ -3,8 +3,8 @@ package cli
 import (
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
-	"github.com/spf13/cobra"
 	"github.com/erikgeiser/promptkit/textinput"
+	"github.com/spf13/cobra"
 )
 
 func CreateNewCmd(repos repository.Repos) *cobra.Command {

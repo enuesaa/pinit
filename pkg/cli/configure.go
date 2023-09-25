@@ -58,7 +58,7 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 			if err := configSrv.WriteDatabaseDsn(databaseDsn); err != nil {
 				fmt.Println(err)
 				return
-			}			
+			}
 		},
 	}
 	cmd.Flags().Bool("read", false, "Read Config")

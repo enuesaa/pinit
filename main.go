@@ -9,8 +9,8 @@ import (
 
 func main() {
 	cmd := &cobra.Command{
-		Use:   "pinit",
-		Short: "A personal note-taking app.",
+		Use:     "pinit",
+		Short:   "A personal note-taking app.",
 		Version: "0.0.1",
 		Run: func(cmd *cobra.Command, args []string) {
 			cmd.Help()

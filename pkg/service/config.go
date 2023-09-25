@@ -12,15 +12,15 @@ type Config struct {
 }
 
 type ConfigService struct {
-	repos repository.Repos
-	registryName string
+	repos          repository.Repos
+	registryName   string
 	configFilename string
 }
 
 func NewConfigSevice(repos repository.Repos) ConfigService {
-	return ConfigService {
-		repos: repos,
-		registryName: ".pinit",
+	return ConfigService{
+		repos:          repos,
+		registryName:   ".pinit",
 		configFilename: "config.toml",
 	}
 }
@@ -58,7 +58,7 @@ func (srv *ConfigService) Write(config Config) error {
 			return err
 		}
 	}
-    var buf bytes.Buffer
+	var buf bytes.Buffer
 	if err := toml.NewEncoder(&buf).Encode(config); err != nil {
 		return err
 	}
@@ -66,9 +66,8 @@ func (srv *ConfigService) Write(config Config) error {
 }
 
 func (srv *ConfigService) WriteDatabaseDsn(databaseDsn string) error {
-	config := Config {
+	config := Config{
 		DatabaseDsn: databaseDsn,
 	}
 	return srv.Write(config)
 }
-

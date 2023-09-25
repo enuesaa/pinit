@@ -20,7 +20,7 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 			note, err := noteSrv.Get(name)
 			if err != nil {
 				fmt.Println(err)
-				return;
+				return
 			}
 
 			t := table.NewWriter()

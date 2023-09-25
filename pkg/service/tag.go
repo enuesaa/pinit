@@ -13,8 +13,7 @@ type Tag struct {
 	UpdatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp on update current_timestamp"`
 }
 
-
-type TagService struct {}
+type TagService struct{}
 
 func (srv *TagService) List() []Tag {
 	return make([]Tag, 0)

@@ -18,6 +18,7 @@ type Note struct {
 type NoteService struct {
 	repos repository.Repos
 }
+
 func NewNoteService(repos repository.Repos) *NoteService {
 	return &NoteService{
 		repos: repos,
@@ -31,7 +32,7 @@ func (srv *NoteService) List() []*Note {
 }
 
 func (srv *NoteService) Get(name string) (*Note, error) {
-	note := Note {
+	note := Note{
 		Name: name,
 	}
 	if err := srv.repos.Database.WhereFirst(&note); err != nil {

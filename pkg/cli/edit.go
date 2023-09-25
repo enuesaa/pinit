@@ -19,7 +19,7 @@ func CreateEditCmd(repos repository.Repos) *cobra.Command {
 			note, err := noteSrv.Get(name)
 			if err != nil {
 				fmt.Println(err)
-				return;
+				return
 			}
 
 			newName, err := textinput.New("Name").RunPrompt()
@@ -38,7 +38,7 @@ func CreateEditCmd(repos repository.Repos) *cobra.Command {
 			note.Content = content
 			note.Comment = comment
 			noteSrv.Update(*note)
-		
+
 		},
 	}
 
