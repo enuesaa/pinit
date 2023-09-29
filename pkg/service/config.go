@@ -65,9 +65,19 @@ func (srv *ConfigService) Write(config Config) error {
 	return srv.repos.Fshome.WriteFile(srv.registryName, srv.configFilename, buf.String())
 }
 
+// TODO: change method name
 func (srv *ConfigService) WriteDatabaseDsn(databaseDsn string) error {
 	config := Config{
 		DatabaseDsn: databaseDsn,
 	}
 	return srv.Write(config)
+}
+
+func (srv *ConfigService) ConfigureDatabaseDsn() error {
+	databaseDsn, err := srv.ReadDatabaseDsn()
+	if err != nil {
+		return err
+	}
+	srv.repos.Database.WithDsn(databaseDsn)
+	return nil
 }
