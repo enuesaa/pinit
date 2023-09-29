@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -15,6 +16,10 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			noteSrv := service.NewNoteService(repos)
 			notes := noteSrv.List()
+			fmt.Printf("%d note(s) found.\n", len(notes))
+			if len(notes) == 0 {
+				return
+			}
 			t := table.NewWriter()
 			t.SetOutputMirror(os.Stdout)
 			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "COMMENT", "CREATED AT"})
