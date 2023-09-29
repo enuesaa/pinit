@@ -12,13 +12,12 @@ func CreateSetupMigrationCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "migration",
 		Run: func(cmd *cobra.Command, args []string) {
-			passedDatabaseDsn, _ := cmd.Flags().GetString("database-dsn")
-
-			if passedDatabaseDsn == "" {
-				fmt.Println("please provide database-dsn flag.")
+			databaseDsn, err := cmd.Flags().GetString("database-dsn")
+			if databaseDsn == "" || err != nil {
+				fmt.Printf("error: Missing required flag `--database-dsn`.\n")
 				return
 			}
-			repos.Database.WithDsn(passedDatabaseDsn)
+			repos.Database.WithDsn(databaseDsn)
 			fmt.Println("this is migration task.")
 			isTableExist, err := repos.Database.IsTableExist(&service.Note{})
 
@@ -35,7 +34,7 @@ func CreateSetupMigrationCmd(repos repository.Repos) *cobra.Command {
 			}
 		},
 	}
-	cmd.Flags().String("database-dsn", "", "Using when migration flag provided.")
+	cmd.Flags().String("database-dsn", "", "[Required] Database Dsn")
 
 	return cmd
 }
