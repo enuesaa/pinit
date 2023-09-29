@@ -11,6 +11,14 @@ func CreateNewCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "new",
 		Run: func(cmd *cobra.Command, args []string) {
+			// setup
+			configSrv := service.NewConfigSevice(repos)
+			databaseDsn, err := configSrv.ReadDatabaseDsn()
+			if err != nil {
+				return
+			}
+			repos.Database.WithDsn(databaseDsn)
+
 			noteSrv := service.NewNoteService(repos)
 			name, err := textinput.New("Name").RunPrompt()
 			if err != nil {

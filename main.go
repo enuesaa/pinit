@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/spf13/cobra"
 )
 
@@ -17,13 +16,7 @@ func main() {
 		},
 	}
 
-	// setup repository
 	repos := repository.NewRepos()
-	configSrv := service.NewConfigSevice(repos)
-	databaseDsn, err := configSrv.ReadDatabaseDsn()
-	if err == nil {
-		repos.Database.WithDsn(databaseDsn)
-	}
 
 	// sub commands
 	cmd.AddCommand(cli.CreateConfigureCmd(repos))
