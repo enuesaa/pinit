@@ -11,15 +11,10 @@ func main() {
 		Use:     "pinit",
 		Short:   "A personal note-taking app.",
 		Version: "0.0.1",
-		Run: func(cmd *cobra.Command, args []string) {
-			cmd.Help()
-		},
 	}
 
 	repos := repository.NewRepos()
-
-	// sub commands
-	cmd.AddCommand(cli.CreateConfigureCmd(repos))
+	cmd.AddCommand(cli.CreateSetupCmd(repos))
 	cmd.AddCommand(cli.CreateLsCmd(repos))
 	cmd.AddCommand(cli.CreateLookupCmd(repos))
 	cmd.AddCommand(cli.CreateNewCmd(repos))
