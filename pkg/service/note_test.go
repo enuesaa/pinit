@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+//TODO: refactor
 func TestNote(t *testing.T) {
 	dsn := os.Getenv("TEST_DSN")
 
