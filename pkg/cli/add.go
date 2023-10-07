@@ -1,15 +1,17 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/erikgeiser/promptkit/textinput"
 	"github.com/spf13/cobra"
 )
 
-func CreateNewCmd(repos repository.Repos) *cobra.Command {
+func CreateAddCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use: "new",
+		Use: "add",
 		Short: "create a note",
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
@@ -30,11 +32,14 @@ func CreateNewCmd(repos repository.Repos) *cobra.Command {
 			if err != nil {
 				return
 			}
-			noteSrv.Create(service.Note{
+			note := service.Note {
 				Name:    name,
 				Content: content,
 				Comment: comment,
-			})
+			}
+			if err := noteSrv.Create(note); err != nil {
+				fmt.Printf("Error: %s", err.Error())
+			}
 		},
 	}
 
