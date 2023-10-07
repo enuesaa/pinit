@@ -11,6 +11,7 @@ import (
 func CreateSetupMigrationCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "migration",
+		Short: "migration tables.",
 		Run: func(cmd *cobra.Command, args []string) {
 			databaseDsn, err := cmd.Flags().GetString("database-dsn")
 			if databaseDsn == "" || err != nil {

@@ -11,6 +11,7 @@ import (
 func CreateSetupStatusCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "status",
+		Short: "show setup status.",
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			config, err := configSrv.Read()

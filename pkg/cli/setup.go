@@ -8,6 +8,7 @@ import (
 func CreateSetupCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "setup",
+		Short: "setup to take notes.",
 	}
 	cmd.AddCommand(CreateSetupStatusCmd(repos))
 	cmd.AddCommand(CreateSetupConfigureCmd(repos))

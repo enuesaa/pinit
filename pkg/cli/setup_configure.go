@@ -11,6 +11,7 @@ import (
 func CreateSetupConfigureCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "configure",
+		Short: "setup db connection.",
 		Run: func(cmd *cobra.Command, args []string) {
 			databaseDsn, err := cmd.Flags().GetString("database-dsn")
 			if databaseDsn == "" || err != nil {

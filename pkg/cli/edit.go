@@ -12,6 +12,7 @@ import (
 func CreateEditCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:  "edit <name>",
+		Short: "edit a note.",
 		Args: cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			name := args[0]

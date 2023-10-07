@@ -10,6 +10,7 @@ import (
 func CreateNewCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use: "new",
+		Short: "create a note",
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.ConfigureDatabaseDsn(); err != nil {
