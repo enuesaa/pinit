@@ -30,8 +30,6 @@ func CreateSetupMigrationCmd(repos repository.Repos) *cobra.Command {
 			if !isTableExist {
 				repos.Database.CreateTable(&service.Note{})
 				fmt.Printf("note table created.\n")
-				repos.Database.CreateTable(&service.Tag{})
-				fmt.Printf("tag table created.\n")
 			}
 		},
 	}

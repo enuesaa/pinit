@@ -5,7 +5,6 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
-	"github.com/erikgeiser/promptkit/textinput"
 	"github.com/spf13/cobra"
 )
 
@@ -20,24 +19,12 @@ func CreateAddCmd(repos repository.Repos) *cobra.Command {
 			}
 
 			noteSrv := service.NewNoteService(repos)
-			name, err := textinput.New("Name").RunPrompt()
+			note, err := noteSrv.Prompt()
 			if err != nil {
-				return
+				fmt.Printf("Error: %s", err.Error())
 			}
-			content, err := textinput.New("Content").RunPrompt()
-			if err != nil {
-				return
-			}
-			comment, err := textinput.New("Comment").RunPrompt()
-			if err != nil {
-				return
-			}
-			note := service.Note {
-				Name:    name,
-				Content: content,
-				Comment: comment,
-			}
-			if err := noteSrv.Create(note); err != nil {
+
+			if err := noteSrv.Create(*note); err != nil {
 				fmt.Printf("Error: %s", err.Error())
 			}
 		},
