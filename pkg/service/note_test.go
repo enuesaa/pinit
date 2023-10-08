@@ -8,9 +8,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-//TODO: refactor
 func TestNote(t *testing.T) {
-	dsn := os.Getenv("TEST_DSN")
+	dsn := os.Getenv("PINIT_TEST_DSN")
+	if dsn == "" {
+		t.Fatalf("test execution error: environment variable PINIT_TEST_DSN is empty.")
+	}
 
 	repos := repository.NewRepos()
 	repos.Database.WithDsn(dsn)

@@ -24,12 +24,15 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.21.0'
-      - run: go version
+      
+      - run: go install
+      - run: which pinit
+      - run: pinit --version
 
       # migration
-      - run: go run . setup migration --database-dsn "root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true"
+      - run: pinit setup configure --database-dsn "root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true"
       - run: mysql --protocol=tcp -h localhost --port 3306 -u root -e "USE testpinit; SHOW TABLES;"
 
       - run: go test ./...
         env:
-          TEST_DSN: root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true
+          PINIT_TEST_DSN: root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true
