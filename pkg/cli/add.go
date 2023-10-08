@@ -15,13 +15,15 @@ func CreateAddCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.ConfigureDatabaseDsn(); err != nil {
+				fmt.Printf("Error: %s", err.Error())
 				return
 			}
 
 			noteSrv := service.NewNoteService(repos)
-			note, err := noteSrv.Prompt()
+			note, err := noteSrv.RunCreatePrompt()
 			if err != nil {
 				fmt.Printf("Error: %s", err.Error())
+				return
 			}
 
 			if err := noteSrv.Create(*note); err != nil {

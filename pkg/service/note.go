@@ -48,26 +48,27 @@ func (srv *NoteService) Create(note Note) error {
 	return nil
 }
 
-//TODO: enable to update note.
-func (srv *NoteService) Prompt() (*Note, error) {
+func (srv *NoteService) RunCreatePrompt() (*Note, error) {
+	note := Note{}
+	return srv.RunEditPrompt(note)
+}
+
+func (srv *NoteService) RunEditPrompt(note Note) (*Note, error) {
 	name, err := srv.repos.Prompt.Ask("Name")
 	if err != nil {
 		return nil, err
 	}
+	note.Name = name
 	content, err := srv.repos.Prompt.Ask("Content")
 	if err != nil {
 		return nil, err
 	}
+	note.Content = content
 	comment, err := srv.repos.Prompt.Ask("Comment")
 	if err != nil {
 		return nil, err
 	}
-
-	note := Note {
-		Name:    name,
-		Content: content,
-		Comment: comment,
-	}
+	note.Comment = comment
 
 	return &note, nil
 }

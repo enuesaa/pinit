@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/spf13/cobra"
@@ -14,6 +16,7 @@ func CreateRmCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.ConfigureDatabaseDsn(); err != nil {
+				fmt.Printf("Error: %s", err.Error())
 				return
 			}
 

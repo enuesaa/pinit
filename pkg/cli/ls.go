@@ -17,6 +17,7 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.ConfigureDatabaseDsn(); err != nil {
+				fmt.Printf("Error: %s", err.Error())
 				return
 			}
 
@@ -26,6 +27,7 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 			if len(notes) == 0 {
 				return
 			}
+
 			t := table.NewWriter()
 			t.SetOutputMirror(os.Stdout)
 			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "COMMENT", "CREATED AT"})
@@ -36,7 +38,7 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 			t.Render()
 		},
 	}
-	cmd.Flags().StringArrayP("filter", "", []string{}, "search vavlue")
+	// cmd.Flags().StringArrayP("filter", "", []string{}, "search vavlue")
 
 	return cmd
 }

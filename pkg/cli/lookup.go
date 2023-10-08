@@ -20,13 +20,14 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.ConfigureDatabaseDsn(); err != nil {
+				fmt.Printf("Error: %s", err.Error())
 				return
 			}
 
 			noteSrv := service.NewNoteService(repos)
 			note, err := noteSrv.Get(name)
 			if err != nil {
-				fmt.Println(err)
+				fmt.Printf("Error: %s", err.Error())
 				return
 			}
 
