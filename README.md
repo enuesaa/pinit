@@ -1,4 +1,3 @@
-**Work in progress..**
 # pinit
 A personal note-taking app.
 
@@ -40,4 +39,15 @@ For first time use, it is necessary to set up the database.
 ```bash
 pinit setup configure --database-dsn <DATABASE_DSN>
 pinit setup migration
+```
+
+### List notes.
+```console
+$ pinit ls
+1 note(s) found.
+┌────┬──────┬─────────────┬─────────────┬───────────────────────────────┐
+│ ID │ NAME │ CONTENT     │ COMMENT     │ CREATED AT                    │
+├────┼──────┼─────────────┼─────────────┼───────────────────────────────┤
+│  5 │ aaa  │ aaa-content │ aaa-comment │ 2023-10-08 06:18:34 +0000 UTC │
+└────┴──────┴─────────────┴─────────────┴───────────────────────────────┘
 ```
