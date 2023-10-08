@@ -17,7 +17,7 @@ func CreateEditCmd(repos repository.Repos) *cobra.Command {
 			name := args[0]
 
 			configSrv := service.NewConfigSevice(repos)
-			if err := configSrv.ConfigureDatabaseDsn(); err != nil {
+			if err := configSrv.Init(); err != nil {
 				fmt.Printf("Error: %s", err.Error())
 				return
 			}

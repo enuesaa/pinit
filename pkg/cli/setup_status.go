@@ -16,6 +16,7 @@ func CreateSetupStatusCmd(repos repository.Repos) *cobra.Command {
 			configSrv := service.NewConfigSevice(repos)
 			config, err := configSrv.Read()
 			if err != nil {
+				fmt.Printf("Error: %s", err.Error())
 				return
 			}
 			fmt.Printf("Database DSN: %s \n", config.DatabaseDsn)

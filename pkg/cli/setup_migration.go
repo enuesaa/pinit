@@ -13,27 +13,26 @@ func CreateSetupMigrationCmd(repos repository.Repos) *cobra.Command {
 		Use: "migration",
 		Short: "migration tables.",
 		Run: func(cmd *cobra.Command, args []string) {
-			databaseDsn, err := cmd.Flags().GetString("database-dsn")
-			if databaseDsn == "" || err != nil {
-				fmt.Printf("error: Missing required flag `--database-dsn`.\n")
+			configSrv := service.NewConfigSevice(repos)
+			if err := configSrv.Init(); err != nil {
+				fmt.Printf("Error: %s", err.Error())
 				return
 			}
-			repos.Database.WithDsn(databaseDsn)
-			fmt.Println("this is migration task.")
-			isTableExist, err := repos.Database.IsTableExist(&service.Note{})
 
+			isTableExist, err := repos.Database.IsTableExist(&service.Note{})
 			if err != nil {
-				fmt.Printf("error: %s\n", err)
+				fmt.Printf("Error: %s\n", err)
 				return
 			}
 			fmt.Printf("isTableExist: %t\n", isTableExist)
-			if !isTableExist {
-				repos.Database.CreateTable(&service.Note{})
-				fmt.Printf("note table created.\n")
+			if isTableExist {
+				fmt.Printf("Error: Migration aborted because note table exists.\n")
 			}
+			
+			repos.Database.CreateTable(&service.Note{})
+			fmt.Printf("note table created.\n")	
 		},
 	}
-	cmd.Flags().String("database-dsn", "", "[Required] Database Dsn")
 
 	return cmd
 }

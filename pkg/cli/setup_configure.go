@@ -15,17 +15,21 @@ func CreateSetupConfigureCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			databaseDsn, err := cmd.Flags().GetString("database-dsn")
 			if databaseDsn == "" || err != nil {
-				fmt.Printf("error: Missing required flag `--database-dsn`.\n")
+				fmt.Printf("Error: flag `--database-dsn` should not be empty.\n")
 				return
 			}
+
+			config := service.Config {
+				DatabaseDsn: databaseDsn,
+			}
 			configSrv := service.NewConfigSevice(repos)
-			if err := configSrv.WriteDatabaseDsn(databaseDsn); err != nil {
+			if err := configSrv.Write(config); err != nil {
 				fmt.Printf("error: %s\n", err)
-				return
 			}
 		},
 	}
 	cmd.Flags().String("database-dsn", "", "[Required] Database Dsn")
+	cmd.MarkFlagRequired("database-dsn")
 
 	return cmd
 }

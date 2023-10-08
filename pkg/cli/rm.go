@@ -15,7 +15,7 @@ func CreateRmCmd(repos repository.Repos) *cobra.Command {
 		Args: cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
-			if err := configSrv.ConfigureDatabaseDsn(); err != nil {
+			if err := configSrv.Init(); err != nil {
 				fmt.Printf("Error: %s", err.Error())
 				return
 			}

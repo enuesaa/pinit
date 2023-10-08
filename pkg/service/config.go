@@ -25,13 +25,6 @@ func NewConfigSevice(repos repository.Repos) ConfigService {
 	}
 }
 
-func (srv *ConfigService) setupRegistry() error {
-	if srv.repos.Fshome.IsRegistryExist(srv.registryName) {
-		return nil
-	}
-	return srv.repos.Fshome.CreateRegistry(srv.registryName)
-}
-
 func (srv *ConfigService) Read() (*Config, error) {
 	content, err := srv.repos.Fshome.ReadFile(srv.registryName, srv.configFilename)
 	if err != nil {
@@ -42,14 +35,6 @@ func (srv *ConfigService) Read() (*Config, error) {
 		return nil, err
 	}
 	return &config, nil
-}
-
-func (srv *ConfigService) ReadDatabaseDsn() (string, error) {
-	config, err := srv.Read()
-	if err != nil {
-		return "", err
-	}
-	return config.DatabaseDsn, nil
 }
 
 func (srv *ConfigService) Write(config Config) error {
@@ -65,19 +50,11 @@ func (srv *ConfigService) Write(config Config) error {
 	return srv.repos.Fshome.WriteFile(srv.registryName, srv.configFilename, buf.String())
 }
 
-// TODO: change method name
-func (srv *ConfigService) WriteDatabaseDsn(databaseDsn string) error {
-	config := Config{
-		DatabaseDsn: databaseDsn,
-	}
-	return srv.Write(config)
-}
-
-func (srv *ConfigService) ConfigureDatabaseDsn() error {
-	databaseDsn, err := srv.ReadDatabaseDsn()
+func (srv *ConfigService) Init() error {
+	config, err := srv.Read()
 	if err != nil {
 		return err
 	}
-	srv.repos.Database.WithDsn(databaseDsn)
+	srv.repos.Database.WithDsn(config.DatabaseDsn)
 	return nil
 }
