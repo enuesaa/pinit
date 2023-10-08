@@ -25,8 +25,8 @@ func TestNote(t *testing.T) {
 	})
 
 	note, err := noteSrv.Get("aaa")
-	assert.Equal(t, err, nil)
-	assert.Equal(t, note.Name, "aaa")
-	assert.Equal(t, note.Content, "aaa-content")
-	assert.Equal(t, note.Comment, "aaa-comment")
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "aaa", note.Name)
+	assert.Equal(t, "aaa-content", note.Content)
+	assert.Equal(t, "aaa-comment", note.Comment)
 }

@@ -26,11 +26,9 @@ jobs:
           go-version: '^1.21.0'
       
       - run: go install
-      - run: which pinit
-      - run: pinit --version
 
-      # migration
       - run: pinit setup configure --database-dsn "root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true"
+      - run: pinit setup migration
       - run: mysql --protocol=tcp -h localhost --port 3306 -u root -e "USE testpinit; SHOW TABLES;"
 
       - run: go test ./...
