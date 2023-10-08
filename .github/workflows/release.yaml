@@ -23,7 +23,7 @@ jobs:
           ```bash
           git clone https://github.com/enuesaa/pinit.git -b ${TAG_NAME} --depth 1
           cd pinit
-          go build
+          go install
           ```
           EOF
 
