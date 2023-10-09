@@ -14,7 +14,9 @@ func CreateSetupChatgptCmd(repos repository.Repos) *cobra.Command {
 		Short: "call chatgpt api.",
 		Run: func(cmd *cobra.Command, args []string) {
 			token, _ := cmd.Flags().GetString("token")
-			res, err := service.CallChatgptApi(token)
+
+			chatgptSrv := service.NewChatgptService(repos)
+			res, err := chatgptSrv.Call(token)
 			if err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return

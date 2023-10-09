@@ -4,9 +4,26 @@ import (
 	"context"
 	"fmt"
 	openai "github.com/sashabaranov/go-openai"
+
+	"github.com/enuesaa/pinit/pkg/repository"
 )
 
-func CallChatgptApi(token string) (string, error) {
+type ChatgptService struct {
+	repos repository.Repos
+}
+
+func NewChatgptService(repos repository.Repos) *ChatgptService {
+	return &ChatgptService{
+		repos: repos,
+	}
+}
+
+func (srv *ChatgptService) Call(token string) (string, error) {
+	message, err := srv.repos.Prompt.Ask("Message")
+	if err != nil {
+		return "", err
+	}
+
 	// see https://github.com/sashabaranov/go-openai
 	client := openai.NewClient(token)
 	res, err := client.CreateChatCompletion(
@@ -16,7 +33,7 @@ func CallChatgptApi(token string) (string, error) {
 			Messages: []openai.ChatCompletionMessage{
 				{
 					Role:    openai.ChatMessageRoleUser,
-					Content: "Hello!",
+					Content: message,
 				},
 			},
 		},
@@ -28,4 +45,5 @@ func CallChatgptApi(token string) (string, error) {
 	fmt.Printf("%+v\n", res)
 
 	return res.Choices[0].Message.Content, nil
+
 }
