@@ -13,7 +13,6 @@ func CreateSetupCmd(repos repository.Repos) *cobra.Command {
 	cmd.AddCommand(CreateSetupStatusCmd(repos))
 	cmd.AddCommand(CreateSetupConfigureCmd(repos))
 	cmd.AddCommand(CreateSetupMigrationCmd(repos))
-	cmd.AddCommand(CreateSetupChatgptCmd(repos))
 
 	return cmd
 }

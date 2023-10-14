@@ -20,6 +20,7 @@ func main() {
 	cmd.AddCommand(cli.CreateAddCmd(repos))
 	cmd.AddCommand(cli.CreateEditCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
+	cmd.AddCommand(cli.CreateChatgptCmd(repos))
 
 	// disable default
 	cmd.SetHelpCommand(&cobra.Command{Hidden: true})
