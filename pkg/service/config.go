@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	DatabaseDsn string `toml:"database_dsn"`
+	ChatgptToken string `toml:"chatgpt_token"`
 }
 
 type ConfigService struct {
@@ -62,6 +63,12 @@ func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
 		return nil, err
 	}
 	config.DatabaseDsn = databaseDsn
+
+	chatgptToken, err := srv.repos.Prompt.Ask("Chatgpt Token")
+	if err != nil {
+		return nil, err
+	}
+	config.ChatgptToken = chatgptToken
 
 	return &config, nil
 }
