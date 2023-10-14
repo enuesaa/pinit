@@ -50,6 +50,22 @@ func (srv *ConfigService) Write(config Config) error {
 	return srv.repos.Fshome.WriteFile(srv.registryName, srv.configFilename, buf.String())
 }
 
+
+func (srv *ConfigService) RunCreatePrompt() (*Config, error) {
+	config := Config{}
+	return srv.RunEditPrompt(config)
+}
+
+func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
+	databaseDsn, err := srv.repos.Prompt.Ask("Database Dsn")
+	if err != nil {
+		return nil, err
+	}
+	config.DatabaseDsn = databaseDsn
+
+	return &config, nil
+}
+
 func (srv *ConfigService) Init() error {
 	config, err := srv.Read()
 	if err != nil {
