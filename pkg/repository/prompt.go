@@ -5,10 +5,13 @@ import (
 )
 
 type PromptInterface interface {
-	Ask(message string) (string, error)
+	Ask(message string, defaultValue string) (string, error)
 }
 type Prompt struct{}
 
-func (prompt *Prompt) Ask(message string) (string, error) {
-	return textinput.New(message).RunPrompt()
+func (prompt *Prompt) Ask(message string, defaultValue string) (string, error) {
+	input := textinput.New(message)
+	input.InitialValue = defaultValue
+
+	return input.RunPrompt()
 }

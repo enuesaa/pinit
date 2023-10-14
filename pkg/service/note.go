@@ -54,17 +54,17 @@ func (srv *NoteService) RunCreatePrompt() (*Note, error) {
 }
 
 func (srv *NoteService) RunEditPrompt(note Note) (*Note, error) {
-	name, err := srv.repos.Prompt.Ask("Name")
+	name, err := srv.repos.Prompt.Ask("Name", note.Name)
 	if err != nil {
 		return nil, err
 	}
 	note.Name = name
-	content, err := srv.repos.Prompt.Ask("Content")
+	content, err := srv.repos.Prompt.Ask("Content", note.Content)
 	if err != nil {
 		return nil, err
 	}
 	note.Content = content
-	comment, err := srv.repos.Prompt.Ask("Comment")
+	comment, err := srv.repos.Prompt.Ask("Comment", note.Comment)
 	if err != nil {
 		return nil, err
 	}

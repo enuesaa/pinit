@@ -58,13 +58,13 @@ func (srv *ConfigService) RunCreatePrompt() (*Config, error) {
 }
 
 func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
-	databaseDsn, err := srv.repos.Prompt.Ask("Database Dsn")
+	databaseDsn, err := srv.repos.Prompt.Ask("Database Dsn", config.DatabaseDsn)
 	if err != nil {
 		return nil, err
 	}
 	config.DatabaseDsn = databaseDsn
 
-	chatgptToken, err := srv.repos.Prompt.Ask("Chatgpt Token")
+	chatgptToken, err := srv.repos.Prompt.Ask("Chatgpt Token", config.ChatgptToken)
 	if err != nil {
 		return nil, err
 	}

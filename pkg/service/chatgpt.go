@@ -19,7 +19,7 @@ func NewChatgptService(repos repository.Repos) *ChatgptService {
 }
 
 func (srv *ChatgptService) Call(token string) (string, error) {
-	message, err := srv.repos.Prompt.Ask("Message")
+	message, err := srv.repos.Prompt.Ask("Message", "")
 	if err != nil {
 		return "", err
 	}
