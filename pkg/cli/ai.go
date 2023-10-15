@@ -8,10 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateChatgptCmd(repos repository.Repos) *cobra.Command {
+func CreateAiCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use: "chatgpt",
-		Short: "call chatgpt api",
+		Use: "ai",
+		Short: "call openai api",
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.Init(); err != nil {
@@ -19,10 +19,14 @@ func CreateChatgptCmd(repos repository.Repos) *cobra.Command {
 				return
 			}
 
-			token, _ := cmd.Flags().GetString("token")
+			config, err := configSrv.Read()
+			if err != nil {
+				fmt.Printf("Error: %s", err.Error())
+				return
+			}
 
-			chatgptSrv := service.NewChatgptService(repos)
-			res, err := chatgptSrv.Call(token)
+			chatgptSrv := service.NewAiService(repos)
+			res, err := chatgptSrv.Call(config.ChatgptToken)
 			if err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
@@ -30,8 +34,6 @@ func CreateChatgptCmd(repos repository.Repos) *cobra.Command {
 			fmt.Printf("res: %s\n", res)
 		},
 	}
-	cmd.Flags().String("token", "", "token")
-	cmd.MarkFlagRequired("token")
 
 	return cmd
 }

@@ -8,17 +8,17 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
-type ChatgptService struct {
+type AiService struct {
 	repos repository.Repos
 }
 
-func NewChatgptService(repos repository.Repos) *ChatgptService {
-	return &ChatgptService{
+func NewAiService(repos repository.Repos) *AiService {
+	return &AiService{
 		repos: repos,
 	}
 }
 
-func (srv *ChatgptService) Call(token string) (string, error) {
+func (srv *AiService) Call(token string) (string, error) {
 	message, err := srv.repos.Prompt.Ask("Message", "")
 	if err != nil {
 		return "", err
