@@ -9,6 +9,7 @@ import (
 )
 
 type DatabaseRepositoryInterface interface {
+	GetDsn() string
 	WithDsn(dsn string)
 	IsTableExist(schema interface{}) (bool, error)
 	CreateTable(schema interface{}) error
@@ -21,6 +22,10 @@ type DatabaseRepositoryInterface interface {
 
 type DatabaseRepository struct {
 	Dsn string
+}
+
+func (repo *DatabaseRepository) GetDsn() string {
+	return repo.Dsn
 }
 
 func (repo *DatabaseRepository) WithDsn(dsn string) {

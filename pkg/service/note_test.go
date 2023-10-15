@@ -1,7 +1,6 @@
 package service
 
 import (
-	"os"
 	"testing"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -9,10 +8,7 @@ import (
 )
 
 func TestNote(t *testing.T) {
-	repos := repository.NewRepos()
-	repos.Database.WithDsn(os.Getenv("PINIT_TEST_DSN"))
-
-	noteSrv := NewNoteService(repos)
+	noteSrv := NewNoteService(repository.NewTestRepos())
 	noteSrv.Create(Note{
 		Name:    "aaa",
 		Content: "aaa-content",
