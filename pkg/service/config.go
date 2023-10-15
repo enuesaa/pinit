@@ -64,7 +64,7 @@ func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
 	}
 	config.DatabaseDsn = databaseDsn
 
-	chatgptToken, err := srv.repos.Prompt.Ask("Chatgpt Token", config.ChatgptToken)
+	chatgptToken, err := srv.repos.Prompt.Ask("OpenAI API Token", config.ChatgptToken)
 	if err != nil {
 		return nil, err
 	}
@@ -79,5 +79,17 @@ func (srv *ConfigService) Init() error {
 		return err
 	}
 	srv.repos.Database.WithDsn(config.DatabaseDsn)
+	return nil
+}
+
+func (srv *ConfigService) Migration() error {
+	isTableExist, err := srv.repos.Database.IsTableExist(&Note{})
+	if err != nil {
+		return err
+	}
+	if isTableExist {
+		return nil
+	}
+	srv.repos.Database.CreateTable(&Note{})
 	return nil
 }

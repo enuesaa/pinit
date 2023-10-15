@@ -9,13 +9,8 @@ import (
 )
 
 func TestNote(t *testing.T) {
-	dsn := os.Getenv("PINIT_TEST_DSN")
-	if dsn == "" {
-		t.Fatalf("test execution error: environment variable PINIT_TEST_DSN is empty.")
-	}
-
 	repos := repository.NewRepos()
-	repos.Database.WithDsn(dsn)
+	repos.Database.WithDsn(os.Getenv("PINIT_TEST_DSN"))
 
 	noteSrv := NewNoteService(repos)
 	noteSrv.Create(Note{
