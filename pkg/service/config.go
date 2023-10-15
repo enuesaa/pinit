@@ -26,6 +26,13 @@ func NewConfigSevice(repos repository.Repos) ConfigService {
 	}
 }
 
+func (srv *ConfigService) IsConfigExist() bool {
+	if _, err := srv.repos.Fshome.ReadFile(srv.registryName, srv.configFilename); err != nil {
+		return false
+	}
+	return true
+}
+
 func (srv *ConfigService) Read() (*Config, error) {
 	content, err := srv.repos.Fshome.ReadFile(srv.registryName, srv.configFilename)
 	if err != nil {
@@ -82,13 +89,13 @@ func (srv *ConfigService) Init() error {
 	return nil
 }
 
+func (srv *ConfigService) IsTableExist() (bool, error) {
+	return srv.repos.Database.IsTableExist(&Note{})
+}
+
 func (srv *ConfigService) Migration() error {
-	isTableExist, err := srv.repos.Database.IsTableExist(&Note{})
-	if err != nil {
+	if isTableExist, err := srv.IsTableExist(); err != nil || isTableExist {
 		return err
-	}
-	if isTableExist {
-		return nil
 	}
 	srv.repos.Database.CreateTable(&Note{})
 	return nil
