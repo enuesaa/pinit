@@ -19,7 +19,7 @@ func NewRepos() Repos {
 }
 
 func NewTestRepos() Repos {
-	databaseDsn := os.Getenv("PINIT_TEST_DSN")
+	databaseDsn := os.Getenv("PINIT_TEST_DATABASE_DSN")
 
 	databaseRepo := &DatabaseRepository{}
 	databaseRepo.WithDsn(databaseDsn)

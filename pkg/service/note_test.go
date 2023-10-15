@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNote(t *testing.T) {
+func TestNoteMain(t *testing.T) {
 	noteSrv := NewNoteService(repository.NewTestRepos())
 	noteSrv.Create(Note{
 		Name:    "aaa",

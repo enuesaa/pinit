@@ -11,7 +11,7 @@ import (
 func TestMain(m *testing.M) {
 	repos := repository.NewTestRepos()
 	if repos.Database.GetDsn() == "" {
-		log.Fatalf("test execution error: environment variable PINIT_TEST_DSN is empty.")
+		log.Fatalf("test execution error: environment variable PINIT_TEST_DATABASE_DSN is empty.")
 	}
 
 	configSrv := service.NewConfigSevice(repos)

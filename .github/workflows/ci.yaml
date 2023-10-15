@@ -28,4 +28,4 @@ jobs:
       - run: go install
       - run: go test ./...
         env:
-          PINIT_TEST_DSN: root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true
+          PINIT_TEST_DATABASE_DSN: root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true
