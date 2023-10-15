@@ -19,6 +19,6 @@ func TestMain(m *testing.M) {
 		log.Fatalf("test execution error: failed to migration")
 	}
 
-    code := m.Run()
+	code := m.Run()
 	log.Printf("text finished with code %d", code)
 }

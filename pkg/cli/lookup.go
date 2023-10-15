@@ -12,9 +12,9 @@ import (
 
 func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "lookup <name>",
+		Use:   "lookup <name>",
 		Short: "lookup a note.",
-		Args: cobra.MinimumNArgs(1),
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			name := args[0]
 

@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	DatabaseDsn string `toml:"database_dsn"`
+	DatabaseDsn  string `toml:"database_dsn"`
 	ChatgptToken string `toml:"chatgpt_token"`
 }
 
@@ -57,7 +57,6 @@ func (srv *ConfigService) Write(config Config) error {
 	}
 	return srv.repos.Fshome.WriteFile(srv.registryName, srv.configFilename, buf.String())
 }
-
 
 func (srv *ConfigService) RunCreatePrompt() (*Config, error) {
 	config := Config{}

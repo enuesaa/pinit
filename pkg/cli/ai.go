@@ -10,7 +10,7 @@ import (
 
 func CreateAiCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use: "ai",
+		Use:   "ai",
 		Short: "call openai api",
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)

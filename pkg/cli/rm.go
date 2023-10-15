@@ -10,9 +10,9 @@ import (
 
 func CreateRmCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "rm <name>",
+		Use:   "rm <name>",
 		Short: "remove a note",
-		Args: cobra.MinimumNArgs(1),
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.Init(); err != nil {
