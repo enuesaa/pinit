@@ -31,7 +31,7 @@ func CreateAiCmd(repos repository.Repos) *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			fmt.Printf("res: %s\n", res)
+			fmt.Printf("%s\n", res)
 		},
 	}
 

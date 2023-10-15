@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	openai "github.com/sashabaranov/go-openai"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -41,8 +40,6 @@ func (srv *AiService) Call(token string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
-	fmt.Printf("%+v\n", res)
 
 	return res.Choices[0].Message.Content, nil
 

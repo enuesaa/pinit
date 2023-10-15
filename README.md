@@ -21,11 +21,12 @@ Usage:
 
 Available Commands:
   add         create a note
+  ai          call openai api
+  configure   setup pinit.
   edit        edit a note.
   lookup      lookup a note.
   ls          list notes.
   rm          remove a note
-  setup       setup to take notes.
 
 Flags:
       --help      Show help information
@@ -37,8 +38,7 @@ Use "pinit [command] --help" for more information about a command.
 ### Setup database
 For first time use, it is necessary to set up the database.
 ```bash
-pinit setup configure --database-dsn <DATABASE_DSN>
-pinit setup migration
+pinit configure
 ```
 
 ### List notes.
