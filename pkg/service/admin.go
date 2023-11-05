@@ -28,10 +28,12 @@ func (srv *AdminService) Serve() {
 	app.Get("/*", func(c *fiber.Ctx) error {
 		requestPath := c.Path() // like `/`
 
-		path := fmt.Sprintf(".%s", requestPath) // like `./`
+		path := fmt.Sprintf("dist%s", requestPath) // like `./`
 		if strings.HasSuffix(path, "/") {
 			path += "index.html"
 		}
+
+		fmt.Println(path)
 
 		f, err := admin.Dist.ReadFile(path)
 		if err != nil {
