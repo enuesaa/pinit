@@ -21,6 +21,7 @@ func main() {
 	cmd.AddCommand(cli.CreateEditCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
 	cmd.AddCommand(cli.CreateAiCmd(repos))
+	cmd.AddCommand(cli.CreateServeCmd(repos))
 
 	// disable default
 	cmd.SetHelpCommand(&cobra.Command{Hidden: true})
