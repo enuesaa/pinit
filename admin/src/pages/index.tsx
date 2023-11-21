@@ -1,3 +1,4 @@
+import { SpeakToText } from '@/components/audio/SpeakToText'
 import { Header } from '@/components/common/Header'
 import { Main } from '@/components/common/Main'
 import { MagicWandIcon } from '@radix-ui/react-icons'
@@ -12,6 +13,8 @@ export default function TopPage() {
         <IconButton>
           <MagicWandIcon />
         </IconButton>
+
+        <SpeakToText />
       </Main>
     </>
   )
