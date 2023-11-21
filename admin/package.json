@@ -1,6 +1,6 @@
 {
-  "name": "my-nextjs-template",
-  "version": "0.1.0",
+  "name": "pinit-web",
+  "version": "0.0.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -17,7 +17,6 @@
     "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.11.0",
     "react-query": "^3.39.3"
   },
   "devDependencies": {
@@ -25,7 +24,6 @@
     "@types/react": "18.2.33",
     "@types/react-dom": "18.2.14",
     "prettier": "^3.0.3",
-    "prettier-plugin-organize-imports": "^3.2.3",
     "typescript": "5.2.2"
   }
 }
