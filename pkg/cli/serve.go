@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateServeCmd(repos repository.Repos) *cobra.Command {
+func CreateUpCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "serve",
+		Use:   "up",
 		Short: "serve admin console",
 		Run: func(cmd *cobra.Command, args []string) {
 			adminSrv := service.NewAdminService(repos)

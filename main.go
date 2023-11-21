@@ -10,7 +10,7 @@ func main() {
 	cmd := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app.",
-		Version: "0.0.2",
+		Version: "0.0.3",
 	}
 
 	repos := repository.NewRepos()
@@ -20,8 +20,8 @@ func main() {
 	cmd.AddCommand(cli.CreateAddCmd(repos))
 	cmd.AddCommand(cli.CreateEditCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
-	cmd.AddCommand(cli.CreateAiCmd(repos))
-	cmd.AddCommand(cli.CreateServeCmd(repos))
+	cmd.AddCommand(cli.CreateAiCmd(repos)) // deperecated
+	cmd.AddCommand(cli.CreateUpCmd(repos))
 
 	// disable default
 	cmd.SetHelpCommand(&cobra.Command{Hidden: true})

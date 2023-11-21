@@ -1,7 +1,7 @@
 # pinit
 A personal note-taking app.
 
-> **Note**
+> [!Note]
 > Work in progress.. `pinit` is currently under development.
 
 ## Install
