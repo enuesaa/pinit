@@ -33,8 +33,8 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 
 			t := table.NewWriter()
 			t.SetOutputMirror(os.Stdout)
-			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "COMMENT", "CREATED AT"})
-			t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.Comment, note.CreatedAt})
+			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "CREATED AT"})
+			t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.CreatedAt})
 			t.SetStyle(table.StyleLight)
 			t.Render()
 		},

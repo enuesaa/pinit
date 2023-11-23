@@ -8,9 +8,10 @@ import (
 
 type Note struct {
 	ID        uint      `gorm:"primaryKey"`
-	Name      string    `gorm:"type:varchar(255)"`
-	Content   string    `gorm:"type:text"`
+	BinderId  uint      `gorm:"type:integer"`
+	Publisher string    `gorm:"type:varchar(255)"`
 	Comment   string    `gorm:"type:text"`
+	Content   string    `gorm:"type:text"`
 	CreatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp"`
 	UpdatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp on update current_timestamp"`
 }
@@ -64,11 +65,6 @@ func (srv *NoteService) RunEditPrompt(note Note) (*Note, error) {
 		return nil, err
 	}
 	note.Content = content
-	comment, err := srv.repos.Prompt.Ask("Comment", note.Comment)
-	if err != nil {
-		return nil, err
-	}
-	note.Comment = comment
 
 	return &note, nil
 }
