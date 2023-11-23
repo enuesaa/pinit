@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/enuesaa/pinit/admin"
+	"github.com/enuesaa/pinit/web"
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/gofiber/fiber/v2"
 )
@@ -35,7 +35,7 @@ func (srv *AdminService) Serve() {
 
 		fmt.Println(path)
 
-		f, err := admin.Dist.ReadFile(path)
+		f, err := web.Dist.ReadFile(path)
 		if err != nil {
 			return err
 		}

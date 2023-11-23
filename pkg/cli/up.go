@@ -11,7 +11,7 @@ import (
 func CreateUpCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:   "up",
-		Short: "serve admin console",
+		Short: "Serve web console",
 		Run: func(cmd *cobra.Command, args []string) {
 			adminSrv := service.NewAdminService(repos)
 

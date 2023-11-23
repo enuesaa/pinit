@@ -13,7 +13,7 @@ import (
 func CreateLsCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:   "ls",
-		Short: "list notes.",
+		Short: "List binders",
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.Init(); err != nil {

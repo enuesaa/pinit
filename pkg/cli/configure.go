@@ -11,7 +11,7 @@ import (
 func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:   "configure",
-		Short: "setup pinit.",
+		Short: "Setup pinit",
 		Run: func(cmd *cobra.Command, args []string) {
 			migrate, _ := cmd.Flags().GetBool("migrate")
 

@@ -9,18 +9,15 @@ import (
 func main() {
 	cmd := &cobra.Command{
 		Use:     "pinit",
-		Short:   "A personal note-taking app.",
+		Short:   "A personal note-taking app",
 		Version: "0.0.3",
 	}
 
 	repos := repository.NewRepos()
 	cmd.AddCommand(cli.CreateConfigureCmd(repos))
 	cmd.AddCommand(cli.CreateLsCmd(repos))
-	cmd.AddCommand(cli.CreateLookupCmd(repos))
-	cmd.AddCommand(cli.CreateCreateCmd(repos))
-	// cmd.AddCommand(cli.CreateEditCmd(repos))
+	cmd.AddCommand(cli.CreateNewCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
-	// cmd.AddCommand(cli.CreateAiCmd(repos)) // deperecated
 	cmd.AddCommand(cli.CreateUpCmd(repos))
 
 	// disable default
