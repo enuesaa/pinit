@@ -112,15 +112,3 @@ func (srv *ConfigService) Init() error {
 	srv.repos.Database.WithDsn(dsn)
 	return nil
 }
-
-func (srv *ConfigService) IsTableExist() (bool, error) {
-	return srv.repos.Database.IsTableExist(&Note{})
-}
-
-func (srv *ConfigService) Migration() error {
-	if isTableExist, err := srv.IsTableExist(); err != nil || isTableExist {
-		return err
-	}
-	srv.repos.Database.CreateTable(&Note{})
-	return nil
-}

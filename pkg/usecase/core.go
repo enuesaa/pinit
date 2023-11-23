@@ -30,6 +30,23 @@ func (c *Corecase) Configure(repos repository.Repos) error {
 	return  configSrv.Write(*config)
 }
 
+func (c *Corecase) IsTableExist(repos repository.Repos) (bool, error) {
+	binderSrv := service.NewBinderService(repos)
+	noteSrv := service.NewNoteService(repos)
+
+	isBinderTableExist, err := binderSrv.IsTabelExist()
+	if err != nil {
+		return true, err
+	}
+
+	isNoteTableExist, err := noteSrv.IsTabelExist()
+	if err != nil {
+		return true, err
+	}
+
+	return isBinderTableExist && isNoteTableExist, nil
+}
+
 func (c *Corecase) Migrate(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
 	noteSrv := service.NewNoteService(repos)

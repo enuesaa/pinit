@@ -27,11 +27,11 @@ func NewNoteService(repos repository.Repos) *NoteService {
 }
 
 func (srv *NoteService) IsTabelExist() (bool, error) {
-	return false, nil
+	return srv.repos.Database.IsTableExist(&Note{})
 }
 
 func (srv *NoteService) CreateTable() error {
-	return nil
+	return srv.repos.Database.CreateTable(&Note{})
 }
 
 func (srv *NoteService) List() []*Note {
