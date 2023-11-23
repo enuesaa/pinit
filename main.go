@@ -17,7 +17,7 @@ func main() {
 	cmd.AddCommand(cli.CreateConfigureCmd(repos))
 	cmd.AddCommand(cli.CreateLsCmd(repos))
 	cmd.AddCommand(cli.CreateLookupCmd(repos))
-	cmd.AddCommand(cli.CreateAddCmd(repos))
+	cmd.AddCommand(cli.CreateCreateCmd(repos))
 	cmd.AddCommand(cli.CreateEditCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
 	cmd.AddCommand(cli.CreateAiCmd(repos)) // deperecated

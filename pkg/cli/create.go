@@ -8,10 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateAddCmd(repos repository.Repos) *cobra.Command {
+func CreateCreateCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "add",
-		Short: "create a note",
+		Use:   "create",
+		Short: "create new binder and write note.",
 		Run: func(cmd *cobra.Command, args []string) {
 			configSrv := service.NewConfigSevice(repos)
 			if err := configSrv.Init(); err != nil {
