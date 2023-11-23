@@ -13,6 +13,8 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 		Use:   "configure",
 		Short: "setup pinit.",
 		Run: func(cmd *cobra.Command, args []string) {
+			migrate, _ := cmd.Flags().GetBool("migrate")
+
 			configSrv := service.NewConfigSevice(repos)
 
 			if configSrv.IsConfigExist() {
@@ -46,16 +48,28 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 				return
 			}
 
+			fmt.Printf("\n")
+			fmt.Printf("Checking table exists...\n")
 			isTableExist, err := configSrv.IsTableExist()
 			if err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			if !isTableExist {
-				configSrv.Migration()
+			if isTableExist {
+				fmt.Printf("Table exists.\n")
+			} else {
+				fmt.Printf("Table DOES NOT exist.\n")
+
+				if migrate {
+					fmt.Printf("Migrating..\n")
+					configSrv.Migration()
+					fmt.Printf("Migration succeeded.\n")
+				}
 			}
 		},
 	}
+	cmd.Flags().Bool("migrate", false, "do migration")
+
 
 	return cmd
 }
