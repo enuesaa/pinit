@@ -41,6 +41,11 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 				}
 			}
 
+			if err := configSrv.Init(); err != nil {
+				fmt.Printf("Error: %s\n", err.Error())
+				return
+			}
+
 			isTableExist, err := configSrv.IsTableExist()
 			if err != nil {
 				fmt.Printf("Error: %s\n", err.Error())

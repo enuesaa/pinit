@@ -2,6 +2,7 @@ package service
 
 import (
 	"bytes"
+	"fmt"
 
 	"github.com/BurntSushi/toml"
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -97,12 +98,23 @@ func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
 	return &config, nil
 }
 
+func (srv *ConfigService) GetDatabaseDsn() (string, error) {
+	config, err := srv.Read()
+	if err != nil {
+		return "", err
+	}
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", config.DbUsername, config.DbPassword, config.DbHost, config.DbName)
+	params := "tls=true&interpolateParams=true"
+
+	return fmt.Sprintf("%s?%s", dsn, params), nil
+}
+
 func (srv *ConfigService) Init() error {
-	// config, err := srv.Read()
-	// if err != nil {
-	// 	return err
-	// }
-	// srv.repos.Database.WithDsn(config.DatabaseDsn)
+	dsn, err := srv.GetDatabaseDsn()
+	if err != nil {
+		return err
+	}
+	srv.repos.Database.WithDsn(dsn)
 	return nil
 }
 
