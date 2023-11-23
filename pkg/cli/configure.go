@@ -43,7 +43,9 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 
 				if migrate {
 					fmt.Printf("Migrating..\n")
-					configSrv.Migration()
+					if err := corecase.Migrate(repos); err != nil {
+						fmt.Printf("Error: %s\n", err.Error())
+					}
 					fmt.Printf("Migration succeeded.\n")
 				}
 			}

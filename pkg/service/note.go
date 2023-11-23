@@ -26,6 +26,14 @@ func NewNoteService(repos repository.Repos) *NoteService {
 	}
 }
 
+func (srv *NoteService) IsTabelExist() (bool, error) {
+	return false, nil
+}
+
+func (srv *NoteService) CreateTable() error {
+	return nil
+}
+
 func (srv *NoteService) List() []*Note {
 	notes := make([]*Note, 0)
 	srv.repos.Database.ListAll(&notes)

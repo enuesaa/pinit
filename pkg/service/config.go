@@ -62,7 +62,7 @@ func (srv *ConfigService) Write(config Config) error {
 	return srv.repos.Fshome.WriteFile(srv.registryName, srv.configFilename, buf.String())
 }
 
-func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
+func (srv *ConfigService) RunPrompt(config Config) (*Config, error) {
 	dbHost, err := srv.repos.Prompt.Ask("DB Host", config.DbHost)
 	if err != nil {
 		return nil, err

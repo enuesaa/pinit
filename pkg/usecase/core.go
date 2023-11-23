@@ -22,12 +22,39 @@ func (c *Corecase) Configure(repos repository.Repos) error {
 		}
 	}
 
-	config, err := configSrv.RunEditPrompt(*config)
+	config, err := configSrv.RunPrompt(*config)
 	if err != nil {
 		return err
 	}
 
 	return  configSrv.Write(*config)
+}
+
+func (c *Corecase) Migrate(repos repository.Repos) error {
+	binderSrv := service.NewBinderService(repos)
+	noteSrv := service.NewNoteService(repos)
+
+	isBinderTableExist, err := binderSrv.IsTabelExist()
+	if err != nil {
+		return err
+	}
+	if isBinderTableExist {
+		if err := binderSrv.CreateTable(); err != nil {
+			return err
+		}
+	}
+
+	isNoteTableExist, err := noteSrv.IsTabelExist()
+	if err != nil {
+		return err
+	}
+	if isNoteTableExist {
+		if err := noteSrv.CreateTable(); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 

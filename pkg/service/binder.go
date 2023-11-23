@@ -25,6 +25,13 @@ type BinderService struct {
 	repos repository.Repos
 }
 
+func (srv *BinderService) IsTabelExist() (bool, error) {
+	return false, nil
+}
+func (srv *BinderService) CreateTable() error {
+	return nil
+}
+
 func (srv *BinderService) List() []*Binder {
 	binders := make([]*Binder, 0)
 	srv.repos.Database.ListAll(&binders)
