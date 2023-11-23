@@ -85,14 +85,3 @@ func (c *Corecase) Migrate(repos repository.Repos) error {
 
 	return nil
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/service"
+	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
 )
 
@@ -13,12 +13,16 @@ func CreateUpCmd(repos repository.Repos) *cobra.Command {
 		Use:   "up",
 		Short: "Serve web console",
 		Run: func(cmd *cobra.Command, args []string) {
-			adminSrv := service.NewAdminService(repos)
+			port, _ := cmd.Flags().GetInt("port")
 
-			fmt.Printf("Admin console listening on http://localhost:3000 \n")
-			adminSrv.Serve()
+			webcase := usecase.NewWebcase()
+			if err := webcase.Serve(port); err != nil {
+				fmt.Printf("Error: %s\n", err.Error())
+				return
+			}
 		},
 	}
+	cmd.Flags().Int("port", 3000, "port. Default: 3000")
 
 	return cmd
 }

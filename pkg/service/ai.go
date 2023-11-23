@@ -7,6 +7,16 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
+
+// chatgptSrv := service.NewAiService(repos)
+// res, err := chatgptSrv.Call(config.ChatgptToken)
+// if err != nil {
+// 	fmt.Printf("Error: %s\n", err.Error())
+// 	return
+// }
+// fmt.Printf("%s\n", res)
+
+
 type AiService struct {
 	repos repository.Repos
 }
