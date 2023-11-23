@@ -14,7 +14,7 @@ export default function TopPage() {
           <MagicWandIcon />
         </IconButton>
 
-        <SpeakToText />
+        {/* <SpeakToText /> */}
       </Main>
     </>
   )
