@@ -7,6 +7,11 @@ import (
 	"github.com/enuesaa/pinit/pkg/service"
 )
 
+func Init(repos repository.Repos) {
+	configSrv := service.NewConfigSevice(repos)
+	configSrv.Init()
+}
+
 func Configure(repos repository.Repos) error {
 	configSrv := service.NewConfigSevice(repos)
 

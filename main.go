@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
+	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
 )
 
@@ -19,6 +20,7 @@ func main() {
 	cmd.AddCommand(cli.CreateNewCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
 	cmd.AddCommand(cli.CreateUpCmd(repos))
+	usecase.Init(repos)
 
 	// disable default
 	cmd.SetHelpCommand(&cobra.Command{Hidden: true})

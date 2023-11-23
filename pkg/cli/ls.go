@@ -15,12 +15,6 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 		Use:   "ls",
 		Short: "List binders",
 		Run: func(cmd *cobra.Command, args []string) {
-			configSrv := service.NewConfigSevice(repos)
-			if err := configSrv.Init(); err != nil {
-				fmt.Printf("Error: %s", err.Error())
-				return
-			}
-
 			binderSrv := service.NewBinderService(repos)
 			binders := binderSrv.List()
 			fmt.Printf("%d binder(s) found.\n", len(binders))
