@@ -86,6 +86,12 @@ func Migrate(repos repository.Repos) error {
 	return nil
 }
 
+
+func ListBinders(repos repository.Repos) []*service.Binder {
+	binderSrv := service.NewBinderService(repos)
+	return binderSrv.List()
+}
+
 func CreateBinderWithPrompt(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
 	binder, err := binderSrv.RunCreatePrompt()
