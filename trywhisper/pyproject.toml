@@ -7,6 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+openai-whisper = {git = "https://github.com/openai/whisper.git"}
 
 [build-system]
 requires = ["poetry-core"]
