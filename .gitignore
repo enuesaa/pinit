@@ -5,3 +5,6 @@
 .vscode
 
 .venv
+
+trywhisper/data/*
+!trywhisper/data/.gitkeep
