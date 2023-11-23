@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"fmt"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 )
@@ -27,24 +29,34 @@ func (c *Corecase) Configure(repos repository.Repos) error {
 		return err
 	}
 
-	return  configSrv.Write(*config)
+	if err := configSrv.Write(*config); err != nil {
+		return err
+	}
+
+	return configSrv.Init()
 }
 
-func (c *Corecase) IsTableExist(repos repository.Repos) (bool, error) {
+func (c *Corecase) CheckTableStatus(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
 	noteSrv := service.NewNoteService(repos)
 
 	isBinderTableExist, err := binderSrv.IsTabelExist()
 	if err != nil {
-		return true, err
+		return err
+	}
+	if !isBinderTableExist {
+		return fmt.Errorf("Binders table does not exist")
 	}
 
 	isNoteTableExist, err := noteSrv.IsTabelExist()
 	if err != nil {
-		return true, err
+		return err
+	}
+	if !isNoteTableExist {
+		return fmt.Errorf("Notes table does not exist")
 	}
 
-	return isBinderTableExist && isNoteTableExist, nil
+	return nil
 }
 
 func (c *Corecase) Migrate(repos repository.Repos) error {
