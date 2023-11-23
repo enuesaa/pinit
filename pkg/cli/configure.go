@@ -26,7 +26,7 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-		
+
 			if migrate {
 				fmt.Printf("Migrating..\n")
 				if err := usecase.Migrate(repos); err != nil {

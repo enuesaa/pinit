@@ -9,10 +9,10 @@ import (
 )
 
 type Config struct {
-	DbHost string `toml:"db_host"`
-	DbUsername string `toml:"db_username"`
-	DbPassword string `toml:"db_password"`
-	DbName string `toml:"db_name"`
+	DbHost       string `toml:"db_host"`
+	DbUsername   string `toml:"db_username"`
+	DbPassword   string `toml:"db_password"`
+	DbName       string `toml:"db_name"`
 	ChatgptToken string `toml:"chatgpt_token"`
 }
 

@@ -86,7 +86,6 @@ func Migrate(repos repository.Repos) error {
 	return nil
 }
 
-
 func ListBinders(repos repository.Repos) []*service.Binder {
 	binderSrv := service.NewBinderService(repos)
 	return binderSrv.List()
@@ -108,4 +107,3 @@ func DeleteBinder(repos repository.Repos, binderName string) error {
 	binderSrv := service.NewBinderService(repos)
 	return binderSrv.Delete(binderName)
 }
-

@@ -5,6 +5,7 @@ go 1.21
 require (
 	github.com/BurntSushi/toml v1.3.2
 	github.com/erikgeiser/promptkit v0.9.0
+	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/jedib0t/go-pretty/v6 v6.4.7
 	github.com/sashabaranov/go-openai v1.15.4
 	github.com/spf13/cobra v1.7.0
@@ -23,7 +24,6 @@ require (
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
-	github.com/gofiber/fiber/v2 v2.50.0 // indirect
 	github.com/google/uuid v1.3.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect

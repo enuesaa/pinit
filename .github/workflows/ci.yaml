@@ -28,13 +28,13 @@ jobs:
         with:
           version: 8
       - run: pnpm install
-        working-directory: admin
+        working-directory: web
       - run: pnpm build
-        working-directory: admin
+        working-directory: web
 
       - uses: actions/setup-go@v4
         with:
-          go-version: '^1.21.0'
+          go-version: '1.21'
       - run: go install
       - run: go test ./...
         env:
