@@ -14,9 +14,8 @@ func TestMain(m *testing.M) {
 		log.Fatalf("test execution error: environment variable PINIT_TEST_DATABASE_DSN is empty.")
 	}
 
-	corecase := usecase.NewCorecase()
-	corecase.Migrate(repos)
-	if err := corecase.Migrate(repos); err != nil {
+	usecase.Migrate(repos)
+	if err := usecase.Migrate(repos); err != nil {
 		log.Fatalf("TestExecutionError: failed to migrate")
 	}
 

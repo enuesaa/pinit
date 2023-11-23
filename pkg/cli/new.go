@@ -5,6 +5,7 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
+	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
 )
 
@@ -19,15 +20,9 @@ func CreateNewCmd(repos repository.Repos) *cobra.Command {
 				return
 			}
 
-			noteSrv := service.NewNoteService(repos)
-			note, err := noteSrv.RunCreatePrompt()
-			if err != nil {
+			if err := usecase.CreateBinderWithPrompt(repos); err != nil {
 				fmt.Printf("Error: %s", err.Error())
 				return
-			}
-
-			if err := noteSrv.Create(*note); err != nil {
-				fmt.Printf("Error: %s", err.Error())
 			}
 		},
 	}

@@ -15,22 +15,21 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			migrate, _ := cmd.Flags().GetBool("migrate")
 
-			corecase := usecase.NewCorecase()
-			if err := corecase.Configure(repos); err != nil {
+			if err := usecase.Configure(repos); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
 
 			fmt.Printf("\n")
 			fmt.Printf("Checking table status..\n")
-			if err := corecase.CheckTableStatus(repos); err != nil {
+			if err := usecase.CheckTableStatus(repos); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
 		
 			if migrate {
 				fmt.Printf("Migrating..\n")
-				if err := corecase.Migrate(repos); err != nil {
+				if err := usecase.Migrate(repos); err != nil {
 					fmt.Printf("Error: %s\n", err.Error())
 				}
 				fmt.Printf("Migration succeeded.\n")

@@ -9,13 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func NewWebcase() Webcase {
-	return Webcase{}
-}
-
-type Webcase struct {}
-
-func (c *Webcase) Serve(port int) error {
+func Serve(port int) error {
 	app := fiber.New()
 	app.Get("/*", func(c *fiber.Ctx) error {
 		requestPath := c.Path() // like `/`

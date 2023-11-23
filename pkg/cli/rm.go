@@ -5,6 +5,7 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
+	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
 )
 
@@ -20,9 +21,8 @@ func CreateRmCmd(repos repository.Repos) *cobra.Command {
 				return
 			}
 
-			name := args[0]
-			binderSrv := service.NewBinderService(repos)
-			binderSrv.Delete(name)
+			binderName := args[0]
+			usecase.DeleteBinder(repos, binderName)
 		},
 	}
 

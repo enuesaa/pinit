@@ -7,12 +7,7 @@ import (
 	"github.com/enuesaa/pinit/pkg/service"
 )
 
-func NewCorecase() Corecase {
-	return Corecase{}
-}
-
-type Corecase struct {}
-func (c *Corecase) Configure(repos repository.Repos) error {
+func Configure(repos repository.Repos) error {
 	configSrv := service.NewConfigSevice(repos)
 
 	config := &service.Config{}
@@ -36,7 +31,7 @@ func (c *Corecase) Configure(repos repository.Repos) error {
 	return configSrv.Init()
 }
 
-func (c *Corecase) CheckTableStatus(repos repository.Repos) error {
+func CheckTableStatus(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
 	noteSrv := service.NewNoteService(repos)
 
@@ -59,7 +54,7 @@ func (c *Corecase) CheckTableStatus(repos repository.Repos) error {
 	return nil
 }
 
-func (c *Corecase) Migrate(repos repository.Repos) error {
+func Migrate(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
 	noteSrv := service.NewNoteService(repos)
 
@@ -85,3 +80,21 @@ func (c *Corecase) Migrate(repos repository.Repos) error {
 
 	return nil
 }
+
+func CreateBinderWithPrompt(repos repository.Repos) error {
+	binderSrv := service.NewBinderService(repos)
+	binder, err := binderSrv.RunCreatePrompt()
+	if err != nil {
+		return err
+	}
+	if err := binderSrv.Create(*binder); err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteBinder(repos repository.Repos, binderName string) error {
+	binderSrv := service.NewBinderService(repos)
+	return binderSrv.Delete(binderName)
+}
+

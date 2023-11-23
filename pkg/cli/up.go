@@ -15,8 +15,7 @@ func CreateUpCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			port, _ := cmd.Flags().GetInt("port")
 
-			webcase := usecase.NewWebcase()
-			if err := webcase.Serve(port); err != nil {
+			if err := usecase.Serve(port); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
