@@ -21,8 +21,8 @@ func CreateRmCmd(repos repository.Repos) *cobra.Command {
 			}
 
 			name := args[0]
-			noteSrv := service.NewNoteService(repos)
-			noteSrv.Delete(name)
+			binderSrv := service.NewBinderService(repos)
+			binderSrv.Delete(name)
 		},
 	}
 

@@ -21,18 +21,18 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 				return
 			}
 
-			noteSrv := service.NewNoteService(repos)
-			notes := noteSrv.List()
-			fmt.Printf("%d note(s) found.\n", len(notes))
-			if len(notes) == 0 {
+			binderSrv := service.NewBinderService(repos)
+			binders := binderSrv.List()
+			fmt.Printf("%d binder(s) found.\n", len(binders))
+			if len(binders) == 0 {
 				return
 			}
 
 			t := table.NewWriter()
 			t.SetOutputMirror(os.Stdout)
-			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "CREATED AT"})
-			for _, note := range notes {
-				t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.CreatedAt})
+			t.AppendHeader(table.Row{"ID", "NAME", "CREATED AT"})
+			for _, binder := range binders {
+				t.AppendRow(table.Row{binder.ID, binder.Name, binder.CreatedAt})
 			}
 			t.SetStyle(table.StyleLight)
 			t.Render()

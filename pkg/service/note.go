@@ -32,9 +32,9 @@ func (srv *NoteService) List() []*Note {
 	return notes
 }
 
-func (srv *NoteService) Get(name string) (*Note, error) {
+func (srv *NoteService) Get(id uint) (*Note, error) {
 	note := Note{
-		Name: name,
+		ID: id,
 	}
 	if err := srv.repos.Database.WhereFirst(&note); err != nil {
 		return nil, err
@@ -71,8 +71,8 @@ func (srv *NoteService) Update(note Note) error {
 	return nil
 }
 
-func (srv *NoteService) Delete(name string) error {
-	note, err := srv.Get(name)
+func (srv *NoteService) Delete(id uint) error {
+	note, err := srv.Get(id)
 	if err != nil {
 		return err
 	}

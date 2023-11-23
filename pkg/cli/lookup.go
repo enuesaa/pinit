@@ -24,8 +24,8 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 				return
 			}
 
-			noteSrv := service.NewNoteService(repos)
-			note, err := noteSrv.Get(name)
+			binderSrv := service.NewBinderService(repos)
+			binder, err := binderSrv.Get(name)
 			if err != nil {
 				fmt.Printf("Error: %s", err.Error())
 				return
@@ -33,8 +33,8 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 
 			t := table.NewWriter()
 			t.SetOutputMirror(os.Stdout)
-			t.AppendHeader(table.Row{"ID", "NAME", "CONTENT", "CREATED AT"})
-			t.AppendRow(table.Row{note.ID, note.Name, note.Content, note.CreatedAt})
+			t.AppendHeader(table.Row{"ID", "NAME", "CREATED AT"})
+			t.AppendRow(table.Row{binder.ID, binder.Name, binder.CreatedAt})
 			t.SetStyle(table.StyleLight)
 			t.Render()
 		},
