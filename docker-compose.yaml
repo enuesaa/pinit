@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.2
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: pinit
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+  trywhisper:
+    build:
+      context: ./trywhisper
+      dockerfile: Dockerfile
+    volumes:
+      - ./trywhisper:/app
+    ports:
+      - 3002:3002
+    tty: true
+
+volumes:
+  mysqldata:
