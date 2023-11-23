@@ -8,7 +8,10 @@ import (
 )
 
 type Config struct {
-	DatabaseDsn  string `toml:"database_dsn"`
+	DbHost string `toml:"db_host"`
+	DbUsername string `toml:"db_username"`
+	DbPassword string `toml:"db_password"`
+	DbName string `toml:"db_name"`
 	ChatgptToken string `toml:"chatgpt_token"`
 }
 
@@ -64,11 +67,26 @@ func (srv *ConfigService) RunCreatePrompt() (*Config, error) {
 }
 
 func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
-	databaseDsn, err := srv.repos.Prompt.Ask("Database Dsn", config.DatabaseDsn)
+	dbHost, err := srv.repos.Prompt.Ask("DB Host", config.DbHost)
 	if err != nil {
 		return nil, err
 	}
-	config.DatabaseDsn = databaseDsn
+	config.DbHost = dbHost
+	dbUsername, err := srv.repos.Prompt.Ask("DB Username", config.DbUsername)
+	if err != nil {
+		return nil, err
+	}
+	config.DbUsername = dbUsername
+	dbPassword, err := srv.repos.Prompt.Ask("DB Password", config.DbPassword)
+	if err != nil {
+		return nil, err
+	}
+	config.DbPassword = dbPassword
+	dbName, err := srv.repos.Prompt.Ask("DB Name", config.DbName)
+	if err != nil {
+		return nil, err
+	}
+	config.DbName = dbName
 
 	chatgptToken, err := srv.repos.Prompt.Ask("OpenAI API Token", config.ChatgptToken)
 	if err != nil {
@@ -80,11 +98,11 @@ func (srv *ConfigService) RunEditPrompt(config Config) (*Config, error) {
 }
 
 func (srv *ConfigService) Init() error {
-	config, err := srv.Read()
-	if err != nil {
-		return err
-	}
-	srv.repos.Database.WithDsn(config.DatabaseDsn)
+	// config, err := srv.Read()
+	// if err != nil {
+	// 	return err
+	// }
+	// srv.repos.Database.WithDsn(config.DatabaseDsn)
 	return nil
 }
 
