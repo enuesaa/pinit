@@ -1,5 +1,6 @@
 import { CheckIcon, CopyIcon } from '@radix-ui/react-icons'
 import { MouseEventHandler, useState } from 'react'
+import styles from './SpeakToTextCopyButton.css'
 
 export const SpeakToTextCopyButton = ({ text }: { text: string }) => {
   const [clicked, setClicked] = useState<boolean>(false)
@@ -14,7 +15,7 @@ export const SpeakToTextCopyButton = ({ text }: { text: string }) => {
   }
 
   return (
-    <span onClick={handleCopy} style={{ marginTop: '-25px', right: '10px', position: 'absolute', cursor: 'pointer' }}>
+    <span onClick={handleCopy} className={styles.main}>
       {clicked ? <CheckIcon /> : <CopyIcon />}
     </span>
   )

@@ -22,7 +22,7 @@ export const SpeakToTextDialog = ({ open, setOpen }: Props) => {
     <Dialog.Root open={open}>
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Dialog.Title>Speak</Dialog.Title>
-        <Dialog.Description mb='4'>OpenAI API Token</Dialog.Description>
+        <Dialog.Description mt='2' mb='4'>OpenAI API Token</Dialog.Description>
 
         <TextFieldInput defaultValue={apiKey} onKeyUp={handleKeyDown} />
 
