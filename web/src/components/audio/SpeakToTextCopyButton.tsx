@@ -8,12 +8,14 @@ export const SpeakToTextCopyButton = ({ text }: { text: string }) => {
     e.preventDefault()
     await globalThis.navigator.clipboard.writeText(text)
     setClicked(true)
-    setTimeout(() => { setClicked(false) }, 3000)
+    setTimeout(() => {
+      setClicked(false)
+    }, 3000)
   }
 
   return (
     <span onClick={handleCopy} style={{ marginTop: '-25px', right: '10px', position: 'absolute', cursor: 'pointer' }}>
-      {clicked ? (<CheckIcon />): (<CopyIcon />)}
+      {clicked ? <CheckIcon /> : <CopyIcon />}
     </span>
   )
 }

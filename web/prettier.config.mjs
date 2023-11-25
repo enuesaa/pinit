@@ -6,4 +6,5 @@ export default {
   singleQuote: true,
   jsxSingleQuote: true,
   endOfLine: 'lf',
+  plugins: ['prettier-plugin-organize-imports'],
 }

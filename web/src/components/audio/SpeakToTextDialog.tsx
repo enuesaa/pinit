@@ -3,7 +3,7 @@ import { Dispatch, KeyboardEventHandler, SetStateAction, useState } from 'react'
 import { SpeakToText } from './SpeakToText'
 
 type Props = {
-  open: boolean;
+  open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 export const SpeakToTextDialog = ({ open, setOpen }: Props) => {
@@ -21,14 +21,15 @@ export const SpeakToTextDialog = ({ open, setOpen }: Props) => {
 
         <TextFieldInput placeholder='OpenAI API Key' onKeyUp={handleKeyDown} />
 
-        {apiKey.length > 0 && (<SpeakToText apiKey={apiKey} />)}
+        {apiKey.length > 0 && <SpeakToText apiKey={apiKey} />}
 
         <Flex mt='6' justify='end'>
           <Dialog.Close onClick={() => setOpen(false)}>
-            <Button variant='soft' color='gray' style={{ cursor: 'pointer' }}>Close</Button>
+            <Button variant='soft' color='gray' style={{ cursor: 'pointer' }}>
+              Close
+            </Button>
           </Dialog.Close>
         </Flex>
-
       </Dialog.Content>
     </Dialog.Root>
   )

@@ -1,6 +1,6 @@
-import { HoverCard, Button } from '@radix-ui/themes'
-import { SpeakToTextDialog } from '../audio/SpeakToTextDialog'
+import { Button, HoverCard } from '@radix-ui/themes'
 import { MouseEventHandler, useState } from 'react'
+import { SpeakToTextDialog } from '../audio/SpeakToTextDialog'
 
 export const PlaygorundMenu = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -13,10 +13,14 @@ export const PlaygorundMenu = () => {
     <>
       <HoverCard.Root>
         <HoverCard.Trigger>
-          <Button variant='ghost' style={{ padding: '10px' }}>playground</Button>
+          <Button variant='ghost' style={{ padding: '10px' }}>
+            playground
+          </Button>
         </HoverCard.Trigger>
         <HoverCard.Content>
-          <Button variant='ghost' style={{cursor: 'pointer'}} onClick={handleOpenSpeakToText}>speak</Button>
+          <Button variant='ghost' style={{ cursor: 'pointer' }} onClick={handleOpenSpeakToText}>
+            speak
+          </Button>
         </HoverCard.Content>
       </HoverCard.Root>
       <SpeakToTextDialog open={open} setOpen={setOpen} />
