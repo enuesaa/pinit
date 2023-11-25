@@ -3,6 +3,7 @@ import { KeyboardEventHandler, useState } from 'react'
 import { SpeakToText } from './SpeakToText'
 
 export const SpeakToTextDialog = () => {
+  const [open, setOpen] = useState<boolean>(true)
   const [apiKey, setApiKey] = useState<string>('')
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     e.stopPropagation()
@@ -10,21 +11,21 @@ export const SpeakToTextDialog = () => {
   }
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open}>
       <Dialog.Trigger>
         <Button variant='ghost' style={{cursor: 'pointer'}}>speak</Button>
       </Dialog.Trigger>
 
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Dialog.Title>Speak</Dialog.Title>
-        <Dialog.Description size='2' mb='4'></Dialog.Description>
+        <Dialog.Description mb='4'></Dialog.Description>
 
         <TextFieldInput placeholder='OpenAI API Key' onKeyUp={handleKeyDown} />
 
         {apiKey.length > 0 && (<SpeakToText apiKey={apiKey} />)}
 
-        <Flex mt='4' justify='end'>
-          <Dialog.Close>
+        <Flex mt='6' justify='end'>
+          <Dialog.Close onClick={() => setOpen(false)}>
             <Button variant='soft' color='gray' style={{ cursor: 'pointer' }}>Close</Button>
           </Dialog.Close>
         </Flex>
