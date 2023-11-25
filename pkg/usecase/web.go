@@ -2,7 +2,8 @@ package usecase
 
 import (
 	"fmt"
-	"net/http"
+	"mime"
+	"path/filepath"
 	"strings"
 
 	"github.com/enuesaa/pinit/web"
@@ -25,8 +26,8 @@ func Serve(port int) error {
 		if err != nil {
 			return err
 		}
-
-		mimeType := http.DetectContentType(f)
+		fileExt := filepath.Ext(path)
+		mimeType := mime.TypeByExtension(fileExt)
 		c.Set(fiber.HeaderContentType, mimeType)
 
 		return c.SendString(string(f))

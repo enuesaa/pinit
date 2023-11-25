@@ -1,18 +1,12 @@
 import useWhisper from '@chengsokdara/use-whisper'
+import { CodeBlock } from '@enuesaa/fileslook'
 
-const apiKey = ''
-
-export const SpeakToText = () => {
-  const {
-    recording,
-    speaking,
-    transcribing,
-    transcript,
-    pauseRecording,
-    startRecording,
-    stopRecording,
-  } = useWhisper({
-    apiKey: apiKey,
+type Props = {
+  apiKey: string;
+}
+export const SpeakToText = ({ apiKey }: Props) => {
+  const { transcript, startRecording, stopRecording } = useWhisper({
+    apiKey,
     streaming: true,
     timeSlice: 1000,
     whisperConfig: {
@@ -22,12 +16,8 @@ export const SpeakToText = () => {
   
   return (
     <div>
-      <p>Recording: {recording}</p>
-      <p>Speaking: {speaking}</p>
-      <p>Transcribing: {transcribing}</p>
-      <p>Transcribed Text: {transcript.text}</p>
+      <CodeBlock className='md'>{transcript.text}</CodeBlock>
       <button onClick={() => startRecording()}>Start</button>
-      <button onClick={() => pauseRecording()}>Pause</button>
       <button onClick={() => stopRecording()}>Stop</button>
     </div>
   )
