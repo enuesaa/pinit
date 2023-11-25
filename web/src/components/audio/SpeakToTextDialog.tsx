@@ -12,7 +12,7 @@ export const SpeakToTextDialog = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button>speak</Button>
+        <Button variant='ghost' style={{cursor: 'pointer'}}>speak</Button>
       </Dialog.Trigger>
 
       <Dialog.Content style={{ maxWidth: 450 }}>

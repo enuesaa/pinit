@@ -1,8 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 const main = style({
-  height: '50px',
-  lineHeight: '50px',
   fontSize: '25px',
   fontWeight: 'bold',
   margin: '0 0 10px 0',
