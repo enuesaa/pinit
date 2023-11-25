@@ -1,9 +1,12 @@
 import { Button, Dialog, Flex, TextFieldInput } from '@radix-ui/themes'
-import { KeyboardEventHandler, useState } from 'react'
+import { Dispatch, KeyboardEventHandler, SetStateAction, useState } from 'react'
 import { SpeakToText } from './SpeakToText'
 
-export const SpeakToTextDialog = () => {
-  const [open, setOpen] = useState<boolean>(true)
+type Props = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>
+}
+export const SpeakToTextDialog = ({ open, setOpen }: Props) => {
   const [apiKey, setApiKey] = useState<string>('')
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     e.stopPropagation()
@@ -12,10 +15,6 @@ export const SpeakToTextDialog = () => {
 
   return (
     <Dialog.Root open={open}>
-      <Dialog.Trigger>
-        <Button variant='ghost' style={{cursor: 'pointer'}}>speak</Button>
-      </Dialog.Trigger>
-
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Dialog.Title>Speak</Dialog.Title>
         <Dialog.Description mb='4'></Dialog.Description>
