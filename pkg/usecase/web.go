@@ -6,12 +6,30 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/enuesaa/pinit/pkg/repository"
+	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/enuesaa/pinit/web"
 	"github.com/gofiber/fiber/v2"
 )
 
+type ConfigResponse struct {
+	Token string `json:"token"`
+}
+
 func Serve(port int) error {
 	app := fiber.New()
+
+	app.Get("/api/config", func(c *fiber.Ctx) error {
+		configSrv := service.NewConfigSevice(repository.NewRepos())
+		config, err := configSrv.Read()
+		if err != nil {
+			return err
+		}
+		res := ConfigResponse{
+			Token: config.ChatgptToken,
+		}
+		return c.JSON(res)
+	})
 	app.Get("/*", func(c *fiber.Ctx) error {
 		requestPath := c.Path() // like `/`
 
