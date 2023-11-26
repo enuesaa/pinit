@@ -29,10 +29,10 @@ export const SpeakToText = ({ apiKey }: Props) => {
   return (
     <div style={{ position: 'relative' }}>
       <Flex gap='3' mt='6' mb='4' justify='center'>
-        <IconButton variant='soft' style={{ width: '45%' }} onClick={handleStart}>
+        <IconButton variant='soft' style={{ cursor: 'pointer', width: '45%' }} onClick={handleStart}>
           <TriangleRightIcon />
         </IconButton>
-        <IconButton variant='soft' style={{ width: '45%' }} onClick={handleStop}>
+        <IconButton variant='soft' style={{ cursor: 'pointer', width: '45%' }} onClick={handleStop}>
           <PauseIcon />
         </IconButton>
       </Flex>

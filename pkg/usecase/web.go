@@ -38,8 +38,6 @@ func Serve(port int) error {
 			path += "index.html"
 		}
 
-		fmt.Println(path)
-
 		f, err := web.Dist.ReadFile(path)
 		if err != nil {
 			return err

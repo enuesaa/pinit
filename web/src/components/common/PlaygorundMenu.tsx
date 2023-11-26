@@ -13,7 +13,7 @@ export const PlaygorundMenu = () => {
     <>
       <HoverCard.Root>
         <HoverCard.Trigger>
-          <Button variant='ghost' style={{ padding: '10px' }}>
+          <Button variant='ghost' style={{ cursor: 'pointer', padding: '10px' }}>
             playground
           </Button>
         </HoverCard.Trigger>
