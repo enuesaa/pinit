@@ -113,7 +113,22 @@ func CreateWithPrompt(repos repository.Repos) error {
 	return nil
 }
 
-func DeleteBinder(repos repository.Repos, binderName string) error {
+func Delete(repos repository.Repos, binderName string) error {
 	binderSrv := service.NewBinderService(repos)
+	binder, err := binderSrv.Get(binderName)
+	if err != nil {
+		return err
+	}
+
+	// delete related notes.
+	noteSrv := service.NewNoteService(repos)
+	note, err := noteSrv.GetFirstByBinderId(binder.ID)
+	if err != nil {
+		return err
+	}
+	if err := noteSrv.Delete(note.ID); err != nil {
+		return err
+	}
+
 	return binderSrv.Delete(binderName)
 }

@@ -13,7 +13,7 @@ func CreateRmCmd(repos repository.Repos) *cobra.Command {
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
-			usecase.DeleteBinder(repos, binderName)
+			usecase.Delete(repos, binderName)
 		},
 	}
 

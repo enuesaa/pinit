@@ -50,6 +50,17 @@ func (srv *NoteService) Get(id uint) (*Note, error) {
 	return &note, nil
 }
 
+//TODO return list response.
+func (srv *NoteService) GetFirstByBinderId(binderId uint) (*Note, error) {
+	note := Note{
+		BinderId: binderId,
+	}
+	if err := srv.repos.Database.WhereFirst(&note); err != nil {
+		return nil, err
+	}
+	return &note, nil
+}
+
 func (srv *NoteService) Create(note *Note) error {
 	if err := srv.repos.Database.Create(note); err != nil {
 		return err
