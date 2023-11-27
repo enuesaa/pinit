@@ -67,7 +67,7 @@ func Migrate(repos repository.Repos) error {
 	if err != nil {
 		return err
 	}
-	if isBinderTableExist {
+	if !isBinderTableExist {
 		if err := binderSrv.CreateTable(); err != nil {
 			return err
 		}
@@ -77,7 +77,7 @@ func Migrate(repos repository.Repos) error {
 	if err != nil {
 		return err
 	}
-	if isNoteTableExist {
+	if !isNoteTableExist {
 		if err := noteSrv.CreateTable(); err != nil {
 			return err
 		}

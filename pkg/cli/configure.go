@@ -20,20 +20,22 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 				return
 			}
 
-			fmt.Printf("\n")
+			if migrate {
+				fmt.Printf("Migrating..\n")
+				if err := usecase.Migrate(repos); err != nil {
+					fmt.Printf("Error: %s\n", err.Error())
+					return
+				}
+				fmt.Printf("Migration succeeded.\n")
+			}
+
 			fmt.Printf("Checking table status..\n")
 			if err := usecase.CheckTableStatus(repos); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-
-			if migrate {
-				fmt.Printf("Migrating..\n")
-				if err := usecase.Migrate(repos); err != nil {
-					fmt.Printf("Error: %s\n", err.Error())
-				}
-				fmt.Printf("Migration succeeded.\n")
-			}
+			fmt.Printf("Binders table exists.\n")
+			fmt.Printf("Notes table exists.\n")
 		},
 	}
 	cmd.Flags().Bool("migrate", false, "do migration")

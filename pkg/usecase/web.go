@@ -19,6 +19,10 @@ type ConfigResponse struct {
 func Serve(port int) error {
 	app := fiber.New()
 
+	app.Get("/api/binders", func(c *fiber.Ctx) error {
+		return nil
+	})
+
 	app.Get("/api/config", func(c *fiber.Ctx) error {
 		configSrv := service.NewConfigSevice(repository.NewRepos())
 		config, err := configSrv.Read()
