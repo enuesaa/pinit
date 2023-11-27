@@ -106,16 +106,22 @@ func CreateWithPrompt(repos repository.Repos) error {
 	if err != nil {
 		return err
 	}
-	if err := noteSrv.Create(note); err != nil {
-		return err
-	}
-
-	return nil
+	return noteSrv.Create(note)
 }
 
 func WriteNote(repos repository.Repos, binderName string) error {
-	fmt.Println("this is write func.")
-	return nil
+	binderSrv := service.NewBinderService(repos)
+	binder, err := binderSrv.Get(binderName)
+	if err != nil {
+		return err
+	}
+
+	noteSrv := service.NewNoteService(repos)
+	note, err := noteSrv.RunPrompt(service.Note{ID: binder.ID})
+	if err != nil {
+		return err
+	}
+	return noteSrv.Create(note)
 }
 
 func Delete(repos repository.Repos, binderName string) error {
