@@ -17,7 +17,7 @@ func main() {
 	repos := repository.NewRepos()
 	cmd.AddCommand(cli.CreateConfigureCmd(repos))
 	cmd.AddCommand(cli.CreateLsCmd(repos))
-	cmd.AddCommand(cli.CreateNewCmd(repos))
+	cmd.AddCommand(cli.CreateCreateCmd(repos))
 	cmd.AddCommand(cli.CreateRmCmd(repos))
 	cmd.AddCommand(cli.CreateUpCmd(repos))
 	usecase.Init(repos)

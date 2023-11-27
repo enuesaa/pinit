@@ -8,10 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateNewCmd(repos repository.Repos) *cobra.Command {
+func CreateCreateCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "new",
-		Short: "Create new binder and write note",
+		Use:   "create",
+		Short: "Create new binder and write a note",
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := usecase.CreateWithPrompt(repos); err != nil {
 				fmt.Printf("Error: %s", err.Error())

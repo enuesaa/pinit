@@ -113,6 +113,11 @@ func CreateWithPrompt(repos repository.Repos) error {
 	return nil
 }
 
+func WriteNote(repos repository.Repos, binderName string) error {
+	fmt.Println("this is write func.")
+	return nil
+}
+
 func Delete(repos repository.Repos, binderName string) error {
 	binderSrv := service.NewBinderService(repos)
 	binder, err := binderSrv.Get(binderName)

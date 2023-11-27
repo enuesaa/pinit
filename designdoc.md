@@ -1,5 +1,6 @@
 # designdoc
 ## development plan
+- [cli] 実装
 - [web] ウェブアプリで作成・更新できるようにする
 - [text] chatgptへの入出力をテンプレート化したい。タブを開いたら自動でAPIが呼ばれるイメージ
 - [database] support sqlite
