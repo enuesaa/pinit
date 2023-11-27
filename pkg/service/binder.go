@@ -10,7 +10,7 @@ type Binder struct {
 	ID         uint      `gorm:"primaryKey"`
 	Name       string    `gorm:"type:varchar(255)"`
 	Category   string    `gorm:"type:varchar(255)"`
-	ArchivedAt time.Time `gorm:"type:timestamp"`
+	ArchivedAt *time.Time `gorm:"type:timestamp"`
 	CreatedAt  time.Time `gorm:"type:timestamp;not null;default:current_timestamp"`
 	UpdatedAt  time.Time `gorm:"type:timestamp;not null;default:current_timestamp on update current_timestamp"`
 }
@@ -49,19 +49,14 @@ func (srv *BinderService) Get(name string) (*Binder, error) {
 	return &binder, nil
 }
 
-func (srv *BinderService) Create(binder Binder) error {
-	if err := srv.repos.Database.Create(&binder); err != nil {
+func (srv *BinderService) Create(binder *Binder) error {
+	if err := srv.repos.Database.Create(binder); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (srv *BinderService) RunCreatePrompt() (*Binder, error) {
-	binder := Binder{}
-	return srv.RunEditPrompt(binder)
-}
-
-func (srv *BinderService) RunEditPrompt(binder Binder) (*Binder, error) {
+func (srv *BinderService) RunPrompt(binder Binder) (*Binder, error) {
 	name, err := srv.repos.Prompt.Ask("Name", binder.Name)
 	if err != nil {
 		return nil, err

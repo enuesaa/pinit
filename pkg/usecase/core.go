@@ -91,15 +91,25 @@ func ListBinders(repos repository.Repos) []*service.Binder {
 	return binderSrv.List()
 }
 
-func CreateBinderWithPrompt(repos repository.Repos) error {
+func CreateWithPrompt(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
-	binder, err := binderSrv.RunCreatePrompt()
+	binder, err := binderSrv.RunPrompt(service.Binder{})
 	if err != nil {
 		return err
 	}
-	if err := binderSrv.Create(*binder); err != nil {
+	if err := binderSrv.Create(binder); err != nil {
 		return err
 	}
+
+	noteSrv := service.NewNoteService(repos)
+	note, err := noteSrv.RunPrompt(service.Note{ID: binder.ID})
+	if err != nil {
+		return err
+	}
+	if err := noteSrv.Create(note); err != nil {
+		return err
+	}
+
 	return nil
 }
 

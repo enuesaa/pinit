@@ -50,19 +50,14 @@ func (srv *NoteService) Get(id uint) (*Note, error) {
 	return &note, nil
 }
 
-func (srv *NoteService) Create(note Note) error {
-	if err := srv.repos.Database.Create(&note); err != nil {
+func (srv *NoteService) Create(note *Note) error {
+	if err := srv.repos.Database.Create(note); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (srv *NoteService) RunCreatePrompt() (*Note, error) {
-	note := Note{}
-	return srv.RunEditPrompt(note)
-}
-
-func (srv *NoteService) RunEditPrompt(note Note) (*Note, error) {
+func (srv *NoteService) RunPrompt(note Note) (*Note, error) {
 	content, err := srv.repos.Prompt.Ask("Content", note.Content)
 	if err != nil {
 		return nil, err

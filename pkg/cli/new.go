@@ -13,7 +13,7 @@ func CreateNewCmd(repos repository.Repos) *cobra.Command {
 		Use:   "new",
 		Short: "Create new binder and write note",
 		Run: func(cmd *cobra.Command, args []string) {
-			if err := usecase.CreateBinderWithPrompt(repos); err != nil {
+			if err := usecase.CreateWithPrompt(repos); err != nil {
 				fmt.Printf("Error: %s", err.Error())
 				return
 			}
