@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/usecase"
@@ -14,7 +14,7 @@ func CreateCreateCmd(repos repository.Repos) *cobra.Command {
 		Short: "Create new binder and write a note",
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := usecase.CreateWithPrompt(repos); err != nil {
-				fmt.Printf("Error: %s", err.Error())
+				log.Printf("Error: %s", err.Error())
 				return
 			}
 		},

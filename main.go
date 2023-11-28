@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/usecase"
@@ -8,13 +10,14 @@ import (
 )
 
 func main() {
+	repos := repository.NewRepos()
+	log.SetFlags(0)
+
 	app := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app",
 		Version: "0.0.3",
 	}
-
-	repos := repository.NewRepos()
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))

@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/usecase"
@@ -11,12 +11,12 @@ import (
 func CreateServeCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:   "serve",
-		Short: "Serve web console",
+		Short: "Launch the web console",
 		Run: func(cmd *cobra.Command, args []string) {
 			port, _ := cmd.Flags().GetInt("port")
 
 			if err := usecase.Serve(port); err != nil {
-				fmt.Printf("Error: %s\n", err.Error())
+				log.Printf("Error: %s\n", err.Error())
 				return
 			}
 		},

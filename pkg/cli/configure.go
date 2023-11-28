@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/usecase"
@@ -16,14 +17,14 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 			migrate, _ := cmd.Flags().GetBool("migrate")
 
 			if err := usecase.Configure(repos); err != nil {
-				fmt.Printf("Error: %s\n", err.Error())
+				log.Printf("Error: %s\n", err.Error())
 				return
 			}
 
 			if migrate {
 				fmt.Printf("Migrating..\n")
 				if err := usecase.Migrate(repos); err != nil {
-					fmt.Printf("Error: %s\n", err.Error())
+					log.Printf("Error: %s\n", err.Error())
 					return
 				}
 				fmt.Printf("Migration succeeded.\n")
@@ -31,7 +32,7 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 
 			fmt.Printf("Checking table status..\n")
 			if err := usecase.CheckTableStatus(repos); err != nil {
-				fmt.Printf("Error: %s\n", err.Error())
+				log.Printf("Error: %s\n", err.Error())
 				return
 			}
 			fmt.Printf("Binders table exists.\n")
