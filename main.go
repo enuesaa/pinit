@@ -18,6 +18,7 @@ func main() {
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))
+	app.AddCommand(cli.CreateLookupCmd(repos))
 	app.AddCommand(cli.CreateRmCmd(repos))
 	app.AddCommand(cli.CreateUpCmd(repos))
 	usecase.Init(repos)

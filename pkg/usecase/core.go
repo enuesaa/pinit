@@ -124,6 +124,16 @@ func WriteNote(repos repository.Repos, binderName string) error {
 	return noteSrv.Create(note)
 }
 
+func Describe(repos repository.Repos, binderName string) (*service.Binder, error) {
+	binderSrv := service.NewBinderService(repos)
+	return binderSrv.Get(binderName)
+}
+
+func DescribeFirstNote(repos repository.Repos, binderId uint) (*service.Note, error) {
+	noteSrv := service.NewNoteService(repos)
+	return noteSrv.GetFirstByBinderId(binderId)
+}
+
 func Delete(repos repository.Repos, binderName string) error {
 	binderSrv := service.NewBinderService(repos)
 	binder, err := binderSrv.Get(binderName)
