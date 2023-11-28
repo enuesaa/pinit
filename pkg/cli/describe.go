@@ -9,14 +9,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateLookupCmd(repos repository.Repos) *cobra.Command {
+func CreateDescribeCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "lookup <name>",
+		Use:   "describe <name>",
 		Short: "describe a binder",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
-			binder, err := usecase.Describe(repos, binderName)
+			binder, err := usecase.DescribeBinder(repos, binderName)
 			if err != nil {
 				log.Printf("Error: %s", err.Error())
 				return

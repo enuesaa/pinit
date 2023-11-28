@@ -34,31 +34,31 @@ func (srv *NoteService) CreateTable() error {
 	return srv.repos.Database.CreateTable(&Note{})
 }
 
-func (srv *NoteService) List() []*Note {
-	notes := make([]*Note, 0)
+func (srv *NoteService) List() []Note {
+	notes := make([]Note, 0)
 	srv.repos.Database.ListAll(&notes)
 	return notes
 }
 
-func (srv *NoteService) Get(id uint) (*Note, error) {
+func (srv *NoteService) Get(id uint) (Note, error) {
 	note := Note{
 		ID: id,
 	}
 	if err := srv.repos.Database.WhereFirst(&note); err != nil {
-		return nil, err
+		return Note{}, err
 	}
-	return &note, nil
+	return note, nil
 }
 
 // TODO return list response.
-func (srv *NoteService) GetFirstByBinderId(binderId uint) (*Note, error) {
+func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
 	note := Note{
 		BinderId: binderId,
 	}
 	if err := srv.repos.Database.WhereFirst(&note); err != nil {
-		return nil, err
+		return Note{}, err
 	}
-	return &note, nil
+	return note, nil
 }
 
 func (srv *NoteService) Create(note *Note) error {
@@ -68,14 +68,14 @@ func (srv *NoteService) Create(note *Note) error {
 	return nil
 }
 
-func (srv *NoteService) RunPrompt(note Note) (*Note, error) {
+func (srv *NoteService) RunPrompt(note Note) (Note, error) {
 	content, err := srv.repos.Prompt.Ask("Content", note.Content)
 	if err != nil {
-		return nil, err
+		return Note{}, err
 	}
 	note.Content = content
 
-	return &note, nil
+	return note, nil
 }
 
 func (srv *NoteService) Update(note Note) error {

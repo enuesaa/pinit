@@ -5,7 +5,7 @@ import (
 	"github.com/enuesaa/pinit/pkg/service"
 )
 
-func ListBinders(repos repository.Repos) []*service.Binder {
+func ListBinders(repos repository.Repos) []service.Binder {
 	binderSrv := service.NewBinderService(repos)
 	return binderSrv.List()
 }
@@ -25,12 +25,12 @@ func CreateWithPrompt(repos repository.Repos) error {
 	if err != nil {
 		return err
 	}
-	return noteSrv.Create(note)
+	return noteSrv.Create(&note)
 }
 
 func WriteNote(repos repository.Repos, binderName string) error {
 	binderSrv := service.NewBinderService(repos)
-	binder, err := binderSrv.Get(binderName)
+	binder, err := binderSrv.GetByName(binderName)
 	if err != nil {
 		return err
 	}
@@ -40,22 +40,27 @@ func WriteNote(repos repository.Repos, binderName string) error {
 	if err != nil {
 		return err
 	}
-	return noteSrv.Create(note)
+	return noteSrv.Create(&note)
 }
 
-func Describe(repos repository.Repos, binderName string) (*service.Binder, error) {
+func DescribeBinder(repos repository.Repos, binderName string) (service.Binder, error) {
 	binderSrv := service.NewBinderService(repos)
-	return binderSrv.Get(binderName)
+	return binderSrv.GetByName(binderName)
 }
 
-func DescribeFirstNote(repos repository.Repos, binderId uint) (*service.Note, error) {
+func ListBinderNotes(repos repository.Repos, binderId string) ([]service.Note, error) {
+	return make([]service.Note, 0), nil
+}
+
+//Deprecated
+func DescribeFirstNote(repos repository.Repos, binderId uint) (service.Note, error) {
 	noteSrv := service.NewNoteService(repos)
 	return noteSrv.GetFirstByBinderId(binderId)
 }
 
 func Delete(repos repository.Repos, binderName string) error {
 	binderSrv := service.NewBinderService(repos)
-	binder, err := binderSrv.Get(binderName)
+	binder, err := binderSrv.GetByName(binderName)
 	if err != nil {
 		return err
 	}

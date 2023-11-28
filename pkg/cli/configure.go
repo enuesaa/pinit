@@ -39,7 +39,7 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 			fmt.Printf("Notes table exists.\n")
 		},
 	}
-	cmd.Flags().Bool("migrate", false, "do migration")
+	cmd.Flags().Bool("migrate", false, "run migration")
 
 	return cmd
 }

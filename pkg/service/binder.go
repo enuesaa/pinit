@@ -33,20 +33,30 @@ func (srv *BinderService) CreateTable() error {
 	return srv.repos.Database.CreateTable(&Binder{})
 }
 
-func (srv *BinderService) List() []*Binder {
-	binders := make([]*Binder, 0)
+func (srv *BinderService) List() []Binder {
+	binders := make([]Binder, 0)
 	srv.repos.Database.ListAll(&binders)
 	return binders
 }
 
-func (srv *BinderService) Get(name string) (*Binder, error) {
+func (srv *BinderService) Get(id uint) (Binder, error) {
+	binder := Binder{
+		ID: id,
+	}
+	if err := srv.repos.Database.WhereFirst(&binder); err != nil {
+		return Binder{}, err
+	}
+	return binder, nil
+}
+
+func (srv *BinderService) GetByName(name string) (Binder, error) {
 	binder := Binder{
 		Name: name,
 	}
 	if err := srv.repos.Database.WhereFirst(&binder); err != nil {
-		return nil, err
+		return Binder{}, err
 	}
-	return &binder, nil
+	return binder, nil
 }
 
 func (srv *BinderService) Create(binder *Binder) error {
@@ -79,7 +89,7 @@ func (srv *BinderService) Update(binder Binder) error {
 }
 
 func (srv *BinderService) Delete(name string) error {
-	binder, err := srv.Get(name)
+	binder, err := srv.GetByName(name)
 	if err != nil {
 		return err
 	}
