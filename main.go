@@ -20,7 +20,7 @@ func main() {
 	app.AddCommand(cli.CreateCreateCmd(repos))
 	app.AddCommand(cli.CreateLookupCmd(repos))
 	app.AddCommand(cli.CreateRmCmd(repos))
-	app.AddCommand(cli.CreateUpCmd(repos))
+	app.AddCommand(cli.CreateServeCmd(repos))
 	usecase.Init(repos)
 
 	// disable default

@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateUpCmd(repos repository.Repos) *cobra.Command {
+func CreateServeCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "up",
+		Use:   "serve",
 		Short: "Serve web console",
 		Run: func(cmd *cobra.Command, args []string) {
 			port, _ := cmd.Flags().GetInt("port")
