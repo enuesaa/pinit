@@ -15,7 +15,7 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_USERNAME: test
+          MYSQL_USER: test
           MYSQL_PASSWORD: test
           MYSQL_DATABASE: test_pinit
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
@@ -38,4 +38,4 @@ jobs:
         with:
           go-version: '1.21'
       - run: go install
-      - run: go test -dbhost=localhost -dbusername test -dbpassword test -dbname test_pinit
+      - run: go test -dbhost localhost -dbusername test -dbpassword test -dbname test_pinit
