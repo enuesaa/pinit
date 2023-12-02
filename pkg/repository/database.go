@@ -12,6 +12,7 @@ import (
 type DatabaseRepositoryInterface interface {
 	GetDsn() string
 	WithDbHost(dbHost string)
+	WithTls(is bool)
 	WithDbUsername(dbUsername string)
 	WithDbName(dbName string)
 	WithDbPassword(dbPassword string)
@@ -25,6 +26,7 @@ type DatabaseRepositoryInterface interface {
 }
 
 type DatabaseRepository struct {
+	Tls bool
 	DbHost string
 	DbUsername string
 	DbPassword string
@@ -34,9 +36,15 @@ type DatabaseRepository struct {
 func (repo *DatabaseRepository) GetDsn() string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.DbUsername, repo.DbPassword, repo.DbHost, repo.DbName)
 	params := "interpolateParams=true"
-	// params := "tls=true&interpolateParams=true"
+	if repo.Tls {
+		params = "tls=true&interpolateParams=true"
+	}
 
 	return fmt.Sprintf("%s?%s", dsn, params)
+}
+
+func (repo *DatabaseRepository) WithTls(is bool) {
+	repo.Tls = is
 }
 
 func (repo *DatabaseRepository) WithDbHost(dbHost string) {

@@ -25,6 +25,7 @@ func TestMain(m *testing.M) {
 	repos.Database.WithDbName(*testDbNameFlag)
 	repos.Database.WithDbUsername(*testDbUsernameFlag)
 	repos.Database.WithDbPassword(*testDbPasswordFlag)
+	repos.Database.WithTls(false)
 
 	if err := usecase.Migrate(repos); err != nil {
 		log.Fatalf("Error: failed to migrate")

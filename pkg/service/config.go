@@ -99,6 +99,7 @@ func (srv *ConfigService) Init() error {
 	}
 
 	srv.repos.Database.WithDbHost(config.DbHost)
+	srv.repos.Database.WithTls(true)
 	srv.repos.Database.WithDbUsername(config.DbUsername)
 	srv.repos.Database.WithDbPassword(config.DbPassword)
 	srv.repos.Database.WithDbName(config.DbName)
