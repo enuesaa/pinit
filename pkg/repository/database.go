@@ -28,11 +28,11 @@ type DatabaseRepositoryInterface interface {
 }
 
 type DatabaseRepository struct {
-	Tls bool
-	DbHost string
+	Tls        bool
+	DbHost     string
 	DbUsername string
 	DbPassword string
-	DbName string
+	DbName     string
 }
 
 func (repo *DatabaseRepository) GetDsn() string {
@@ -162,7 +162,7 @@ func (repo *DatabaseRepository) WhereFirst(data interface{}) error {
 	return nil
 }
 
-func (repo *DatabaseRepository) Count(data interface{}, query string , value string) (int64, error) {
+func (repo *DatabaseRepository) Count(data interface{}, query string, value string) (int64, error) {
 	db, err := repo.db()
 	if err != nil {
 		return 0, err

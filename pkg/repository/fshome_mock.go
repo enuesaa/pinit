@@ -1,6 +1,6 @@
 package repository
 
-type FshomeMockRepository struct{
+type FshomeMockRepository struct {
 	Configfile string
 }
 

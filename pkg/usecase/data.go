@@ -60,7 +60,7 @@ func ListBinderNotes(repos repository.Repos, binderId uint) ([]service.Note, err
 	return noteSrv.ListByBinderId(binderId)
 }
 
-//Deprecated
+// Deprecated
 func DescribeFirstNote(repos repository.Repos, binderId uint) (service.Note, error) {
 	noteSrv := service.NewNoteService(repos)
 	return noteSrv.GetFirstByBinderId(binderId)
