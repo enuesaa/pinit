@@ -1,9 +1,5 @@
 package repository
 
-import (
-	"os"
-)
-
 type Repos struct {
 	Fshome   FshomeRepositoryInterface
 	Database DatabaseRepositoryInterface
@@ -19,14 +15,13 @@ func NewRepos() Repos {
 }
 
 func NewTestRepos() Repos {
-	databaseDsn := os.Getenv("PINIT_TEST_DATABASE_DSN")
-
-	databaseRepo := &DatabaseRepository{}
-	databaseRepo.WithDsn(databaseDsn)
+	fshome := &FshomeMockRepository{
+		Configfile: "",
+	}
 
 	return Repos{
-		Fshome:   &FshomeRepository{},
-		Database: databaseRepo,
+		Fshome:   fshome,
+		Database: &DatabaseRepository{},
 		Prompt:   &Prompt{},
 	}
 }
