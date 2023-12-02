@@ -23,6 +23,7 @@ type DatabaseRepositoryInterface interface {
 	Create(data interface{}) error
 	Update(data interface{}) error
 	Delete(data interface{}) error
+	Count(data interface{}, query string, value string) (int64, error)
 }
 
 type DatabaseRepository struct {
@@ -147,4 +148,14 @@ func (repo *DatabaseRepository) WhereFirst(data interface{}) error {
 	}
 	db.Where(data).First(&data)
 	return nil
+}
+
+func (repo *DatabaseRepository) Count(data interface{}, query string , value string) (int64, error) {
+	db, err := repo.db()
+	if err != nil {
+		return 0, err
+	}
+	var count int64
+	db.Model(&data).Where(query, value).Count(&count)
+	return count, nil
 }

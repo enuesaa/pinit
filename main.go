@@ -21,6 +21,7 @@ func main() {
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))
+	app.AddCommand(cli.CreateWriteCmd(repos))
 	app.AddCommand(cli.CreateDescribeCmd(repos))
 	app.AddCommand(cli.CreateRmCmd(repos))
 	app.AddCommand(cli.CreateServeCmd(repos))

@@ -19,10 +19,11 @@ A personal note-taking app
 Available Commands:
   configure   Setup pinit
   create      Create new binder and write a note
-  lookup      describe a binder
+  describe    describe a binder
   ls          List binders
   rm          Remove a binder
   serve       Launch the web console
+  write       write a note
 
 Flags:
       --help      Show help information

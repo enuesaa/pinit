@@ -12,7 +12,7 @@ func CreateWriteCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:   "write <name>",
 		Short: "write a note",
-		Args:  cobra.MinimumNArgs(0),
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
 			if err := usecase.WriteNote(repos, binderName); err != nil {

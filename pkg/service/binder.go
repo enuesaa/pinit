@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -8,7 +9,7 @@ import (
 
 type Binder struct {
 	ID         uint       `gorm:"primaryKey"`
-	Name       string     `gorm:"type:varchar(255)"`
+	Name       string     `gorm:"type:varchar(255);unique"`
 	Category   string     `gorm:"type:varchar(255)"`
 	ArchivedAt *time.Time `gorm:"type:timestamp"`
 	CreatedAt  time.Time  `gorm:"type:timestamp;not null;default:current_timestamp"`
@@ -59,6 +60,17 @@ func (srv *BinderService) GetByName(name string) (Binder, error) {
 	return binder, nil
 }
 
+func (srv *BinderService) CheckNameAvailable(name string) error {
+	count, err := srv.repos.Database.Count(Binder{}, "name = ?", name)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return fmt.Errorf("binder name already exists.")
+	}
+	return nil
+}
+
 func (srv *BinderService) Create(binder *Binder) error {
 	if err := srv.repos.Database.Create(binder); err != nil {
 		return err
@@ -72,11 +84,7 @@ func (srv *BinderService) RunPrompt(binder Binder) (*Binder, error) {
 		return nil, err
 	}
 	binder.Name = name
-	category, err := srv.repos.Prompt.Ask("Category", binder.Category)
-	if err != nil {
-		return nil, err
-	}
-	binder.Category = category
+	binder.Category = ""
 
 	return &binder, nil
 }
