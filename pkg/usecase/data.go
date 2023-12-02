@@ -55,8 +55,9 @@ func DescribeBinder(repos repository.Repos, binderName string) (service.Binder, 
 	return binderSrv.GetByName(binderName)
 }
 
-func ListBinderNotes(repos repository.Repos, binderId string) ([]service.Note, error) {
-	return make([]service.Note, 0), nil
+func ListBinderNotes(repos repository.Repos, binderId uint) ([]service.Note, error) {
+	noteSrv := service.NewNoteService(repos)
+	return noteSrv.ListByBinderId(binderId)
 }
 
 //Deprecated

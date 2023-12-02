@@ -24,14 +24,17 @@ func CreateDescribeCmd(repos repository.Repos) *cobra.Command {
 			fmt.Printf("Name: %s\n", binder.Name)
 			fmt.Printf("Category: %s\n", binder.Category)
 
-			note, err := usecase.DescribeFirstNote(repos, binder.ID)
+			notes, err := usecase.ListBinderNotes(repos, binder.ID)
 			if err != nil {
 				log.Printf("Error: %s", err.Error())
 				return
 			}
-			fmt.Printf("Note Content: %s\n", note.Content)
-			fmt.Printf("Note Comment: %s\n", note.Comment)
-			fmt.Printf("Note Publisher: %s\n", note.Publisher)
+			for _, note := range notes {
+				fmt.Printf("--\n")
+				fmt.Printf("Note Content: %s\n", note.Content)
+				fmt.Printf("Note Comment: %s\n", note.Comment)
+				fmt.Printf("Note Publisher: %s\n", note.Publisher)
+			}
 		},
 	}
 

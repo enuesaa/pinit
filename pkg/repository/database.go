@@ -19,6 +19,7 @@ type DatabaseRepositoryInterface interface {
 	IsTableExist(schema interface{}) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
+	Where(data interface{}, results interface{}) error
 	WhereFirst(data interface{}) error
 	Create(data interface{}) error
 	Update(data interface{}) error
@@ -138,6 +139,17 @@ func (repo *DatabaseRepository) ListAll(data interface{}) error {
 		return err
 	}
 	db.Find(data)
+	return nil
+}
+
+func (repo *DatabaseRepository) Where(data interface{}, results interface{}) error {
+	db, err := repo.db()
+	if err != nil {
+		return err
+	}
+	var i int64
+	db.Where(data).Count(&i)
+	fmt.Printf("%+v%d", data, i)
 	return nil
 }
 

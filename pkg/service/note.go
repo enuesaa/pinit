@@ -61,6 +61,18 @@ func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
 	return note, nil
 }
 
+// TODO: refactor
+func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
+	notes := srv.List()
+	list := make([]Note, 0)
+	for _, note := range notes {
+		if note.BinderId == binderId {
+			list = append(list, note)
+		}
+	}
+	return list, nil
+}
+
 func (srv *NoteService) Create(note *Note) error {
 	if err := srv.repos.Database.Create(note); err != nil {
 		return err
