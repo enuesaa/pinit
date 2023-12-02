@@ -2,7 +2,6 @@ package service
 
 import (
 	"bytes"
-	"fmt"
 
 	"github.com/BurntSushi/toml"
 	"github.com/enuesaa/pinit/pkg/repository"

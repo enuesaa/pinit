@@ -9,14 +9,14 @@ import (
 	"github.com/enuesaa/pinit/pkg/usecase"
 )
 
-var databseDsnFlag = flag.String("dsn", "", "database dsn for test")
+var testDbHostFlag = flag.String("dbhost", "", "database host for test")
 
 func TestMain(m *testing.M) {
 	flag.Parse()
-	if len(*databseDsnFlag) == 0 {
-		log.Fatalf("Error: database dsn flag is required to run test.")
+	if len(*testDbHostFlag) == 0 {
+		log.Fatalf("Error: database host flag is required to run test.")
 	}
-	repos := repository.NewTestRepos(*databseDsnFlag)
+	repos := repository.NewTestRepos(*testDbHostFlag)
 
 	usecase.Migrate(repos)
 	if err := usecase.Migrate(repos); err != nil {
