@@ -14,17 +14,10 @@ func NewRepos() Repos {
 	}
 }
 
-func NewTestRepos(dbHost string) Repos {
-	database := &DatabaseRepository{
-		DbHost: dbHost,
-		DbUsername: "test",
-		DbPassword: "test",
-		DbName: "test_pinit",
-	}
-
+func NewTestRepos() Repos {
 	return Repos{
 		Fshome:   &FshomeMockRepository{},
-		Database: database,
+		Database: &DatabaseRepository{},
 		Prompt:   &Prompt{},
 	}
 }

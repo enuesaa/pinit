@@ -9,16 +9,23 @@ import (
 	"github.com/enuesaa/pinit/pkg/usecase"
 )
 
-var testDbHostFlag = flag.String("dbhost", "", "database host for test")
+var testDbHostFlag = flag.String("dbhost", "", "[Required] database host for test")
+var testDbNameFlag = flag.String("dbname", "test_pinit", "database name for test")
+var testDbUsernameFlag = flag.String("dbusername", "test", "database username for test")
+var testDbPasswordFlag = flag.String("dbpassword", "test", "database password for test")
 
 func TestMain(m *testing.M) {
 	flag.Parse()
+
 	if len(*testDbHostFlag) == 0 {
 		log.Fatalf("Error: database host flag is required to run test.")
 	}
-	repos := repository.NewTestRepos(*testDbHostFlag)
+	repos := repository.NewTestRepos()
+	repos.Database.WithDbHost(*testDbHostFlag)
+	repos.Database.WithDbName(*testDbNameFlag)
+	repos.Database.WithDbUsername(*testDbUsernameFlag)
+	repos.Database.WithDbPassword(*testDbPasswordFlag)
 
-	usecase.Migrate(repos)
 	if err := usecase.Migrate(repos); err != nil {
 		log.Fatalf("Error: failed to migrate")
 	}
