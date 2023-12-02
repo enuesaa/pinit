@@ -33,7 +33,8 @@ type DatabaseRepository struct {
 
 func (repo *DatabaseRepository) GetDsn() string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.DbUsername, repo.DbPassword, repo.DbHost, repo.DbName)
-	params := "tls=true&interpolateParams=true"
+	params := "interpolateParams=true"
+	// params := "tls=true&interpolateParams=true"
 
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
