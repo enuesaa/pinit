@@ -14,14 +14,13 @@ func NewRepos() Repos {
 	}
 }
 
-func NewTestRepos() Repos {
-	fshome := &FshomeMockRepository{
-		Configfile: "",
-	}
+func NewTestRepos(databseDsn string) Repos {
+	database := &DatabaseRepository{}
+	database.WithDsn(databseDsn)
 
 	return Repos{
-		Fshome:   fshome,
-		Database: &DatabaseRepository{},
+		Fshome:   &FshomeMockRepository{},
+		Database: database,
 		Prompt:   &Prompt{},
 	}
 }

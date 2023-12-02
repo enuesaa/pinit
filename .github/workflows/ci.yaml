@@ -36,6 +36,4 @@ jobs:
         with:
           go-version: '1.21'
       - run: go install
-      - run: go test ./...
-        env:
-          PINIT_TEST_DATABASE_DSN: root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true
+      - run: go test ./... -dsn=root@tcp(localhost)/testpinit?interpolateParams=true&parseTime=true

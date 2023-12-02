@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"testing"
 
@@ -8,15 +9,18 @@ import (
 	"github.com/enuesaa/pinit/pkg/usecase"
 )
 
+var databseDsnFlag = flag.String("dsn", "", "database dsn for test")
+
 func TestMain(m *testing.M) {
-	repos := repository.NewTestRepos()
-	if repos.Database.GetDsn() == "" {
-		log.Fatalf("test execution error: environment variable PINIT_TEST_DATABASE_DSN is empty.")
+	flag.Parse()
+	if len(*databseDsnFlag) == 0 {
+		log.Fatalf("Error: database dsn flag is required to run test.")
 	}
+	repos := repository.NewTestRepos(*databseDsnFlag)
 
 	usecase.Migrate(repos)
 	if err := usecase.Migrate(repos); err != nil {
-		log.Fatalf("TestExecutionError: failed to migrate")
+		log.Fatalf("Error: failed to migrate")
 	}
 
 	code := m.Run()
