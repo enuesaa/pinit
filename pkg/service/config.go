@@ -93,22 +93,15 @@ func (srv *ConfigService) RunPrompt(config Config) (*Config, error) {
 	return &config, nil
 }
 
-func (srv *ConfigService) GetDatabaseDsn() (string, error) {
-	config, err := srv.Read()
-	if err != nil {
-		return "", err
-	}
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", config.DbUsername, config.DbPassword, config.DbHost, config.DbName)
-	params := "tls=true&interpolateParams=true"
-
-	return fmt.Sprintf("%s?%s", dsn, params), nil
-}
-
 func (srv *ConfigService) Init() error {
-	dsn, err := srv.GetDatabaseDsn()
+	config, err := srv.Read()
 	if err != nil {
 		return err
 	}
-	srv.repos.Database.WithDsn(dsn)
+
+	srv.repos.Database.WithDbHost(config.DbHost)
+	srv.repos.Database.WithDbUsername(config.DbUsername)
+	srv.repos.Database.WithDbPassword(config.DbPassword)
+	srv.repos.Database.WithDbName(config.DbName)
 	return nil
 }

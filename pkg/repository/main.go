@@ -14,9 +14,13 @@ func NewRepos() Repos {
 	}
 }
 
-func NewTestRepos(databseDsn string) Repos {
-	database := &DatabaseRepository{}
-	database.WithDsn(databseDsn)
+func NewTestRepos(dbHost string) Repos {
+	database := &DatabaseRepository{
+		DbHost: dbHost,
+		DbUsername: "test",
+		DbPassword: "test",
+		DbName: "test_pinit",
+	}
 
 	return Repos{
 		Fshome:   &FshomeMockRepository{},

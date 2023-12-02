@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -10,7 +11,10 @@ import (
 
 type DatabaseRepositoryInterface interface {
 	GetDsn() string
-	WithDsn(dsn string)
+	WithDbHost(dbHost string)
+	WithDbUsername(dbUsername string)
+	WithDbName(dbName string)
+	WithDbPassword(dbPassword string)
 	IsTableExist(schema interface{}) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
@@ -21,19 +25,37 @@ type DatabaseRepositoryInterface interface {
 }
 
 type DatabaseRepository struct {
-	Dsn string
+	DbHost string
+	DbUsername string
+	DbPassword string
+	DbName string
 }
 
 func (repo *DatabaseRepository) GetDsn() string {
-	return repo.Dsn
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.DbUsername, repo.DbPassword, repo.DbHost, repo.DbName)
+	params := "tls=true&interpolateParams=true"
+
+	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
-func (repo *DatabaseRepository) WithDsn(dsn string) {
-	repo.Dsn = dsn
+func (repo *DatabaseRepository) WithDbHost(dbHost string) {
+	repo.DbHost = dbHost
+}
+
+func (repo *DatabaseRepository) WithDbUsername(dbUsername string) {
+	repo.DbUsername = dbUsername
+}
+
+func (repo *DatabaseRepository) WithDbName(dbName string) {
+	repo.DbName = dbName
+}
+
+func (repo *DatabaseRepository) WithDbPassword(dbPassword string) {
+	repo.DbPassword = dbPassword
 }
 
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {
-	return gorm.Open(mysql.Open(repo.Dsn), &gorm.Config{
+	return gorm.Open(mysql.Open(repo.GetDsn()), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
 }
