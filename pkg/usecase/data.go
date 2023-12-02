@@ -39,7 +39,11 @@ func WriteNote(repos repository.Repos, binderName string) error {
 	}
 
 	noteSrv := service.NewNoteService(repos)
-	note, err := noteSrv.RunPrompt(service.Note{ID: binder.ID})
+	latestNote, err := noteSrv.GetFirstByBinderId(binder.ID)
+	if err != nil {
+		return err
+	}
+	note, err := noteSrv.RunPrompt(service.Note{BinderId: binder.ID, Content: latestNote.Content})
 	if err != nil {
 		return err
 	}
