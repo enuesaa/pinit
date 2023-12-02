@@ -5,19 +5,26 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/spf13/cobra"
 )
 
-func main() {
-	repos := repository.NewRepos()
+func init() {
 	log.SetFlags(0)
 
+	repos := repository.NewRepos()
+	configSrv := service.NewConfigSevice(repos)
+	configSrv.Init()
+}
+
+func main() {
 	app := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app",
 		Version: "0.0.3",
 	}
+
+	repos := repository.NewRepos()
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))
@@ -25,7 +32,6 @@ func main() {
 	app.AddCommand(cli.CreateDescribeCmd(repos))
 	app.AddCommand(cli.CreateRmCmd(repos))
 	app.AddCommand(cli.CreateServeCmd(repos))
-	usecase.Init(repos)
 
 	// disable default
 	app.SetHelpCommand(&cobra.Command{Hidden: true})

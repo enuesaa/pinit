@@ -7,6 +7,7 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
+// singleton にするには main においた方がいいかも
 type Config struct {
 	DbHost       string `toml:"db_host"`
 	DbUsername   string `toml:"db_username"`

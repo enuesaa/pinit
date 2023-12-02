@@ -4,10 +4,5 @@
 # editor
 .vscode
 
-# python
-.venv
-trywhisper/data/*
-!trywhisper/data/.gitkeep
-
 # task
 .task
