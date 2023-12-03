@@ -37,6 +37,7 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 			}
 			fmt.Printf("Binders table exists.\n")
 			fmt.Printf("Notes table exists.\n")
+			fmt.Printf("Actions table exists.\n")
 		},
 	}
 	cmd.Flags().Bool("migrate", false, "run migration")
