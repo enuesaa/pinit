@@ -87,5 +87,6 @@ func Delete(repos repository.Repos, binderName string) error {
 }
 
 func ListActions(repos repository.Repos) ([]service.Action, error) {
-	return make([]service.Action, 0), nil
+	actionSrv := service.NewActionService(repos)
+	return actionSrv.List(), nil
 }
