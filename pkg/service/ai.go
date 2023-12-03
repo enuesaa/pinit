@@ -7,14 +7,6 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
-// chatgptSrv := service.NewAiService(repos)
-// res, err := chatgptSrv.Call(config.ChatgptToken)
-// if err != nil {
-// 	fmt.Printf("Error: %s\n", err.Error())
-// 	return
-// }
-// fmt.Printf("%s\n", res)
-
 type AiService struct {
 	repos repository.Repos
 }
@@ -25,12 +17,7 @@ func NewAiService(repos repository.Repos) *AiService {
 	}
 }
 
-func (srv *AiService) Call(token string) (string, error) {
-	message, err := srv.repos.Prompt.Ask("Message", "")
-	if err != nil {
-		return "", err
-	}
-
+func (srv *AiService) Call(token string, message string) (string, error) {
 	// see https://github.com/sashabaranov/go-openai
 	client := openai.NewClient(token)
 	res, err := client.CreateChatCompletion(

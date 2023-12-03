@@ -15,6 +15,12 @@ import (
 type ConfigResponse struct {
 	Token string `json:"token"`
 }
+type ChatRequest struct {
+	Message string `json:"message"`
+}
+type ChatResponse struct {
+	Message string `json:"message"`
+}
 
 func Serve(repos repository.Repos, port int) error {
 	app := fiber.New()
@@ -47,6 +53,27 @@ func Serve(repos repository.Repos, port int) error {
 		}
 		return c.JSON(res)
 	})
+
+	app.Post("/api/chat", func(c *fiber.Ctx) error {
+		var req ChatRequest
+		if err := c.BodyParser(&req); err != nil {
+			return err
+		}
+
+		configSrv := service.NewConfigSevice(repository.NewRepos())
+		config, err := configSrv.Read()
+		if err != nil {
+			return err
+		}
+
+		chatgptSrv := service.NewAiService(repos)
+		res, err := chatgptSrv.Call(config.ChatgptToken, req.Message)
+		if err != nil {
+			return err
+		}
+		return c.JSON(ChatResponse{ Message: res })
+	})
+
 	app.Get("/*", func(c *fiber.Ctx) error {
 		requestPath := c.Path() // like `/`
 

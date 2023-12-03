@@ -24,16 +24,16 @@ export const PlaygorundMenu = () => {
           </Button>
         </HoverCard.Trigger>
         <HoverCard.Content>
-        <Button variant='ghost' style={{ cursor: 'pointer' }} onClick={handleOpenSpeakToText}>
+          <Button variant='ghost' style={{ cursor: 'pointer', display: 'block' }} onClick={handleOpenSpeakToText}>
             speak
           </Button>
-          <Button variant='ghost' style={{ cursor: 'pointer' }} onClick={handleOpenChat}>
+          <Button variant='ghost' style={{ cursor: 'pointer', display: 'block' }} onClick={handleOpenChat}>
             chat
           </Button>
         </HoverCard.Content>
       </HoverCard.Root>
-      <ChatDialog open={openChat} setOpen={setOpenChat} />
       <SpeakToTextDialog open={open} setOpen={setOpen} />
+      <ChatDialog open={openChat} setOpen={setOpenChat} />
     </>
   )
 }
