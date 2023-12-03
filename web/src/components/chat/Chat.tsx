@@ -3,11 +3,8 @@ import { Button, TextArea } from '@radix-ui/themes'
 import { MouseEventHandler, useRef, useState } from 'react'
 import { SpeakToTextCopyButton } from '../audio/SpeakToTextCopyButton'
 
-type Props = {
-  apiKey: string
-}
-export const Chat = ({ apiKey }: Props) => {
-  const { mutateAsync: chat } = useChat(apiKey)
+export const Chat = () => {
+  const { mutateAsync: chat } = useChat()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [res, setRes] = useState('')
 
