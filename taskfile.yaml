@@ -10,8 +10,6 @@ tasks:
       - cmd: kill $(lsof -t -i:3000)
         ignore_error: true
       - cd web && pnpm build 
-      - go run . up
+      - go run . serve
     sources:
       - ./web/src/**/*
-    generates:
-      - ./web/dist/**/*
