@@ -15,7 +15,7 @@ func CreateServeCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			port, _ := cmd.Flags().GetInt("port")
 
-			if err := usecase.Serve(port); err != nil {
+			if err := usecase.Serve(repos, port); err != nil {
 				log.Printf("Error: %s\n", err.Error())
 				return
 			}

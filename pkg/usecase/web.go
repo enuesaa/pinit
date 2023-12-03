@@ -16,11 +16,24 @@ type ConfigResponse struct {
 	Token string `json:"token"`
 }
 
-func Serve(port int) error {
+func Serve(repos repository.Repos, port int) error {
 	app := fiber.New()
 
 	app.Get("/api/binders", func(c *fiber.Ctx) error {
-		return nil
+		binders := ListBinders(repos)
+		return c.JSON(binders)
+	})
+
+	app.Get("/api/binder/:id/notes", func(c *fiber.Ctx) error {
+		binderId, err := c.ParamsInt("id")
+		if err != nil {
+			return err
+		}
+		notes, err := ListBinderNotes(repos, uint(binderId))
+		if err != nil {
+			return err
+		}
+		return c.JSON(notes)
 	})
 
 	app.Get("/api/config", func(c *fiber.Ctx) error {
