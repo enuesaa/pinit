@@ -2,6 +2,7 @@ import { useMutation } from 'react-query'
 
 export const useChat = () =>
   useMutation({
+    mutationKey: 'chat',
     mutationFn: async (message: string): Promise<string> => {
       const res = await fetch('/api/chat', {
         method: 'POST',

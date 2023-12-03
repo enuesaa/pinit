@@ -2,14 +2,13 @@ import { Theme } from '@radix-ui/themes'
 import '@radix-ui/themes/styles.css'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { injectApiMock } from '@/lib/apimock'
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient()
-  // see https://oita.oika.me/2021/09/19/react-query-stub
-  // mock
-  queryClient.setQueryData('getConfig', {
-    token: 'aa',
-  })
+  if (process.env.NODE_ENV === 'development') {
+    injectApiMock(queryClient)
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

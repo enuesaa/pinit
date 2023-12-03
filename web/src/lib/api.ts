@@ -1,11 +1,8 @@
 import { useQuery } from 'react-query'
-import { type Binder, type Note } from './schema';
+import { type Binder, type Note, type Config } from './schema';
 
-type ConfigResponse = {
-  token: string;
-}
 export const useGetConfig = () => 
-  useQuery('getConfig', async (): Promise<ConfigResponse> => {
+  useQuery('getConfig', async (): Promise<Config> => {
     const res = await fetch(`/api/config`)
     const body = await res.json()
     return body
@@ -15,7 +12,7 @@ export const useListBinders = () =>
   useQuery('listBinders', async(): Promise<Binder[]> => {
     const res = await fetch(`/api/binders`)
     const body = await res.json()
-    return body
+    return body?.items
   })
 
 export const useListBinderNotes = (id: string) => 
