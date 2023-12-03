@@ -21,6 +21,13 @@ type ChatRequest struct {
 type ChatResponse struct {
 	Message string `json:"message"`
 }
+type Action struct {
+	Name string `json:"name"`
+	Template string `json:"template"`
+}
+type ActionResponse struct {
+	Items []Action `json:"items"`
+}
 
 func Serve(repos repository.Repos, port int) error {
 	app := fiber.New()
@@ -50,6 +57,23 @@ func Serve(repos repository.Repos, port int) error {
 		}
 		res := ConfigResponse{
 			Token: config.ChatgptToken,
+		}
+		return c.JSON(res)
+	})
+
+	app.Get("/api/actions", func(c *fiber.Ctx) error {
+		res := ActionResponse{
+			Items: make([]Action, 0),
+		}
+		actions, err := ListActions(repos)
+		if err != nil {
+			return err
+		}
+		for _, action := range actions {
+			res.Items = append(res.Items, Action{
+				Name: action.Name,
+				Template: action.Template,
+			})
 		}
 		return c.JSON(res)
 	})
