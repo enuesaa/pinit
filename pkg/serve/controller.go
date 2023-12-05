@@ -1,18 +1,24 @@
 package serve
 
 import (
+	"fmt"
+	"mime"
+	"path/filepath"
+	"strings"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/web"
 	"github.com/gofiber/fiber/v2"
 )
 
 type Controller struct {
-	repos repository.Repos
+	Repos repository.Repos
 }
 
 func (ctl *Controller) ListBinders(c *fiber.Ctx) error {
-	binders := usecase.ListBinders(ctl.repos)
+	binders := usecase.ListBinders(ctl.Repos)
 	return c.JSON(binders)
 }
 
@@ -21,7 +27,7 @@ func (ctl *Controller) ListNotes(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	notes, err := usecase.ListBinderNotes(ctl.repos, uint(binderId))
+	notes, err := usecase.ListBinderNotes(ctl.Repos, uint(binderId))
 	if err != nil {
 		return err
 	}
@@ -32,7 +38,7 @@ func (ctl *Controller) ListActions(c *fiber.Ctx) error {
 	res := ActionResponse{
 		Items: make([]Action, 0),
 	}
-	actions, err := usecase.ListActions(ctl.repos)
+	actions, err := usecase.ListActions(ctl.Repos)
 	if err != nil {
 		return err
 	}
@@ -69,10 +75,29 @@ func (ctl *Controller) Chat(c *fiber.Ctx) error {
 		return err
 	}
 
-	chatgptSrv := service.NewAiService(ctl.repos)
+	chatgptSrv := service.NewAiService(ctl.Repos)
 	res, err := chatgptSrv.Call(config.ChatgptToken, req.Message)
 	if err != nil {
 		return err
 	}
 	return c.JSON(ChatResponse{ Message: res })
+}
+
+func (ctl *Controller) ServeStatic(c *fiber.Ctx) error {
+	requestPath := c.Path() // like `/`
+
+	path := fmt.Sprintf("dist%s", requestPath) // like `./`
+	if strings.HasSuffix(path, "/") {
+		path += "index.html"
+	}
+
+	f, err := web.Dist.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	fileExt := filepath.Ext(path)
+	mimeType := mime.TypeByExtension(fileExt)
+	c.Set(fiber.HeaderContentType, mimeType)
+
+	return c.SendString(string(f))
 }
