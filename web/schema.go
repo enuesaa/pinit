@@ -1,4 +1,4 @@
-package serve
+package web
 
 type ConfigResponse struct {
 	Token string `json:"token"`

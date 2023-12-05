@@ -1,4 +1,4 @@
-package serve
+package web
 
 import (
 	"fmt"
@@ -9,7 +9,6 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/enuesaa/pinit/pkg/usecase"
-	"github.com/enuesaa/pinit/web"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -91,7 +90,7 @@ func (ctl *Controller) ServeStatic(c *fiber.Ctx) error {
 		path += "index.html"
 	}
 
-	f, err := web.Dist.ReadFile(path)
+	f, err := Dist.ReadFile(path)
 	if err != nil {
 		return err
 	}
