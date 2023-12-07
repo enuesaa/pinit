@@ -43,7 +43,7 @@ func (ctl *Controller) ListActions(c *fiber.Ctx) error {
 	}
 	for _, action := range actions {
 		res.Items = append(res.Items, Action{
-			Name: action.Name,
+			Name:     action.Name,
 			Template: action.Template,
 		})
 	}
@@ -79,7 +79,7 @@ func (ctl *Controller) Chat(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	return c.JSON(ChatResponse{ Message: res })
+	return c.JSON(ChatResponse{Message: res})
 }
 
 func (ctl *Controller) ServeStatic(c *fiber.Ctx) error {

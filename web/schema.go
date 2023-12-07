@@ -10,7 +10,7 @@ type ChatResponse struct {
 	Message string `json:"message"`
 }
 type Action struct {
-	Name string `json:"name"`
+	Name     string `json:"name"`
 	Template string `json:"template"`
 }
 type ActionResponse struct {

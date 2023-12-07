@@ -59,7 +59,7 @@ func CheckTableStatus(repos repository.Repos) error {
 	if !isActionTableExist {
 		return fmt.Errorf("Action table does not exist")
 	}
-	
+
 	return nil
 }
 

@@ -7,11 +7,11 @@ import (
 )
 
 type Action struct {
-	ID         uint       `gorm:"primaryKey"`
-	Name       string     `gorm:"type:varchar(255);unique"`
-	Template   string     `gorm:"type:text"`
-	CreatedAt  time.Time  `gorm:"type:timestamp;not null;default:current_timestamp"`
-	UpdatedAt  time.Time  `gorm:"type:timestamp;not null;default:current_timestamp on update current_timestamp"`
+	ID        uint      `gorm:"primaryKey"`
+	Name      string    `gorm:"type:varchar(255);unique"`
+	Template  string    `gorm:"type:text"`
+	CreatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp"`
+	UpdatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp on update current_timestamp"`
 }
 
 func NewActionService(repos repository.Repos) *ActionService {
