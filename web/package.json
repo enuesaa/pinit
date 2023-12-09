@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@chengsokdara/use-whisper": "^0.2.0",
-    "@enuesaa/fileslook": "^0.1.10",
     "@ffmpeg/core": "0.11.0",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/themes": "^2.0.0",

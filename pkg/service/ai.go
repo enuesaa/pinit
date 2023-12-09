@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"fmt"
+
 	openai "github.com/sashabaranov/go-openai"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -37,5 +39,21 @@ func (srv *AiService) Call(token string, message string) (string, error) {
 	}
 
 	return res.Choices[0].Message.Content, nil
+}
 
+func (srv *AiService) Speak(token string) error {
+	client := openai.NewClient(token)
+	ctx := context.Background()
+
+	req := openai.AudioRequest{
+		Model:    openai.Whisper1,
+		FilePath: "test.m4a",
+	}
+	res, err := client.CreateTranscription(ctx, req)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("res: %+v\n", res)
+
+	return nil
 }
