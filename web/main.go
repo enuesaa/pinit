@@ -1,11 +1,29 @@
+//go:build !dev
+
 package web
 
 import (
 	"embed"
+	"mime"
+	"path/filepath"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 //go:generate pnpm install
 //go:generate pnpm build
 
 //go:embed all:dist/*
-var Dist embed.FS
+var dist embed.FS
+
+func Serve(c *fiber.Ctx, path string) error {
+	f, err := dist.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	fileExt := filepath.Ext(path)
+	mimeType := mime.TypeByExtension(fileExt)
+	c.Set(fiber.HeaderContentType, mimeType)
+
+	return c.SendString(string(f))
+}

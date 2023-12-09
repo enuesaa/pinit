@@ -2,8 +2,6 @@ package serve
 
 import (
 	"fmt"
-	"mime"
-	"path/filepath"
 	"strings"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -91,13 +89,5 @@ func (ctl *Controller) ServeStatic(c *fiber.Ctx) error {
 		path += "index.html"
 	}
 
-	f, err := web.Dist.ReadFile(path)
-	if err != nil {
-		return err
-	}
-	fileExt := filepath.Ext(path)
-	mimeType := mime.TypeByExtension(fileExt)
-	c.Set(fiber.HeaderContentType, mimeType)
-
-	return c.SendString(string(f))
+	return web.Serve(c, path)
 }
