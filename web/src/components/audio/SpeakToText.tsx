@@ -1,30 +1,22 @@
 import { PauseIcon, TriangleRightIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
 import { Flex, IconButton, TextArea } from '@radix-ui/themes'
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, useState } from 'react'
 import { SpeakToTextCopyButton } from './SpeakToTextCopyButton'
 import { useReactMediaRecorder } from 'react-media-recorder'
+import { useRecog } from '@/lib/api'
 
 export const SpeakToText = () => {
   const { startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({})
+  const invokeRecogApi = useRecog()
+  const [text, setText] = useState('')
 
   const handleSend: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()  
-    console.log(mediaBlobUrl)
     if (mediaBlobUrl === undefined) {
       return
     }
-    const response = await fetch(mediaBlobUrl);
-    const blob = await response.blob()
-    const file = new File([blob], 'hello', { type: blob.type })
-    const res = await fetch('/api/recog', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'audio/wav',
-      },
-      body: file,
-    })
-    const resbody = await res.json()
-    console.log(resbody?.text)
+    const text = await invokeRecogApi.mutateAsync(mediaBlobUrl)
+    setText(text)
   }
 
   return (
@@ -40,8 +32,8 @@ export const SpeakToText = () => {
           <PaperPlaneIcon />
         </IconButton>
       </Flex>
-      <TextArea value={''} readOnly size='3' style={{ height: '300px' }} />
-      <SpeakToTextCopyButton text={''} />
+      <TextArea value={text} readOnly size='3' style={{ height: '300px' }} />
+      <SpeakToTextCopyButton text={text} />
     </div>
   )
 }
