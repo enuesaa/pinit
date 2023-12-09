@@ -28,6 +28,6 @@ func (repo *FshomeMockRepository) WriteFile(registryName string, path string, co
 	return nil
 }
 
-func (repo *FshomeMockRepository) ReadFile(registryName string, path string) (string, error) {
-	return repo.Configfile, nil
+func (repo *FshomeMockRepository) ReadFile(registryName string, path string) ([]byte, error) {
+	return make([]byte, 0), nil
 }

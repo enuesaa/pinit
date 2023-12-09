@@ -12,7 +12,7 @@ type FshomeRepositoryInterface interface {
 	CreateRegistry(registryName string) error
 	IsFileExist(registryName string, path string) bool
 	WriteFile(registryName string, path string, content string) error
-	ReadFile(registryName string, path string) (string, error)
+	ReadFile(registryName string, path string) ([]byte, error)
 }
 type FshomeRepository struct{}
 
@@ -77,18 +77,18 @@ func (repo *FshomeRepository) WriteFile(registryName string, path string, conten
 	return nil
 }
 
-func (repo *FshomeRepository) ReadFile(registryName string, path string) (string, error) {
+func (repo *FshomeRepository) ReadFile(registryName string, path string) ([]byte, error) {
 	if !repo.IsFileExist(registryName, path) {
-		return "", fmt.Errorf("file does not exist.")
+		return make([]byte, 0), fmt.Errorf("file does not exist.")
 	}
 	homedir, err := repo.homedir()
 	if err != nil {
-		return "", err
+		return make([]byte, 0), err
 	}
 	fullpath := filepath.Join(homedir, registryName, path)
 	content, err := os.ReadFile(fullpath)
 	if err != nil {
-		return "", err
+		return make([]byte, 0), err
 	}
-	return string(content), nil
+	return content, nil
 }
