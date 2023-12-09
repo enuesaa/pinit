@@ -33,7 +33,6 @@ func main() {
 	app.AddCommand(cli.CreateRmCmd(repos))
 	app.AddCommand(cli.CreateServeCmd(repos))
 	app.AddCommand(cli.CreateActionCmd(repos))
-	app.AddCommand(cli.CreateSpeakCmd(repos))
 
 	// disable default
 	app.SetHelpCommand(&cobra.Command{Hidden: true})

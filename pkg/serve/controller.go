@@ -1,9 +1,6 @@
 package serve
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/enuesaa/pinit/pkg/usecase"
@@ -78,19 +75,4 @@ func (ctl *Controller) Chat(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(ChatResponse{Message: res})
-}
-
-func (ctl *Controller) SaveFile(c *fiber.Ctx) error {
-	fmt.Printf("file sent\n")
-	body := c.BodyRaw()
-
-	file, err := os.Create("test.wav")
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	if _, err := file.Write(body); err != nil {
-		return err
-	}
-	return nil
 }

@@ -19,7 +19,7 @@ func Serve(repos repository.Repos, port int) {
 	app.Get("/api/config", ctl.GetConfig)
 	app.Get("/api/actions", ctl.ListActions)
 	app.Post("/api/chat", ctl.Chat)
-	app.Post("/api/file", ctl.SaveFile)
+	app.Post("/api/recog", ctl.Recog)
 	app.Get("/*", web.Serve)
 
 	addr := fmt.Sprintf(":%d", port)

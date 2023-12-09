@@ -41,19 +41,19 @@ func (srv *AiService) Call(token string, message string) (string, error) {
 	return res.Choices[0].Message.Content, nil
 }
 
-func (srv *AiService) Speak(token string) error {
+func (srv *AiService) Speak(token string, path string) (string, error) {
 	client := openai.NewClient(token)
 	ctx := context.Background()
 
 	req := openai.AudioRequest{
 		Model:    openai.Whisper1,
-		FilePath: "test.wav",
+		FilePath: path,
 	}
 	res, err := client.CreateTranscription(ctx, req)
 	if err != nil {
-		return err
+		return "", err
 	}
 	fmt.Printf("res: %+v\n", res)
 
-	return nil
+	return res.Text, nil
 }

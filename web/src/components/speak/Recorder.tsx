@@ -13,15 +13,15 @@ export const Recorder = () => {
     const response = await fetch(mediaBlobUrl);
     const blob = await response.blob()
     const file = new File([blob], 'hello', { type: blob.type })
-    const res = await fetch('/api/file', {
+    const res = await fetch('/api/recog', {
       method: 'POST',
       headers: {
-        'Content-Type': "audio/wav",
+        'Content-Type': 'audio/wav',
       },
       body: file,
     })
-    console.log(res)
-    
+    const resbody = await res.json()
+    console.log(resbody?.text)
   }
 
   return (
