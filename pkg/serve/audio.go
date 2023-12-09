@@ -2,8 +2,6 @@ package serve
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
@@ -25,19 +23,12 @@ func (ctl *Controller) Recog(c *fiber.Ctx) error {
 
 	aiSrv := service.NewAiService(ctl.Repos)
 
-	if err := os.MkdirAll("tmp", os.ModePerm); err != nil {
+	if err := ctl.Repos.Fs.CreateDir("tmp"); err != nil {
 		return err
 	}
-
 	id := uuid.New().String()
 	path := fmt.Sprintf("tmp/%s.wav", id)
-
-	file, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	if _, err := file.Write(body); err != nil {
+	if err := ctl.Repos.Fs.Create(path, body); err != nil {
 		return err
 	}
 

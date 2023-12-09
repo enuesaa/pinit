@@ -1,6 +1,7 @@
 package repository
 
 type Repos struct {
+	Fs       FsRepositoryInterface
 	Fshome   FshomeRepositoryInterface
 	Database DatabaseRepositoryInterface
 	Prompt   PromptInterface
@@ -8,6 +9,7 @@ type Repos struct {
 
 func NewRepos() Repos {
 	return Repos{
+		Fs:       &FsRepository{},
 		Fshome:   &FshomeRepository{},
 		Database: &DatabaseRepository{},
 		Prompt:   &Prompt{},
@@ -16,6 +18,7 @@ func NewRepos() Repos {
 
 func NewTestRepos() Repos {
 	return Repos{
+		Fs:       &FsRepository{}, // todo
 		Fshome:   &FshomeMockRepository{},
 		Database: &DatabaseRepository{},
 		Prompt:   &Prompt{},
