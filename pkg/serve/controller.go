@@ -1,9 +1,6 @@
 package serve
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/enuesaa/pinit/pkg/usecase"
@@ -82,12 +79,6 @@ func (ctl *Controller) Chat(c *fiber.Ctx) error {
 }
 
 func (ctl *Controller) ServeStatic(c *fiber.Ctx) error {
-	requestPath := c.Path() // like `/`
-
-	path := fmt.Sprintf("dist%s", requestPath) // like `./`
-	if strings.HasSuffix(path, "/") {
-		path += "index.html"
-	}
-
+	path := c.Path() // like `/`
 	return web.Serve(c, path)
 }

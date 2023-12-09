@@ -3,7 +3,9 @@
 package web
 
 import (
+	"strings"
 	"embed"
+	"fmt"
 	"mime"
 	"path/filepath"
 
@@ -17,6 +19,11 @@ import (
 var dist embed.FS
 
 func Serve(c *fiber.Ctx, path string) error {
+	path = fmt.Sprintf("dist%s", path)
+	if strings.HasSuffix(path, "/") {
+		path += "index.html"
+	}
+
 	f, err := dist.ReadFile(path)
 	if err != nil {
 		return err
