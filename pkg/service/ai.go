@@ -47,7 +47,7 @@ func (srv *AiService) Speak(token string) error {
 
 	req := openai.AudioRequest{
 		Model:    openai.Whisper1,
-		FilePath: "test.m4a",
+		FilePath: "test.wav",
 	}
 	res, err := client.CreateTranscription(ctx, req)
 	if err != nil {

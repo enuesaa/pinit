@@ -32,6 +32,9 @@ dependencies:
   react-icons:
     specifier: ^4.12.0
     version: 4.12.0(react@18.2.0)
+  react-media-recorder:
+    specifier: 1.6.5
+    version: 1.6.5
   react-query:
     specifier: ^3.39.3
     version: 3.39.3(react-dom@18.2.0)(react@18.2.0)
@@ -2966,6 +2969,10 @@ packages:
       react: '*'
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /react-media-recorder@1.6.5:
+    resolution: {integrity: sha512-YcARNZ498jtmOJ+O7GkaokR0DbMNV+YSXB0msAHMZk9wharBuVSWYCXKiIL5JAnR5cs6ebXaOtkkGsM3uIq7Bw==}
     dev: false
 
   /react-query@3.39.3(react-dom@18.2.0)(react@18.2.0):
