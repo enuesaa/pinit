@@ -12,7 +12,7 @@ export const SpeakToText = () => {
 
   const handleSend: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()  
-    if (mediaBlobUrl === undefined) {
+    if (mediaBlobUrl === undefined || mediaBlobUrl === null) {
       return
     }
     const text = await invokeRecogApi.mutateAsync(mediaBlobUrl)

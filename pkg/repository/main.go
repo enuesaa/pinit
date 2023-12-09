@@ -18,7 +18,7 @@ func NewRepos() Repos {
 
 func NewTestRepos() Repos {
 	return Repos{
-		Fs:       &FsRepository{}, // todo
+		Fs:       &FsMockRepository{},
 		Fshome:   &FshomeMockRepository{},
 		Database: &DatabaseRepository{},
 		Prompt:   &Prompt{},

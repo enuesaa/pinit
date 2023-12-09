@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 )
 
+//Deprecated: use fs repository
 type FshomeRepositoryInterface interface {
 	IsRegistryExist(registryName string) bool
 	CreateRegistry(registryName string) error

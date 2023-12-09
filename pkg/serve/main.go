@@ -16,7 +16,6 @@ func Serve(repos repository.Repos, port int) {
 	}
 	app.Get("/api/binders", ctl.ListBinders)
 	app.Get("/api/binders/:id/notes", ctl.ListNotes)
-	app.Get("/api/config", ctl.GetConfig)
 	app.Get("/api/actions", ctl.ListActions)
 	app.Post("/api/chat", ctl.Chat)
 	app.Post("/api/recog", ctl.Recog)

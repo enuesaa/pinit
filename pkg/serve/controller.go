@@ -45,18 +45,6 @@ func (ctl *Controller) ListActions(c *fiber.Ctx) error {
 	return c.JSON(res)
 }
 
-func (ctl *Controller) GetConfig(c *fiber.Ctx) error {
-	configSrv := service.NewConfigSevice(repository.NewRepos())
-	config, err := configSrv.Read()
-	if err != nil {
-		return err
-	}
-	res := ConfigResponse{
-		Token: config.ChatgptToken,
-	}
-	return c.JSON(res)
-}
-
 func (ctl *Controller) Chat(c *fiber.Ctx) error {
 	var req ChatRequest
 	if err := c.BodyParser(&req); err != nil {
