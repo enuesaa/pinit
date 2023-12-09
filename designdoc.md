@@ -8,3 +8,15 @@
 - [text] markdown
 - [others] 可能であればスライドとか作成したい
 - [others] 図
+
+## dev command
+### run dev server
+```bash
+go run -tags dev . serve
+```
+
+### build
+```bash
+go generate ./...
+go build
+```

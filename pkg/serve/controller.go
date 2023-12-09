@@ -4,7 +4,6 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/enuesaa/pinit/pkg/usecase"
-	"github.com/enuesaa/pinit/web"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -76,9 +75,4 @@ func (ctl *Controller) Chat(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(ChatResponse{Message: res})
-}
-
-func (ctl *Controller) ServeStatic(c *fiber.Ctx) error {
-	path := c.Path() // like `/`
-	return web.Serve(c, path)
 }
