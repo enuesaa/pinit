@@ -1,43 +1,47 @@
-import useWhisper from '@chengsokdara/use-whisper'
-import { PauseIcon, TriangleRightIcon } from '@radix-ui/react-icons'
+import { PauseIcon, TriangleRightIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
 import { Flex, IconButton, TextArea } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { SpeakToTextCopyButton } from './SpeakToTextCopyButton'
+import { useReactMediaRecorder } from 'react-media-recorder'
 
-type Props = {
-  apiKey: string
-}
-export const SpeakToText = ({ apiKey }: Props) => {
-  const { transcript, startRecording, stopRecording } = useWhisper({
-    apiKey,
-    streaming: true,
-    timeSlice: 1000,
-    whisperConfig: {
-      language: 'ja',
-    },
-  })
+export const SpeakToText = () => {
+  const { startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({})
 
-  const handleStart: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault()
-    startRecording()
-  }
-  const handleStop: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault()
-    stopRecording()
+  const handleSend: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()  
+    console.log(mediaBlobUrl)
+    if (mediaBlobUrl === undefined) {
+      return
+    }
+    const response = await fetch(mediaBlobUrl);
+    const blob = await response.blob()
+    const file = new File([blob], 'hello', { type: blob.type })
+    const res = await fetch('/api/recog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'audio/wav',
+      },
+      body: file,
+    })
+    const resbody = await res.json()
+    console.log(resbody?.text)
   }
 
   return (
     <div style={{ position: 'relative' }}>
       <Flex gap='3' mt='6' mb='4' justify='center'>
-        <IconButton variant='soft' style={{ cursor: 'pointer', width: '45%' }} onClick={handleStart}>
+        <IconButton variant='soft' style={{ cursor: 'pointer', width: '33%' }} onClick={startRecording}>
           <TriangleRightIcon />
         </IconButton>
-        <IconButton variant='soft' style={{ cursor: 'pointer', width: '45%' }} onClick={handleStop}>
+        <IconButton variant='soft' style={{ cursor: 'pointer', width: '33%' }} onClick={stopRecording}>
           <PauseIcon />
         </IconButton>
+        <IconButton variant='soft' style={{ cursor: 'pointer', width: '33%' }} onClick={handleSend}>
+          <PaperPlaneIcon />
+        </IconButton>
       </Flex>
-      <TextArea value={transcript.text ?? ''} readOnly size='3' style={{ height: '300px' }} />
-      <SpeakToTextCopyButton text={transcript.text ?? ''} />
+      <TextArea value={''} readOnly size='3' style={{ height: '300px' }} />
+      <SpeakToTextCopyButton text={''} />
     </div>
   )
 }
