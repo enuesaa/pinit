@@ -31,6 +31,6 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-      - run: go generate
+      - run: go generate ./...
       - run: go install
       - run: go test -dbhost localhost -dbusername test -dbpassword test -dbname test_pinit

@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/web"
+	"github.com/enuesaa/pinit/pkg/serve"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/cobra"
 )
@@ -18,7 +18,7 @@ func CreateServeCmd(repos repository.Repos) *cobra.Command {
 			port, _ := cmd.Flags().GetInt("port")
 
 			app := fiber.New()
-			ctl := web.Controller{
+			ctl := serve.Controller{
 				Repos: repos,
 			}
 			app.Get("/api/binders", ctl.ListBinders)

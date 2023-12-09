@@ -1,9 +1,15 @@
-package web
+package serve
 
 import (
+	"fmt"
+	"mime"
+	"path/filepath"
+	"strings"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/web"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -75,4 +81,23 @@ func (ctl *Controller) Chat(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(ChatResponse{Message: res})
+}
+
+func (ctl *Controller) ServeStatic(c *fiber.Ctx) error {
+	requestPath := c.Path() // like `/`
+
+	path := fmt.Sprintf("dist%s", requestPath) // like `./`
+	if strings.HasSuffix(path, "/") {
+		path += "index.html"
+	}
+
+	f, err := web.Dist.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	fileExt := filepath.Ext(path)
+	mimeType := mime.TypeByExtension(fileExt)
+	c.Set(fiber.HeaderContentType, mimeType)
+
+	return c.SendString(string(f))
 }
