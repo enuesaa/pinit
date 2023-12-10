@@ -51,9 +51,8 @@ func (ctl *Controller) Chat(c *fiber.Ctx) error {
 		return err
 	}
 
-	config := ctl.Repos.Config.Read()
 	chatgptSrv := service.NewAiService(ctl.Repos)
-	res, err := chatgptSrv.Call(config.ChatgptToken, req.Message)
+	res, err := chatgptSrv.Call(ctl.Repos.Config.ChatgptToken(), req.Message)
 	if err != nil {
 		return err
 	}

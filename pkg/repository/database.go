@@ -11,7 +11,6 @@ import (
 
 type DatabaseRepositoryInterface interface {
 	GetDsn() string
-	WithConfig(config Config)
 	WithTls(is bool)
 	IsTableExist(schema interface{}) (bool, error)
 	CreateTable(schema interface{}) error
@@ -25,28 +24,18 @@ type DatabaseRepositoryInterface interface {
 }
 
 type DatabaseRepository struct {
-	Tls        bool
-	DbHost     string
-	DbUsername string
-	DbPassword string
-	DbName     string
+	config ConfigRepositoryInterface
+	Tls bool
 }
 
 func (repo *DatabaseRepository) GetDsn() string {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.DbUsername, repo.DbPassword, repo.DbHost, repo.DbName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.config.DbUsername(), repo.config.DbPassword(), repo.config.DbHost(), repo.config.DbName())
 	params := "interpolateParams=true"
 	if repo.Tls {
 		params = "tls=true&interpolateParams=true"
 	}
 
 	return fmt.Sprintf("%s?%s", dsn, params)
-}
-
-func (repo *DatabaseRepository) WithConfig(config Config) {
-	repo.DbHost = config.DbHost
-	repo.DbUsername = config.DbUsername
-	repo.DbName = config.DbName
-	repo.DbPassword = config.DbPassword
 }
 
 func (repo *DatabaseRepository) WithTls(is bool) {

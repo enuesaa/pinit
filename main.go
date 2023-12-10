@@ -10,8 +10,6 @@ import (
 
 func init() {
 	log.SetFlags(0)
-	repos := repository.NewRepos()
-	repos.Config.Init()
 }
 
 func main() {
@@ -22,10 +20,9 @@ func main() {
 	}
 
 	repos := repository.NewRepos()
-	config := repos.Config.Read()
-	repos.Database.WithConfig(config)
+	repos.Config.Init()
+	repos.Config.Load()
 	repos.Database.WithTls(true)
-
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))

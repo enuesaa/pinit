@@ -8,19 +8,27 @@ type Repos struct {
 }
 
 func NewRepos() Repos {
+	config := ConfigRepository{}
+
 	return Repos{
-		Config:   &ConfigRepository{},
+		Config:   &config,
 		Fs:       &FsRepository{},
-		Database: &DatabaseRepository{},
+		Database: &DatabaseRepository{
+			config: &config,
+		},
 		Prompt:   &Prompt{},
 	}
 }
 
 func NewTestRepos() Repos {
+	config := ConfigMockRepository{}
+
 	return Repos{
-		Config:   &ConfigRepository{},
+		Config:   &config,
 		Fs:       &FsMockRepository{},
-		Database: &DatabaseRepository{},
+		Database: &DatabaseRepository{
+			config: &config,
+		},
 		Prompt:   &Prompt{},
 	}
 }

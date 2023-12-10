@@ -8,48 +8,34 @@ import (
 )
 
 func Configure(repos repository.Repos) error {
-	config, err := RunConfigPrompt(repos)
+	dbHost, err := repos.Prompt.Ask("DB Host", repos.Config.DbHost())
 	if err != nil {
 		return err
 	}
-
-	if err := repos.Config.Write(config); err != nil {
+	repos.Config.SetDbHost(dbHost)
+	dbUsername, err := repos.Prompt.Ask("DB Username", repos.Config.DbUsername())
+	if err != nil {
 		return err
 	}
-	repos.Database.WithConfig(config)
-	return nil
-}
+	repos.Config.SetDbUsername(dbUsername)
+	dbPassword, err := repos.Prompt.Ask("DB Password", repos.Config.DbPassword())
+	if err != nil {
+		return err
+	}
+	repos.Config.SetDbPassword(dbPassword)
+	dbName, err := repos.Prompt.Ask("DB Name", repos.Config.DbName())
+	if err != nil {
+		return err
+	}
+	repos.Config.SetDbName(dbName)
 
-func RunConfigPrompt(repos repository.Repos) (repository.Config, error) {
-	config := repos.Config.Read()
-	dbHost, err := repos.Prompt.Ask("DB Host", config.DbHost)
+	chatgptToken, err := repos.Prompt.Ask("OpenAI API Token", repos.Config.ChatgptToken())
 	if err != nil {
-		return config, err
+		return err
 	}
-	config.DbHost = dbHost
-	dbUsername, err := repos.Prompt.Ask("DB Username", config.DbUsername)
-	if err != nil {
-		return config, err
-	}
-	config.DbUsername = dbUsername
-	dbPassword, err := repos.Prompt.Ask("DB Password", config.DbPassword)
-	if err != nil {
-		return config, err
-	}
-	config.DbPassword = dbPassword
-	dbName, err := repos.Prompt.Ask("DB Name", config.DbName)
-	if err != nil {
-		return config, err
-	}
-	config.DbName = dbName
+	repos.Config.SetChatgptToken(chatgptToken)
 
-	chatgptToken, err := repos.Prompt.Ask("OpenAI API Token", config.ChatgptToken)
-	if err != nil {
-		return config, err
-	}
-	config.ChatgptToken = chatgptToken
-
-	return config, nil
+	return repos.Config.Write()
 }
 
 func CheckTableStatus(repos repository.Repos) error {

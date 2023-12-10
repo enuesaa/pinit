@@ -4,18 +4,20 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Config struct {
-	DbHost       string
-	DbUsername   string
-	DbPassword   string
-	DbName       string
-	ChatgptToken string
-}
-
 type ConfigRepositoryInterface interface {
 	Init()
-	Read() Config
-	Write(config Config) error
+	Load() error
+	DbHost() string
+	SetDbHost(dbhost string)
+	DbUsername() string
+	SetDbUsername(dbusername string)
+	DbPassword() string
+	SetDbPassword(dbpassword string)
+	DbName() string
+	SetDbName(dbname string)
+	ChatgptToken() string
+	SetChatgptToken(chatgpttoken string)
+	Write() error
 }
 
 type ConfigRepository struct {}
@@ -26,22 +28,50 @@ func (repo *ConfigRepository) Init() {
 	viper.AddConfigPath("$HOME/.pinit")
 }
 
-func (repo *ConfigRepository) Read() Config {
-	if err := viper.ReadInConfig(); err != nil {
-		return Config{}
-	}
-	var config Config
-	if err := viper.Unmarshal(&config); err != nil {
-		return Config{}
-	}
-	return config
+func (repo *ConfigRepository) Load() error {
+	return viper.ReadInConfig()
 }
 
-func (repo *ConfigRepository) Write(config Config) error {
-	viper.Set("dbname", config.DbName)
-	viper.Set("dbhost", config.DbHost)
-	viper.Set("dbusername", config.DbUsername)
-	viper.Set("dbpassword", config.DbPassword)
-	viper.Set("chatgpttoken", config.ChatgptToken)
+func (repo *ConfigRepository) DbHost() string {
+	return viper.GetString("dbhost")
+}
+
+func (repo *ConfigRepository) SetDbHost(dbhost string) {
+	viper.Set("dbhost", dbhost)
+}
+
+func (repo *ConfigRepository) DbUsername() string {
+	return viper.GetString("dbusername")
+}
+
+func (repo *ConfigRepository) SetDbUsername(dbusername string) {
+	viper.Set("dbusername", dbusername)
+}
+
+func (repo *ConfigRepository) DbPassword() string {
+	return viper.GetString("dbpassword")
+}
+
+func (repo *ConfigRepository) SetDbPassword(dbpassword string) {
+	viper.Set("dbpassword", dbpassword)
+}
+
+func (repo *ConfigRepository) DbName() string {
+	return viper.GetString("dbname")
+}
+
+func (repo *ConfigRepository) SetDbName(dbname string) {
+	viper.Set("dbname", dbname)
+}
+
+func (repo *ConfigRepository) ChatgptToken() string {
+	return viper.GetString("chatgpttoken")
+}
+
+func (repo *ConfigRepository) SetChatgptToken(chatgpttoken string) {
+	viper.Set("chatgpttoken", chatgpttoken)
+}
+
+func (repo *ConfigRepository) Write() error {
 	return viper.WriteConfig()
 }
