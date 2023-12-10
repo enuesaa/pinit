@@ -13,23 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/env
-
-      - if: startsWith(github.ref, 'refs/tags/')
-        run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - run: |
-          cat <<'EOF' | envsubst > release.md
-          # pinit ${TAG_NAME}
-          ## Installation
-          ```bash
-          git clone https://github.com/enuesaa/pinit.git -b ${TAG_NAME} --depth 1
-          cd pinit
-          go install
-          ```
-          EOF
-
-      - uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
-          draft: true
-          body_path: release.md
+          fetch-depth: 0
+      - uses: ./.github/actions/env
+      - run: go generate ./...
+      - run: go test ./...
+      - uses: goreleaser/goreleaser-action@v5
+        with:
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

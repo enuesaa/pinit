@@ -16,7 +16,7 @@ func main() {
 	app := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app",
-		Version: "0.0.3",
+		Version: "0.0.4",
 	}
 
 	repos := repository.NewRepos()
