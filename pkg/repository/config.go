@@ -12,26 +12,36 @@ type Config struct {
 	ChatgptToken string
 }
 
-func (repo *Config) Init() {
+type ConfigRepositoryInterface interface {
+	Init()
+	Read() Config
+	Write(config Config) error
+}
+
+type ConfigRepository struct {}
+
+func (repo *ConfigRepository) Init() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath("$HOME/.pinit")
 }
 
-func (repo *Config) Read() {
+func (repo *ConfigRepository) Read() Config {
 	if err := viper.ReadInConfig(); err != nil {
-		return
+		return Config{}
 	}
-	if err := viper.Unmarshal(repo); err != nil {
-		return
+	var config Config
+	if err := viper.Unmarshal(&config); err != nil {
+		return Config{}
 	}
+	return config
 }
 
-func (repo *Config) Write() error {
-	viper.Set("dbname", repo.DbName)
-	viper.Set("dbhost", repo.DbHost)
-	viper.Set("dbusername", repo.DbUsername)
-	viper.Set("dbpassword", repo.DbPassword)
-	viper.Set("chatgpttoken", repo.ChatgptToken)
+func (repo *ConfigRepository) Write(config Config) error {
+	viper.Set("dbname", config.DbName)
+	viper.Set("dbhost", config.DbHost)
+	viper.Set("dbusername", config.DbUsername)
+	viper.Set("dbpassword", config.DbPassword)
+	viper.Set("chatgpttoken", config.ChatgptToken)
 	return viper.WriteConfig()
 }

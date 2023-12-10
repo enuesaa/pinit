@@ -11,11 +11,8 @@ import (
 
 type DatabaseRepositoryInterface interface {
 	GetDsn() string
-	WithDbHost(dbHost string)
+	WithConfig(config Config)
 	WithTls(is bool)
-	WithDbUsername(dbUsername string)
-	WithDbName(dbName string)
-	WithDbPassword(dbPassword string)
 	IsTableExist(schema interface{}) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
@@ -45,24 +42,15 @@ func (repo *DatabaseRepository) GetDsn() string {
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
+func (repo *DatabaseRepository) WithConfig(config Config) {
+	repo.DbHost = config.DbHost
+	repo.DbUsername = config.DbUsername
+	repo.DbName = config.DbName
+	repo.DbPassword = config.DbPassword
+}
+
 func (repo *DatabaseRepository) WithTls(is bool) {
 	repo.Tls = is
-}
-
-func (repo *DatabaseRepository) WithDbHost(dbHost string) {
-	repo.DbHost = dbHost
-}
-
-func (repo *DatabaseRepository) WithDbUsername(dbUsername string) {
-	repo.DbUsername = dbUsername
-}
-
-func (repo *DatabaseRepository) WithDbName(dbName string) {
-	repo.DbName = dbName
-}
-
-func (repo *DatabaseRepository) WithDbPassword(dbPassword string) {
-	repo.DbPassword = dbPassword
 }
 
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {

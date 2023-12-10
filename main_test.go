@@ -21,10 +21,12 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Error: database host flag is required to run test.")
 	}
 	repos := repository.NewTestRepos()
-	repos.Database.WithDbHost(*testDbHostFlag)
-	repos.Database.WithDbName(*testDbNameFlag)
-	repos.Database.WithDbUsername(*testDbUsernameFlag)
-	repos.Database.WithDbPassword(*testDbPasswordFlag)
+	repos.Database.WithConfig(repository.Config{
+		DbHost: *testDbHostFlag,
+		DbName: *testDbNameFlag,
+		DbUsername: *testDbUsernameFlag,
+		DbPassword: *testDbPasswordFlag,
+	})
 	repos.Database.WithTls(false)
 
 	if err := usecase.Migrate(repos); err != nil {

@@ -8,46 +8,48 @@ import (
 )
 
 func Configure(repos repository.Repos) error {
-	if err := RunConfigPrompt(repos); err != nil {
+	config, err := RunConfigPrompt(repos)
+	if err != nil {
 		return err
 	}
 
-	if err := repos.Config.Write(); err != nil {
+	if err := repos.Config.Write(config); err != nil {
 		return err
 	}
-	repos.Config.Read()
+	repos.Database.WithConfig(config)
 	return nil
 }
 
-func RunConfigPrompt(repos repository.Repos) error {
-	dbHost, err := repos.Prompt.Ask("DB Host", repos.Config.DbHost)
+func RunConfigPrompt(repos repository.Repos) (repository.Config, error) {
+	config := repos.Config.Read()
+	dbHost, err := repos.Prompt.Ask("DB Host", config.DbHost)
 	if err != nil {
-		return err
+		return config, err
 	}
-	repos.Config.DbHost = dbHost
-	dbUsername, err := repos.Prompt.Ask("DB Username", repos.Config.DbUsername)
+	config.DbHost = dbHost
+	dbUsername, err := repos.Prompt.Ask("DB Username", config.DbUsername)
 	if err != nil {
-		return err
+		return config, err
 	}
-	repos.Config.DbUsername = dbUsername
-	dbPassword, err := repos.Prompt.Ask("DB Password", repos.Config.DbPassword)
+	config.DbUsername = dbUsername
+	dbPassword, err := repos.Prompt.Ask("DB Password", config.DbPassword)
 	if err != nil {
-		return err
+		return config, err
 	}
-	repos.Config.DbPassword = dbPassword
-	dbName, err := repos.Prompt.Ask("DB Name", repos.Config.DbName)
+	config.DbPassword = dbPassword
+	dbName, err := repos.Prompt.Ask("DB Name", config.DbName)
 	if err != nil {
-		return err
+		return config, err
 	}
-	repos.Config.DbName = dbName
+	config.DbName = dbName
 
-	chatgptToken, err := repos.Prompt.Ask("OpenAI API Token", repos.Config.ChatgptToken)
+	chatgptToken, err := repos.Prompt.Ask("OpenAI API Token", config.ChatgptToken)
 	if err != nil {
-		return err
+		return config, err
 	}
-	repos.Config.ChatgptToken = chatgptToken
+	config.ChatgptToken = chatgptToken
 
-	return nil
+	return config, nil
 }
 
 func CheckTableStatus(repos repository.Repos) error {
