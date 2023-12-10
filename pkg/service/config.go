@@ -1,9 +1,8 @@
 package service
 
 import (
-	"bytes"
+	"path/filepath"
 
-	"github.com/BurntSushi/toml"
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/spf13/viper"
 )
@@ -25,7 +24,9 @@ type ConfigService struct {
 }
 
 func (srv *ConfigService) Init() error {
+	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
+	viper.AddConfigPath("$HOME/.pinit")
 
 	config, err := srv.Read()
 	if err != nil {
@@ -41,40 +42,33 @@ func (srv *ConfigService) Init() error {
 }
 
 func (srv *ConfigService) IsConfigExist() bool {
-	if _, err := srv.repos.Fshome.ReadFile(".pinit", "config.toml"); err != nil {
+	homedir, err := srv.repos.Fs.HomeDir()
+	if err != nil {
 		return false
 	}
-	return true
+	path := filepath.Join(homedir, ".pinit", "config.toml")
+
+	return srv.repos.Fs.IsExist(path)
 }
 
 func (srv *ConfigService) Read() (*Config, error) {
-	content, err := srv.repos.Fshome.ReadFile(".pinit", "config.toml")
-	if err != nil {
+	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
 	}
-	viper.ReadConfig(bytes.NewReader(content))
-
-	config := Config {
-		DbHost: viper.GetString("db_host"),
-		DbUsername: viper.GetString("db_username"),
-		DbPassword: viper.GetString("db_password"),
-		DbName: viper.GetString("db_name"),
-		ChatgptToken: viper.GetString("chatgpt_token"),
+	var config Config
+	if err := viper.Unmarshal(&config); err != nil {
+		return nil, err
 	}
 	return &config, nil
 }
 
 func (srv *ConfigService) Write(config Config) error {
-	if !srv.repos.Fshome.IsRegistryExist(".pinit") {
-		if err := srv.repos.Fshome.CreateRegistry(".pinit"); err != nil {
-			return err
-		}
-	}
-	var buf bytes.Buffer
-	if err := toml.NewEncoder(&buf).Encode(config); err != nil {
-		return err
-	}
-	return srv.repos.Fshome.WriteFile(".pinit", "config.toml", buf.String())
+	viper.Set("dbname", config.DbName)
+	viper.Set("dbhost", config.DbHost)
+	viper.Set("dbusername", config.DbUsername)
+	viper.Set("dbpassword", config.DbPassword)
+	viper.Set("chatgpttoken", config.ChatgptToken)
+	return viper.WriteConfig()
 }
 
 func (srv *ConfigService) RunPrompt(config Config) (*Config, error) {
