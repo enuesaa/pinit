@@ -5,16 +5,11 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/spf13/cobra"
 )
 
 func init() {
 	log.SetFlags(0)
-
-	repos := repository.NewRepos()
-	configSrv := service.NewConfigSevice(repos)
-	configSrv.Init()
 }
 
 func main() {
@@ -25,6 +20,14 @@ func main() {
 	}
 
 	repos := repository.NewRepos()
+	repos.Config.Init()
+	repos.Config.Read()
+	repos.Database.WithDbHost(repos.Config.DbHost)
+	repos.Database.WithTls(true)
+	repos.Database.WithDbUsername(repos.Config.DbUsername)
+	repos.Database.WithDbPassword(repos.Config.DbPassword)
+	repos.Database.WithDbName(repos.Config.DbName)
+
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))

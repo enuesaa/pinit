@@ -8,27 +8,46 @@ import (
 )
 
 func Configure(repos repository.Repos) error {
-	configSrv := service.NewConfigSevice(repos)
-
-	config := &service.Config{}
-	if configSrv.IsConfigExist() {
-		var err error
-		config, err = configSrv.Read()
-		if err != nil {
-			return err
-		}
+	if err := RunConfigPrompt(repos); err != nil {
+		return err
 	}
 
-	config, err := configSrv.RunPrompt(*config)
+	if err := repos.Config.Write(); err != nil {
+		return err
+	}
+	repos.Config.Read()
+	return nil
+}
+
+func RunConfigPrompt(repos repository.Repos) error {
+	dbHost, err := repos.Prompt.Ask("DB Host", repos.Config.DbHost)
 	if err != nil {
 		return err
 	}
-
-	if err := configSrv.Write(*config); err != nil {
+	repos.Config.DbHost = dbHost
+	dbUsername, err := repos.Prompt.Ask("DB Username", repos.Config.DbUsername)
+	if err != nil {
 		return err
 	}
+	repos.Config.DbUsername = dbUsername
+	dbPassword, err := repos.Prompt.Ask("DB Password", repos.Config.DbPassword)
+	if err != nil {
+		return err
+	}
+	repos.Config.DbPassword = dbPassword
+	dbName, err := repos.Prompt.Ask("DB Name", repos.Config.DbName)
+	if err != nil {
+		return err
+	}
+	repos.Config.DbName = dbName
 
-	return configSrv.Init()
+	chatgptToken, err := repos.Prompt.Ask("OpenAI API Token", repos.Config.ChatgptToken)
+	if err != nil {
+		return err
+	}
+	repos.Config.ChatgptToken = chatgptToken
+
+	return nil
 }
 
 func CheckTableStatus(repos repository.Repos) error {
