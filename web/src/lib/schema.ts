@@ -1,7 +1,3 @@
-export type Config = {
-  token: string;
-}
-
 export type Binder = {
   id: number;
   name: string;

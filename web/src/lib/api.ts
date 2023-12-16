@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from 'react-query'
-import { type Binder, type Note, type Config } from './schema';
+import { type Binder, type Note } from './schema'
 
 export const useListBinders = () => 
   useQuery('listBinders', async(): Promise<Binder[]> => {
@@ -8,11 +8,11 @@ export const useListBinders = () =>
     return body?.items
   })
 
-export const useListBinderNotes = (id: string) => 
+export const useListBinderNotes = (id: number) => 
   useQuery(`listBinderNotes-${id}`, async(): Promise<Note[]> => {
     const res = await fetch(`/api/binders/${id}/notes`)
     const body = await res.json()
-    return body
+    return body?.items
   })
 
 

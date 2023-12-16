@@ -1,5 +1,6 @@
 import { useListBinders } from '@/lib/api'
 import { Table } from '@radix-ui/themes'
+import { ListBindersTableItem } from './ListBindersTableItem'
 
 export const ListBindersTable = () => {
   const {data: binders} = useListBinders()
@@ -13,14 +14,12 @@ export const ListBindersTable = () => {
         <Table.Row>
           <Table.ColumnHeaderCell>Binder Id</Table.ColumnHeaderCell>
           <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell>Content</Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
         {binders.map((binder, i) => (
-          <Table.Row key={i}>
-            <Table.Cell>{binder.id}</Table.Cell>
-            <Table.Cell>{binder.name}</Table.Cell>
-          </Table.Row>
+          <ListBindersTableItem key={i} binder={binder} />
         ))}
       </Table.Body>
     </Table.Root>
