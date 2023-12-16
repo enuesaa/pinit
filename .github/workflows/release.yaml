@@ -16,7 +16,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/env
+
       - run: go generate ./...
+      - run: go install
+
       - uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
