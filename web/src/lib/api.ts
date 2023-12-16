@@ -1,5 +1,15 @@
 import { useMutation, useQuery } from 'react-query'
-import { type Binder, type Note } from './schema'
+
+export type Binder = {
+  id: number;
+  name: string;
+}
+
+export type Note = {
+  id: number;
+  binderId: number;
+  content: string;
+}
 
 export const useListBinders = () => 
   useQuery('listBinders', async(): Promise<Binder[]> => {
@@ -31,5 +41,23 @@ export const useRecog = () =>
       })
       const resbody = await res.json()
       return resbody?.text ?? ''
+    },
+  })
+
+export const useChat = () =>
+  useMutation({
+    mutationKey: 'chat',
+    mutationFn: async (message: string): Promise<string> => {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+        })
+      })
+      const body = await res.json()
+      return body?.message ?? ''
     },
   })

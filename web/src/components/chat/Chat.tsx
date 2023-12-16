@@ -1,4 +1,4 @@
-import { useChat } from '@/lib/openai'
+import { useChat } from '@/lib/api'
 import { Button, TextArea } from '@radix-ui/themes'
 import { MouseEventHandler, useRef, useState } from 'react'
 import { SpeakToTextCopyButton } from '../audio/SpeakToTextCopyButton'

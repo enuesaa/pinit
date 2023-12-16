@@ -1,5 +1,5 @@
 import { useListBinderNotes } from '@/lib/api'
-import { Binder } from '@/lib/schema'
+import { Binder } from '@/lib/api'
 import { Table } from '@radix-ui/themes'
 
 type Props = {
