@@ -9,11 +9,8 @@ type Action struct {
 	Name     string `json:"name"`
 	Template string `json:"template"`
 }
-type ActionResponse struct {
-	Items []Action `json:"items"`
-}
 func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
-	res := ActionResponse{
+	res := ApiListResponse[Action]{
 		Items: make([]Action, 0),
 	}
 	actions, err := usecase.ListActions(ctl.Repos)

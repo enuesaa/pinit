@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type ListBindersResponseItemBinder struct {
+type ListBindersItem struct {
 	Id         string `json:"id"`
 	Name       string `json:"name"`
 	Category   string `json:"category"`
@@ -15,17 +15,13 @@ type ListBindersResponseItemBinder struct {
 	CreatedAt  string `json:"createdAt"`
 	UpdatedAt  string `json:"updatedAt"`
 }
-type ListBindersResponse struct {
-	Items []ListBindersResponseItemBinder `json:"items"`
-}
-
 func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
 	binders := usecase.ListBinders(ctl.Repos)
-	res := ListBindersResponse{
-		Items: make([]ListBindersResponseItemBinder, 0),
+	res := ApiListResponse[ListBindersItem]{
+		Items: make([]ListBindersItem, 0),
 	}
 	for _, binder := range binders {
-		res.Items = append(res.Items, ListBindersResponseItemBinder{
+		res.Items = append(res.Items, ListBindersItem{
 			Id:         fmt.Sprintf("%d", binder.ID),
 			Name:       binder.Name,
 			Category:   binder.Category,
