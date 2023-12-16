@@ -32,12 +32,12 @@ func (ctl *Controller) ListBinders(c *fiber.Ctx) error {
 	}
 	for _, binder := range binders {
 		res.Items = append(res.Items, ListBindersResponseItemBinder{
-			Id: fmt.Sprintf("%d", binder.ID),
-			Name: binder.Name,
-			Category: binder.Category,
+			Id:         fmt.Sprintf("%d", binder.ID),
+			Name:       binder.Name,
+			Category:   binder.Category,
 			ArchivedAt: "",
-			CreatedAt: binder.CreatedAt.String(),
-			UpdatedAt: binder.UpdatedAt.String(),
+			CreatedAt:  binder.CreatedAt.String(),
+			UpdatedAt:  binder.UpdatedAt.String(),
 		})
 	}
 	return c.JSON(res)

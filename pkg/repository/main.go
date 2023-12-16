@@ -11,12 +11,12 @@ func NewRepos() Repos {
 	config := ConfigRepository{}
 
 	return Repos{
-		Config:   &config,
-		Fs:       &FsRepository{},
+		Config: &config,
+		Fs:     &FsRepository{},
 		Database: &DatabaseRepository{
 			config: &config,
 		},
-		Prompt:   &Prompt{},
+		Prompt: &Prompt{},
 	}
 }
 
@@ -24,11 +24,11 @@ func NewTestRepos() Repos {
 	config := ConfigMockRepository{}
 
 	return Repos{
-		Config:   &config,
-		Fs:       &FsMockRepository{},
+		Config: &config,
+		Fs:     &FsMockRepository{},
 		Database: &DatabaseRepository{
 			config: &config,
 		},
-		Prompt:   &Prompt{},
+		Prompt: &Prompt{},
 	}
 }

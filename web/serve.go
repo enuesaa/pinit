@@ -1,14 +1,14 @@
 package web
 
 import (
+	"embed"
+	"fmt"
 	"log"
+	"mime"
 	"os"
 	"os/exec"
-	"embed"
-	"strings"
-	"fmt"
-	"mime"
 	"path/filepath"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/proxy"

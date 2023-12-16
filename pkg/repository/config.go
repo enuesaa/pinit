@@ -20,7 +20,7 @@ type ConfigRepositoryInterface interface {
 	Write() error
 }
 
-type ConfigRepository struct {}
+type ConfigRepository struct{}
 
 func (repo *ConfigRepository) Init() {
 	viper.SetConfigName("config")

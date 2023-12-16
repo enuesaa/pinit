@@ -9,7 +9,7 @@ import (
 )
 
 type RecogResponse struct {
-	Id string `json:"id"`
+	Id   string `json:"id"`
 	Text string `json:"text"`
 }
 
@@ -31,8 +31,8 @@ func (ctl *Controller) Recog(c *fiber.Ctx) error {
 		return err
 	}
 
-	res := RecogResponse {
-		Id: id,
+	res := RecogResponse{
+		Id:   id,
 		Text: text,
 	}
 	return c.JSON(res)

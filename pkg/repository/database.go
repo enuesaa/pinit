@@ -25,7 +25,7 @@ type DatabaseRepositoryInterface interface {
 
 type DatabaseRepository struct {
 	config ConfigRepositoryInterface
-	Tls bool
+	Tls    bool
 }
 
 func (repo *DatabaseRepository) GetDsn() string {
