@@ -1,7 +1,6 @@
 node_modules
 /.next/
-dist/*
-!dist/.gitkeep
+dist
 
 # debug
 npm-debug.log*
@@ -12,4 +11,3 @@ npm-debug.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
