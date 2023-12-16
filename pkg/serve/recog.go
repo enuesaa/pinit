@@ -13,11 +13,11 @@ type RecogResponse struct {
 	Text string `json:"text"`
 }
 
-func (ctl *Controller) Recog(c *fiber.Ctx) error {
+func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
 	body := c.BodyRaw()
 	aiSrv := service.NewAiService(ctl.Repos)
 
-	id := CreateId()
+	id := ctl.CreateId()
 	path := fmt.Sprintf("tmp/%s.wav", id)
 	if err := ctl.Repos.Fs.CreateDir(filepath.Dir(path)); err != nil {
 		return err

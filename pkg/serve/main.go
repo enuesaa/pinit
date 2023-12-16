@@ -7,13 +7,25 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/web"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
-func Serve(repos repository.Repos, port int) {
-	app := fiber.New()
-	ctl := Controller{
+func NewServeCtl(repos repository.Repos) ServeCtl {
+	return ServeCtl{
 		Repos: repos,
 	}
+}
+
+type ServeCtl struct {
+	Repos repository.Repos
+}
+
+func (ctl *ServeCtl) CreateId() string {
+	return uuid.New().String()
+}
+
+func (ctl *ServeCtl) Serve(port int) {
+	app := fiber.New()
 	app.Get("/api/binders", ctl.ListBinders)
 	app.Get("/api/binders/:id/notes", ctl.ListNotes)
 	app.Get("/api/actions", ctl.ListActions)

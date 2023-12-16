@@ -12,7 +12,9 @@ func CreateServeCmd(repos repository.Repos) *cobra.Command {
 		Short: "Launch the web console",
 		Run: func(cmd *cobra.Command, args []string) {
 			port, _ := cmd.Flags().GetInt("port")
-			serve.Serve(repos, port)
+
+			serveCtl := serve.NewServeCtl(repos)
+			serveCtl.Serve(port)
 		},
 	}
 	cmd.Flags().Int("port", 3000, "port. Default: 3000")
