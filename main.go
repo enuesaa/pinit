@@ -27,7 +27,7 @@ func main() {
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))
 	app.AddCommand(cli.CreateWriteCmd(repos))
-	app.AddCommand(cli.CreateDescribeCmd(repos))
+	app.AddCommand(cli.CreateLookupCmd(repos))
 	app.AddCommand(cli.CreateRmCmd(repos))
 	app.AddCommand(cli.CreateServeCmd(repos))
 	// app.AddCommand(cli.CreateActionCmd(repos))

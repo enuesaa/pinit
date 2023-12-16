@@ -9,10 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateDescribeCmd(repos repository.Repos) *cobra.Command {
+func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "describe <name>",
-		Short: "describe a binder",
+		Use:   "lookup <name>",
+		Short: "lookup a binder",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
