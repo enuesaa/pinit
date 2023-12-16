@@ -4,7 +4,6 @@
 - [text] chatgptへの入出力をテンプレート化したい。タブを開いたら自動でAPIが呼ばれるイメージ
 - [database] support sqlite
 - [text] markdown
-- [others] 可能であればスライドとか作成したい
 
 ## dev command
 ### run dev server

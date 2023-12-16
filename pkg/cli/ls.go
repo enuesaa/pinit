@@ -25,7 +25,12 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 			t.SetOutputMirror(os.Stdout)
 			t.AppendHeader(table.Row{"ID", "NAME", "ARCHIVED AT", "CREATED AT"})
 			for _, binder := range binders {
-				t.AppendRow(table.Row{binder.ID, binder.Name, binder.ArchivedAt, binder.CreatedAt})
+				archivedAt := ""
+				if binder.ArchivedAt != nil {
+					archivedAt = binder.ArchivedAt.Format("2006-01-02T15:04:05")
+				}
+				createdAt := binder.CreatedAt.Format("2006-01-02T15:04:05")
+				t.AppendRow(table.Row{binder.ID, binder.Name, archivedAt, createdAt})
 			}
 			t.SetStyle(table.StyleLight)
 			t.Render()

@@ -15,7 +15,7 @@ func CreateWriteCmd(repos repository.Repos) *cobra.Command {
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
-			if err := usecase.WriteNote(repos, binderName); err != nil {
+			if err := usecase.WriteNewNoteWithPrompt(repos, binderName); err != nil {
 				log.Printf("Error: %s", err.Error())
 				return
 			}
