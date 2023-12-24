@@ -26,9 +26,9 @@ type DatabaseRepository struct {
 
 func (repo *DatabaseRepository) dsn() string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.config.DbUsername(), repo.config.DbPassword(), repo.config.DbHost(), repo.config.DbName())
-	params := "interpolateParams=true"
+	params := "interpolateParams=true&parseTime=true"
 	if repo.Tls {
-		params = "tls=true"
+		params = "interpolateParams=true&tls=true&parseTime=true"
 	}
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
@@ -96,8 +96,7 @@ func (repo *DatabaseRepository) WhereFirst(data interface{}, query string, value
 	if err != nil {
 		return err
 	}
-	db.Where(query, value).First(data)
-	return nil
+	return db.Where(query, value).First(data).Error
 }
 
 func (repo *DatabaseRepository) Count(data interface{}, query string, value string) (int64, error) {
