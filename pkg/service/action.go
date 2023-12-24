@@ -25,7 +25,7 @@ type ActionService struct {
 }
 
 func (srv *ActionService) IsTabelExist() (bool, error) {
-	return srv.repos.Database.IsTableExist(&Action{})
+	return srv.repos.Database.IsTableExist("actions")
 }
 
 func (srv *ActionService) CreateTable() error {

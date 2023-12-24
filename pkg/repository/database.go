@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"database/sql"
 	"fmt"
 
 	"gorm.io/driver/mysql"
@@ -12,7 +11,7 @@ import (
 type DatabaseRepositoryInterface interface {
 	GetDsn() string
 	WithTls(is bool)
-	IsTableExist(schema interface{}) (bool, error)
+	IsTableExist(name string) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
 	Where(data interface{}, results interface{}) error
@@ -48,16 +47,16 @@ func (repo *DatabaseRepository) db() (*gorm.DB, error) {
 	})
 }
 
-func (repo *DatabaseRepository) IsTableExist(schema interface{}) (bool, error) {
+func (repo *DatabaseRepository) IsTableExist(name string) (bool, error) {
 	db, err := repo.db()
 	if err != nil {
 		return false, err
 	}
 	var count int64
-	result := db.Model(schema).Count(&count)
-	countErr := result.Error
-
-	return countErr == nil, nil
+	if err := db.Table(name).Count(&count).Error; err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 func (repo *DatabaseRepository) CreateTable(schema interface{}) error {
@@ -66,21 +65,6 @@ func (repo *DatabaseRepository) CreateTable(schema interface{}) error {
 		return err
 	}
 	return db.Migrator().CreateTable(schema)
-}
-
-// example `show tables;`
-func (repo *DatabaseRepository) RunRawSql(sql string) (*sql.Rows, error) {
-	db, err := repo.db()
-	if err != nil {
-		return nil, err
-	}
-	rows, err := db.Raw(sql).Rows()
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	return rows, nil
 }
 
 func (repo *DatabaseRepository) Create(data interface{}) error {

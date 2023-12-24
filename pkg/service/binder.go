@@ -27,7 +27,7 @@ type BinderService struct {
 }
 
 func (srv *BinderService) IsTabelExist() (bool, error) {
-	return srv.repos.Database.IsTableExist(&Binder{})
+	return srv.repos.Database.IsTableExist("binders")
 }
 
 func (srv *BinderService) CreateTable() error {
