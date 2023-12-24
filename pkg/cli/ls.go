@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -15,7 +16,10 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 		Use:   "ls",
 		Short: "List binders",
 		Run: func(cmd *cobra.Command, args []string) {
-			binders := usecase.ListBinders(repos)
+			binders, err := usecase.ListBinders(repos)
+			if err != nil {
+				log.Fatalf("Error: %s\n", err.Error())
+			}
 			fmt.Printf("%d binder(s) found.\n", len(binders))
 			if len(binders) == 0 {
 				return

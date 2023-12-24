@@ -64,7 +64,7 @@ func (repo *DatabaseRepository) Create(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	return db.Create(data).Error
+	return db.Create(&data).Error
 }
 
 func (repo *DatabaseRepository) Update(data interface{}) error {
@@ -72,7 +72,7 @@ func (repo *DatabaseRepository) Update(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	return db.Updates(data).Error
+	return db.Updates(&data).Error
 }
 
 func (repo *DatabaseRepository) Delete(data interface{}) error {
@@ -80,7 +80,7 @@ func (repo *DatabaseRepository) Delete(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	return db.Delete(data).Error
+	return db.Delete(&data).Error
 }
 
 func (repo *DatabaseRepository) ListAll(data interface{}) error {

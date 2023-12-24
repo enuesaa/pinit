@@ -7,8 +7,8 @@ import (
 
 func CreateWithPrompt(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
-	binder, err := binderSrv.RunPrompt(service.Binder{})
-	if err != nil {
+	var binder service.Binder
+	if err := binderSrv.RunPrompt(&binder); err != nil {
 		return err
 	}
 	if err := binderSrv.CheckNameAvailable(binder.Name); err != nil {
@@ -19,11 +19,11 @@ func CreateWithPrompt(repos repository.Repos) error {
 	}
 
 	noteSrv := service.NewNoteService(repos)
-	note, err := noteSrv.RunPrompt(service.Note{BinderId: binder.ID})
-	if err != nil {
+	note := service.Note{BinderId: binder.ID}
+	if err := noteSrv.RunPrompt(&note); err != nil {
 		return err
 	}
-	return noteSrv.Create(&note)
+	return noteSrv.Create(note)
 }
 
 func WriteNewNoteWithPrompt(repos repository.Repos, binderName string) error {
@@ -38,9 +38,10 @@ func WriteNewNoteWithPrompt(repos repository.Repos, binderName string) error {
 	if err != nil {
 		return err
 	}
-	note, err := noteSrv.RunPrompt(service.Note{BinderId: binder.ID, Content: latestNote.Content})
-	if err != nil {
+	note := service.Note{BinderId: binder.ID, Content: latestNote.Content}
+
+	if err := noteSrv.RunPrompt(&note); err != nil {
 		return err
 	}
-	return noteSrv.Create(&note)
+	return noteSrv.Create(note)
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/enuesaa/pinit/pkg/service"
 )
 
-func ListBinders(repos repository.Repos) []service.Binder {
+func ListBinders(repos repository.Repos) ([]service.Binder, error) {
 	binderSrv := service.NewBinderService(repos)
 	return binderSrv.List()
 }

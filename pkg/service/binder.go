@@ -34,16 +34,18 @@ func (srv *BinderService) CreateTable() error {
 	return srv.repos.Database.CreateTable(&Binder{})
 }
 
-func (srv *BinderService) List() []Binder {
+func (srv *BinderService) List() ([]Binder, error) {
 	binders := make([]Binder, 0)
-	srv.repos.Database.ListAll(&binders)
-	return binders
+	if err := srv.repos.Database.ListAll(&binders); err != nil {
+		return binders, err
+	}
+	return binders, nil
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
 	var binder Binder
 	if err := srv.repos.Database.WhereFirst(&binder, "id = ?", id); err != nil {
-		return Binder{}, err
+		return binder, err
 	}
 	return binder, nil
 }
@@ -51,7 +53,7 @@ func (srv *BinderService) Get(id uint) (Binder, error) {
 func (srv *BinderService) GetByName(name string) (Binder, error) {
 	var binder Binder
 	if err := srv.repos.Database.WhereFirst(&binder, "name = ?", name); err != nil {
-		return Binder{}, err
+		return binder, err
 	}
 	return binder, nil
 }
@@ -67,29 +69,22 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 	return nil
 }
 
-func (srv *BinderService) Create(binder *Binder) error {
-	if err := srv.repos.Database.Create(binder); err != nil {
-		return err
-	}
-	return nil
+func (srv *BinderService) Create(binder Binder) error {
+	return srv.repos.Database.Create(binder)
 }
 
-func (srv *BinderService) RunPrompt(binder Binder) (*Binder, error) {
+func (srv *BinderService) RunPrompt(binder *Binder) error {
 	name, err := srv.repos.Prompt.Ask("Name", binder.Name)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	binder.Name = name
 	binder.Category = ""
-
-	return &binder, nil
+	return nil
 }
 
 func (srv *BinderService) Update(binder Binder) error {
-	if err := srv.repos.Database.Update(&binder); err != nil {
-		return err
-	}
-	return nil
+	return srv.repos.Database.Update(binder)
 }
 
 func (srv *BinderService) Delete(name string) error {
@@ -97,8 +92,5 @@ func (srv *BinderService) Delete(name string) error {
 	if err != nil {
 		return err
 	}
-	if err := srv.repos.Database.Delete(&binder); err != nil {
-		return err
-	}
-	return nil
+	return srv.repos.Database.Delete(binder)
 }

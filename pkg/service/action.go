@@ -32,40 +32,35 @@ func (srv *ActionService) CreateTable() error {
 	return srv.repos.Database.CreateTable(&Action{})
 }
 
-func (srv *ActionService) List() []Action {
+func (srv *ActionService) List() ([]Action, error) {
 	actions := make([]Action, 0)
-	srv.repos.Database.ListAll(&actions)
-	return actions
+	if err := srv.repos.Database.ListAll(&actions); err != nil {
+		return actions, err
+	}
+	return actions, nil
 }
 
 func (srv *ActionService) Get(id uint) (Action, error) {
 	var action Action
 	if err := srv.repos.Database.WhereFirst(&action, "id = ?", id); err != nil {
-		return Action{}, err
+		return action, err
 	}
 	return action, nil
 }
 
-func (srv *ActionService) Create(action *Action) error {
-	if err := srv.repos.Database.Create(action); err != nil {
-		return err
-	}
-	return nil
+func (srv *ActionService) Create(action Action) error {
+	return srv.repos.Database.Create(action)
 }
 
-func (srv *ActionService) RunPrompt(action Action) (*Action, error) {
+func (srv *ActionService) RunPrompt(action *Action) error {
 	name, err := srv.repos.Prompt.Ask("Name", action.Name)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	action.Name = name
-
-	return &action, nil
+	return nil
 }
 
 func (srv *ActionService) Update(action Action) error {
-	if err := srv.repos.Database.Update(&action); err != nil {
-		return err
-	}
-	return nil
+	return srv.repos.Database.Update(action)
 }

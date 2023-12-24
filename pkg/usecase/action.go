@@ -7,5 +7,5 @@ import (
 
 func ListActions(repos repository.Repos) ([]service.Action, error) {
 	actionSrv := service.NewActionService(repos)
-	return actionSrv.List(), nil
+	return actionSrv.List()
 }

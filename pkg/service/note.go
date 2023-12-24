@@ -34,16 +34,18 @@ func (srv *NoteService) CreateTable() error {
 	return srv.repos.Database.CreateTable(&Note{})
 }
 
-func (srv *NoteService) List() []Note {
+func (srv *NoteService) List() ([]Note, error) {
 	notes := make([]Note, 0)
-	srv.repos.Database.ListAll(&notes)
-	return notes
+	if err := srv.repos.Database.ListAll(&notes); err != nil {
+		return notes, err
+	}
+	return notes, nil
 }
 
 func (srv *NoteService) Get(id uint) (Note, error) {
 	var note Note
 	if err := srv.repos.Database.WhereFirst(&note, "id = ?", id); err != nil {
-		return Note{}, err
+		return note, err
 	}
 	return note, nil
 }
@@ -52,14 +54,17 @@ func (srv *NoteService) Get(id uint) (Note, error) {
 func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
 	var note Note
 	if err := srv.repos.Database.WhereFirst(&note, "binder_id = ?", binderId); err != nil {
-		return Note{}, err
+		return note, err
 	}
 	return note, nil
 }
 
 // TODO: refactor
 func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
-	notes := srv.List()
+	notes, err := srv.List()
+	if err != nil {
+		return make([]Note, 0), err
+	}
 	list := make([]Note, 0)
 	for _, note := range notes {
 		if note.BinderId == binderId {
@@ -69,28 +74,21 @@ func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
 	return list, nil
 }
 
-func (srv *NoteService) Create(note *Note) error {
-	if err := srv.repos.Database.Create(note); err != nil {
-		return err
-	}
-	return nil
+func (srv *NoteService) Create(note Note) error {
+	return srv.repos.Database.Create(note)
 }
 
-func (srv *NoteService) RunPrompt(note Note) (Note, error) {
+func (srv *NoteService) RunPrompt(note *Note) error {
 	content, err := srv.repos.Prompt.Ask("Content", note.Content)
 	if err != nil {
-		return Note{}, err
+		return err
 	}
 	note.Content = content
-
-	return note, nil
+	return nil
 }
 
 func (srv *NoteService) Update(note Note) error {
-	if err := srv.repos.Database.Update(&note); err != nil {
-		return err
-	}
-	return nil
+	return srv.repos.Database.Update(note)
 }
 
 func (srv *NoteService) Delete(id uint) error {
@@ -98,8 +96,5 @@ func (srv *NoteService) Delete(id uint) error {
 	if err != nil {
 		return err
 	}
-	if err := srv.repos.Database.Delete(&note); err != nil {
-		return err
-	}
-	return nil
+	return srv.repos.Database.Delete(note)
 }

@@ -16,7 +16,10 @@ type ListBindersItem struct {
 	UpdatedAt  string `json:"updatedAt"`
 }
 func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
-	binders := usecase.ListBinders(ctl.Repos)
+	binders, err := usecase.ListBinders(ctl.Repos)
+	if err != nil {
+		return err
+	}
 	res := ApiListResponse[ListBindersItem]{
 		Items: make([]ListBindersItem, 0),
 	}
