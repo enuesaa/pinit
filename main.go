@@ -22,7 +22,6 @@ func main() {
 	repos := repository.NewRepos()
 	repos.Config.Init()
 	repos.Config.Load()
-	repos.Database.WithTls(true)
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))

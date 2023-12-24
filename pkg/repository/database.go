@@ -9,12 +9,9 @@ import (
 )
 
 type DatabaseRepositoryInterface interface {
-	GetDsn() string
-	WithTls(is bool)
 	IsTableExist(name string) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
-	Where(data interface{}, results interface{}) error
 	WhereFirst(data interface{}) error
 	Create(data interface{}) error
 	Update(data interface{}) error
@@ -27,22 +24,17 @@ type DatabaseRepository struct {
 	Tls    bool
 }
 
-func (repo *DatabaseRepository) GetDsn() string {
+func (repo *DatabaseRepository) dsn() string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.config.DbUsername(), repo.config.DbPassword(), repo.config.DbHost(), repo.config.DbName())
 	params := "interpolateParams=true"
 	if repo.Tls {
 		params = "tls=true&interpolateParams=true"
 	}
-
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
-func (repo *DatabaseRepository) WithTls(is bool) {
-	repo.Tls = is
-}
-
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {
-	return gorm.Open(mysql.Open(repo.GetDsn()), &gorm.Config{
+	return gorm.Open(mysql.Open(repo.dsn()), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
 }
@@ -72,8 +64,7 @@ func (repo *DatabaseRepository) Create(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	result := db.Create(data)
-	return result.Error
+	return db.Create(data).Error
 }
 
 func (repo *DatabaseRepository) Update(data interface{}) error {
@@ -81,8 +72,7 @@ func (repo *DatabaseRepository) Update(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	result := db.Updates(data)
-	return result.Error
+	return db.Updates(data).Error
 }
 
 func (repo *DatabaseRepository) Delete(data interface{}) error {
@@ -90,8 +80,7 @@ func (repo *DatabaseRepository) Delete(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	result := db.Delete(data)
-	return result.Error
+	return db.Delete(data).Error
 }
 
 func (repo *DatabaseRepository) ListAll(data interface{}) error {
@@ -99,19 +88,7 @@ func (repo *DatabaseRepository) ListAll(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	db.Find(data)
-	return nil
-}
-
-func (repo *DatabaseRepository) Where(data interface{}, results interface{}) error {
-	db, err := repo.db()
-	if err != nil {
-		return err
-	}
-	var i int64
-	db.Where(data).Count(&i)
-	fmt.Printf("%+v%d", data, i)
-	return nil
+	return db.Find(data).Error
 }
 
 func (repo *DatabaseRepository) WhereFirst(data interface{}) error {
@@ -119,8 +96,7 @@ func (repo *DatabaseRepository) WhereFirst(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	db.Where(data).First(&data)
-	return nil
+	return db.Where(data).First(&data).Error
 }
 
 func (repo *DatabaseRepository) Count(data interface{}, query string, value string) (int64, error) {
@@ -129,6 +105,8 @@ func (repo *DatabaseRepository) Count(data interface{}, query string, value stri
 		return 0, err
 	}
 	var count int64
-	db.Model(&data).Where(query, value).Count(&count)
+	if err := db.Model(&data).Where(query, value).Count(&count).Error; err != nil {
+		return 0, err
+	}
 	return count, nil
 }

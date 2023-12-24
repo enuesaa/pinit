@@ -15,6 +15,7 @@ func NewRepos() Repos {
 		Fs:     &FsRepository{},
 		Database: &DatabaseRepository{
 			config: &config,
+			Tls: true,
 		},
 		Prompt: &Prompt{},
 	}
@@ -28,6 +29,7 @@ func NewTestRepos() Repos {
 		Fs:     &FsMockRepository{},
 		Database: &DatabaseRepository{
 			config: &config,
+			Tls: false,
 		},
 		Prompt: &Prompt{},
 	}
