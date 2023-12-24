@@ -6,6 +6,6 @@
 
 tmp
 
-ent/*
-!ent/generate.go
-!ent/schema
+pkg/ent/*
+!pkg/ent/generate.go
+!pkg/ent/schema

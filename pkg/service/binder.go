@@ -1,9 +1,11 @@
 package service
 
 import (
+	"context"
 	"fmt"
 	"time"
 
+	"github.com/enuesaa/pinit/pkg/ent"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -36,8 +38,26 @@ func (srv *BinderService) CreateTable() error {
 
 func (srv *BinderService) List() ([]Binder, error) {
 	binders := make([]Binder, 0)
-	if err := srv.repos.Database.ListAll(&binders); err != nil {
+
+	db, err := ent.Open("mysql", srv.repos.Database.Dsn())
+	if err != nil {
 		return binders, err
+	}
+	defer db.Close()
+
+	eBinders, err := db.Binder.Query().All(context.Background())
+	if err != nil {
+		return binders, err
+	}
+	for _, eBinder := range eBinders {
+		binders = append(binders, Binder{
+			ID: eBinder.ID,
+			Name: eBinder.Name,
+			Category: eBinder.Category,
+			ArchivedAt: eBinder.ArchivedAt,
+			CreatedAt: eBinder.CreatedAt,
+			UpdatedAt: eBinder.UpdatedAt,
+		})
 	}
 	return binders, nil
 }
@@ -70,7 +90,14 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 }
 
 func (srv *BinderService) Create(binder *Binder) error {
-	return srv.repos.Database.Create(binder)
+	db, err := ent.Open("mysql", srv.repos.Database.Dsn())
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	_, err = db.Binder.Create().SetName(binder.Name).SetCategory(binder.Category).Save(context.Background())
+	return err
 }
 
 func (srv *BinderService) RunPrompt(binder *Binder) error {

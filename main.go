@@ -29,7 +29,6 @@ func main() {
 	app.AddCommand(cli.CreateLookupCmd(repos))
 	app.AddCommand(cli.CreateRmCmd(repos))
 	app.AddCommand(cli.CreateServeCmd(repos))
-	app.AddCommand(cli.CreatePocentsCmd(repos))
 
 	// disable default
 	app.SetHelpCommand(&cobra.Command{Hidden: true})
