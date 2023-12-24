@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/enuesaa/pinit/pkg/ent"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -38,18 +37,16 @@ func (srv *BinderService) CreateTable() error {
 
 func (srv *BinderService) List() ([]Binder, error) {
 	binders := make([]Binder, 0)
-
-	db, err := ent.Open("mysql", srv.repos.Database.Dsn())
+	db, err := srv.repos.Database.EntDb()
 	if err != nil {
 		return binders, err
 	}
-	defer db.Close()
-
 	eBinders, err := db.Binder.Query().All(context.Background())
 	if err != nil {
 		return binders, err
 	}
 	for _, eBinder := range eBinders {
+		// Binder{} はappでコントロールしたいので mapping する
 		binders = append(binders, Binder{
 			ID: eBinder.ID,
 			Name: eBinder.Name,
@@ -90,12 +87,10 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 }
 
 func (srv *BinderService) Create(binder *Binder) error {
-	db, err := ent.Open("mysql", srv.repos.Database.Dsn())
+	db, err := srv.repos.Database.EntDb()
 	if err != nil {
 		return err
 	}
-	defer db.Close()
-
 	_, err = db.Binder.Create().SetName(binder.Name).SetCategory(binder.Category).Save(context.Background())
 	return err
 }

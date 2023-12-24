@@ -1,8 +1,11 @@
 package repository
 
 import (
+	"context"
 	"fmt"
 
+	"github.com/enuesaa/pinit/pkg/ent"
+	"github.com/enuesaa/pinit/pkg/ent/hook"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -10,6 +13,7 @@ import (
 
 type DatabaseRepositoryInterface interface {
 	Dsn() string
+	EntDb() (*ent.Client, error)
 	IsTableExist(name string) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
@@ -34,10 +38,34 @@ func (repo *DatabaseRepository) Dsn() string {
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
+//Deprecated
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {
 	return gorm.Open(mysql.Open(repo.Dsn()), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
+}
+
+func (repo *DatabaseRepository) EntDb() (*ent.Client, error) {
+	// テストさえできればいいからこのdbをそのままservice layerに返すのは有り
+	db, err := ent.Open("mysql", repo.Dsn())
+	if err != nil {
+		return nil, err
+	}
+	// defer db.Close()
+	db.Binder.Use(func(next ent.Mutator) ent.Mutator {
+		return hook.BinderFunc(func(ctx context.Context, m *ent.BinderMutation) (ent.Value, error) {
+			fmt.Println("aaa")
+			return next.Mutate(ctx, m)
+			// return &ent.Binder{}, nil
+		})
+	})
+	// client.User.Use(func(next ent.Mutator) ent.Mutator {
+	//     // Use the "<project>/ent/hook" to get the concrete type of the mutation.
+	//     return hook.UserFunc(func(ctx context.Context, m *ent.UserMutation) (ent.Value, error) {
+	//         return next.Mutate(ctx, m)
+	//     })
+	// })
+	return db, nil
 }
 
 func (repo *DatabaseRepository) IsTableExist(name string) (bool, error) {
