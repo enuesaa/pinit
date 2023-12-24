@@ -5,3 +5,7 @@
 .vscode
 
 tmp
+
+ent/*
+!ent/generate.go
+!ent/schema
