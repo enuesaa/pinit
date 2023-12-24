@@ -46,7 +46,6 @@ func Migrate(repos repository.Repos) error {
 
 	isBinderTableExist, err := binderSrv.IsTabelExist()
 	if err != nil {
-		fmt.Printf("Error: %s", err)
 		return err
 	}
 	if !isBinderTableExist {

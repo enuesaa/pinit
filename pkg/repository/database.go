@@ -46,7 +46,7 @@ func (repo *DatabaseRepository) IsTableExist(name string) (bool, error) {
 	}
 	var count int64
 	if err := db.Table(name).Count(&count).Error; err != nil {
-		return false, err
+		return false, nil
 	}
 	return true, nil
 }
