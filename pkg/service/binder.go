@@ -41,20 +41,16 @@ func (srv *BinderService) List() []Binder {
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
-	binder := Binder{
-		ID: id,
-	}
-	if err := srv.repos.Database.WhereFirst(&binder); err != nil {
+	var binder Binder
+	if err := srv.repos.Database.WhereFirst(&binder, "id = ?", id); err != nil {
 		return Binder{}, err
 	}
 	return binder, nil
 }
 
 func (srv *BinderService) GetByName(name string) (Binder, error) {
-	binder := Binder{
-		Name: name,
-	}
-	if err := srv.repos.Database.WhereFirst(&binder); err != nil {
+	var binder Binder
+	if err := srv.repos.Database.WhereFirst(&binder, "name = ?", name); err != nil {
 		return Binder{}, err
 	}
 	return binder, nil

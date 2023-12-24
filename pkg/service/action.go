@@ -39,10 +39,8 @@ func (srv *ActionService) List() []Action {
 }
 
 func (srv *ActionService) Get(id uint) (Action, error) {
-	action := Action{
-		ID: id,
-	}
-	if err := srv.repos.Database.WhereFirst(&action); err != nil {
+	var action Action
+	if err := srv.repos.Database.WhereFirst(&action, "id = ?", id); err != nil {
 		return Action{}, err
 	}
 	return action, nil

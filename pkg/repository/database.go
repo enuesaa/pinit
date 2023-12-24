@@ -12,7 +12,7 @@ type DatabaseRepositoryInterface interface {
 	IsTableExist(name string) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
-	WhereFirst(data interface{}) error
+	WhereFirst(data interface{}, query string, value interface{}) error
 	Create(data interface{}) error
 	Update(data interface{}) error
 	Delete(data interface{}) error
@@ -28,7 +28,7 @@ func (repo *DatabaseRepository) dsn() string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.config.DbUsername(), repo.config.DbPassword(), repo.config.DbHost(), repo.config.DbName())
 	params := "interpolateParams=true"
 	if repo.Tls {
-		params = "tls=true&interpolateParams=true"
+		params = "tls=true"
 	}
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
@@ -91,12 +91,13 @@ func (repo *DatabaseRepository) ListAll(data interface{}) error {
 	return db.Find(data).Error
 }
 
-func (repo *DatabaseRepository) WhereFirst(data interface{}) error {
+func (repo *DatabaseRepository) WhereFirst(data interface{}, query string, value interface{}) error {
 	db, err := repo.db()
 	if err != nil {
 		return err
 	}
-	return db.Where(data).First(&data).Error
+	db.Where(query, value).First(data)
+	return nil
 }
 
 func (repo *DatabaseRepository) Count(data interface{}, query string, value string) (int64, error) {

@@ -41,10 +41,8 @@ func (srv *NoteService) List() []Note {
 }
 
 func (srv *NoteService) Get(id uint) (Note, error) {
-	note := Note{
-		ID: id,
-	}
-	if err := srv.repos.Database.WhereFirst(&note); err != nil {
+	var note Note
+	if err := srv.repos.Database.WhereFirst(&note, "id = ?", id); err != nil {
 		return Note{}, err
 	}
 	return note, nil
@@ -52,10 +50,8 @@ func (srv *NoteService) Get(id uint) (Note, error) {
 
 // TODO return list response.
 func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
-	note := Note{
-		BinderId: binderId,
-	}
-	if err := srv.repos.Database.WhereFirst(&note); err != nil {
+	var note Note
+	if err := srv.repos.Database.WhereFirst(&note, "binder_id = ?", binderId); err != nil {
 		return Note{}, err
 	}
 	return note, nil
