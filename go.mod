@@ -15,6 +15,7 @@ require (
 )
 
 require (
+	entgo.io/ent v0.12.5 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
