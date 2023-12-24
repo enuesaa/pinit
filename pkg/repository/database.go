@@ -9,6 +9,7 @@ import (
 )
 
 type DatabaseRepositoryInterface interface {
+	Dsn() string
 	IsTableExist(name string) (bool, error)
 	CreateTable(schema interface{}) error
 	ListAll(data interface{}) error
@@ -24,7 +25,7 @@ type DatabaseRepository struct {
 	Tls    bool
 }
 
-func (repo *DatabaseRepository) dsn() string {
+func (repo *DatabaseRepository) Dsn() string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.config.DbUsername(), repo.config.DbPassword(), repo.config.DbHost(), repo.config.DbName())
 	params := "interpolateParams=true&parseTime=true"
 	if repo.Tls {
@@ -34,7 +35,7 @@ func (repo *DatabaseRepository) dsn() string {
 }
 
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {
-	return gorm.Open(mysql.Open(repo.dsn()), &gorm.Config{
+	return gorm.Open(mysql.Open(repo.Dsn()), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
 }
