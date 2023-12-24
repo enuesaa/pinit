@@ -74,7 +74,7 @@ func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
 	return list, nil
 }
 
-func (srv *NoteService) Create(note Note) error {
+func (srv *NoteService) Create(note *Note) error {
 	return srv.repos.Database.Create(note)
 }
 
@@ -87,7 +87,7 @@ func (srv *NoteService) RunPrompt(note *Note) error {
 	return nil
 }
 
-func (srv *NoteService) Update(note Note) error {
+func (srv *NoteService) Update(note *Note) error {
 	return srv.repos.Database.Update(note)
 }
 
@@ -96,5 +96,5 @@ func (srv *NoteService) Delete(id uint) error {
 	if err != nil {
 		return err
 	}
-	return srv.repos.Database.Delete(note)
+	return srv.repos.Database.Delete(&note)
 }

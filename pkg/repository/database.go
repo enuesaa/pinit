@@ -64,7 +64,7 @@ func (repo *DatabaseRepository) Create(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	return db.Create(&data).Error
+	return db.Create(data).Error
 }
 
 func (repo *DatabaseRepository) Update(data interface{}) error {
@@ -72,7 +72,7 @@ func (repo *DatabaseRepository) Update(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	return db.Updates(&data).Error
+	return db.Updates(data).Error
 }
 
 func (repo *DatabaseRepository) Delete(data interface{}) error {
@@ -80,7 +80,7 @@ func (repo *DatabaseRepository) Delete(data interface{}) error {
 	if err != nil {
 		return err
 	}
-	return db.Delete(&data).Error
+	return db.Delete(data).Error
 }
 
 func (repo *DatabaseRepository) ListAll(data interface{}) error {
@@ -105,7 +105,7 @@ func (repo *DatabaseRepository) Count(data interface{}, query string, value stri
 		return 0, err
 	}
 	var count int64
-	if err := db.Model(&data).Where(query, value).Count(&count).Error; err != nil {
+	if err := db.Model(data).Where(query, value).Count(&count).Error; err != nil {
 		return 0, err
 	}
 	return count, nil

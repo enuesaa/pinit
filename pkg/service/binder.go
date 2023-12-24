@@ -69,7 +69,7 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 	return nil
 }
 
-func (srv *BinderService) Create(binder Binder) error {
+func (srv *BinderService) Create(binder *Binder) error {
 	return srv.repos.Database.Create(binder)
 }
 
@@ -83,7 +83,7 @@ func (srv *BinderService) RunPrompt(binder *Binder) error {
 	return nil
 }
 
-func (srv *BinderService) Update(binder Binder) error {
+func (srv *BinderService) Update(binder *Binder) error {
 	return srv.repos.Database.Update(binder)
 }
 
@@ -92,5 +92,5 @@ func (srv *BinderService) Delete(name string) error {
 	if err != nil {
 		return err
 	}
-	return srv.repos.Database.Delete(binder)
+	return srv.repos.Database.Delete(&binder)
 }
