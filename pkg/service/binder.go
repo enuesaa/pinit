@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/enuesaa/pinit/pkg/ent/binder"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -60,19 +61,41 @@ func (srv *BinderService) List() ([]Binder, error) {
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
-	var binder Binder
-	if err := srv.repos.Database.WhereFirst(&binder, "id = ?", id); err != nil {
-		return binder, err
+	var b Binder
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return b, err
 	}
-	return binder, nil
+	eBinder, err := db.Binder.Query().
+		Where(binder.IDEQ(id)).
+		First(context.Background())
+	if err != nil {
+		return b, err
+	}
+	b.ID = eBinder.ID
+	b.Name = eBinder.Name
+	b.ArchivedAt = eBinder.ArchivedAt
+	b.Category = eBinder.Category
+	return b, nil
 }
 
 func (srv *BinderService) GetByName(name string) (Binder, error) {
-	var binder Binder
-	if err := srv.repos.Database.WhereFirst(&binder, "name = ?", name); err != nil {
-		return binder, err
+	var b Binder
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return b, err
 	}
-	return binder, nil
+	eBinder, err := db.Binder.Query().
+		Where(binder.NameEQ(name)).
+		First(context.Background())
+	if err != nil {
+		return b, err
+	}
+	b.ID = eBinder.ID
+	b.Name = eBinder.Name
+	b.ArchivedAt = eBinder.ArchivedAt
+	b.Category = eBinder.Category
+	return b, nil
 }
 
 func (srv *BinderService) CheckNameAvailable(name string) error {
@@ -91,7 +114,10 @@ func (srv *BinderService) Create(binder *Binder) error {
 	if err != nil {
 		return err
 	}
-	_, err = db.Binder.Create().SetName(binder.Name).SetCategory(binder.Category).Save(context.Background())
+	_, err = db.Binder.Create().
+		SetName(binder.Name).
+		SetCategory(binder.Category).
+		Save(context.Background())
 	return err
 }
 
@@ -105,14 +131,17 @@ func (srv *BinderService) RunPrompt(binder *Binder) error {
 	return nil
 }
 
-func (srv *BinderService) Update(binder *Binder) error {
-	return srv.repos.Database.Update(binder)
-}
+// func (srv *BinderService) Update(binder *Binder) error {
+// 	return srv.repos.Database.Update(binder)
+// }
 
 func (srv *BinderService) Delete(name string) error {
-	binder, err := srv.GetByName(name)
+	db, err := srv.repos.Database.EntDb()
 	if err != nil {
 		return err
 	}
-	return srv.repos.Database.Delete(&binder)
+	_, err = db.Binder.Delete().
+		Where(binder.NameEQ(name)).
+		Exec(context.Background())
+	return err
 }

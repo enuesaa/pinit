@@ -46,7 +46,6 @@ func (repo *DatabaseRepository) db() (*gorm.DB, error) {
 }
 
 func (repo *DatabaseRepository) EntDb() (*ent.Client, error) {
-	// テストさえできればいいからこのdbをそのままservice layerに返すのは有り
 	db, err := ent.Open("mysql", repo.Dsn())
 	if err != nil {
 		return nil, err
@@ -54,17 +53,9 @@ func (repo *DatabaseRepository) EntDb() (*ent.Client, error) {
 	// defer db.Close()
 	db.Binder.Use(func(next ent.Mutator) ent.Mutator {
 		return hook.BinderFunc(func(ctx context.Context, m *ent.BinderMutation) (ent.Value, error) {
-			fmt.Println("aaa")
 			return next.Mutate(ctx, m)
-			// return &ent.Binder{}, nil
 		})
 	})
-	// client.User.Use(func(next ent.Mutator) ent.Mutator {
-	//     // Use the "<project>/ent/hook" to get the concrete type of the mutation.
-	//     return hook.UserFunc(func(ctx context.Context, m *ent.UserMutation) (ent.Value, error) {
-	//         return next.Mutate(ctx, m)
-	//     })
-	// })
 	return db, nil
 }
 
