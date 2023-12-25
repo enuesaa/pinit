@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"entgo.io/ent"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
 
@@ -35,7 +34,5 @@ func (Binder) Fields() []ent.Field {
 }
 
 func (Binder) Edges() []ent.Edge {
-	return []ent.Edge{
-		edge.To("notes", Note.Type),
-	}
+	return []ent.Edge{}
 }
