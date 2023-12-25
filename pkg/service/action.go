@@ -24,7 +24,7 @@ type ActionService struct {
 	repos repository.Repos
 }
 
-func (srv *ActionService) IsTabelExist() (bool, error) {
+func (srv *ActionService) IsTableExist() (bool, error) {
 	return srv.repos.Database.IsTableExist("actions")
 }
 

@@ -12,7 +12,7 @@ func CheckTableStatus(repos repository.Repos) error {
 	noteSrv := service.NewNoteService(repos)
 	actionSrv := service.NewActionService(repos)
 
-	isBinderTableExist, err := binderSrv.IsTabelExist()
+	isBinderTableExist, err := binderSrv.IsTableExist()
 	if err != nil {
 		return err
 	}
@@ -20,7 +20,7 @@ func CheckTableStatus(repos repository.Repos) error {
 		return fmt.Errorf("Binders table does not exist")
 	}
 
-	isNoteTableExist, err := noteSrv.IsTabelExist()
+	isNoteTableExist, err := noteSrv.IsTableExist()
 	if err != nil {
 		return err
 	}
@@ -28,7 +28,7 @@ func CheckTableStatus(repos repository.Repos) error {
 		return fmt.Errorf("Notes table does not exist")
 	}
 
-	isActionTableExist, err := actionSrv.IsTabelExist()
+	isActionTableExist, err := actionSrv.IsTableExist()
 	if err != nil {
 		return err
 	}
@@ -44,7 +44,7 @@ func Migrate(repos repository.Repos) error {
 	noteSrv := service.NewNoteService(repos)
 	actionSrv := service.NewActionService(repos)
 
-	isBinderTableExist, err := binderSrv.IsTabelExist()
+	isBinderTableExist, err := binderSrv.IsTableExist()
 	if err != nil {
 		return err
 	}
@@ -54,7 +54,7 @@ func Migrate(repos repository.Repos) error {
 		}
 	}
 
-	isNoteTableExist, err := noteSrv.IsTabelExist()
+	isNoteTableExist, err := noteSrv.IsTableExist()
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func Migrate(repos repository.Repos) error {
 		}
 	}
 
-	isActionTableExist, err := actionSrv.IsTabelExist()
+	isActionTableExist, err := actionSrv.IsTableExist()
 	if err != nil {
 		return err
 	}

@@ -26,7 +26,7 @@ func NewNoteService(repos repository.Repos) *NoteService {
 	}
 }
 
-func (srv *NoteService) IsTabelExist() (bool, error) {
+func (srv *NoteService) IsTableExist() (bool, error) {
 	return srv.repos.Database.IsTableExist("notes")
 }
 
