@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"time"
 
+	"entgo.io/ent/dialect/sql/schema"
 	"github.com/enuesaa/pinit/pkg/ent/binder"
+	"github.com/enuesaa/pinit/pkg/ent/migrate"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -29,11 +31,22 @@ type BinderService struct {
 }
 
 func (srv *BinderService) IsTabelExist() (bool, error) {
-	return srv.repos.Database.IsTableExist("binders")
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return false, err
+	}
+	if _, err := db.Binder.Query().Count(context.Background()); err != nil {
+		return false, nil
+	}
+	return true, nil
 }
 
 func (srv *BinderService) CreateTable() error {
-	return srv.repos.Database.CreateTable(&Binder{})
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return err
+	}
+	return migrate.Create(context.Background(), db.Schema, []*schema.Table{migrate.BindersTable})
 }
 
 func (srv *BinderService) List() ([]Binder, error) {
