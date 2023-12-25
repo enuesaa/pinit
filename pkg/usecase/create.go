@@ -14,7 +14,7 @@ func CreateWithPrompt(repos repository.Repos) error {
 	if err := binderSrv.CheckNameAvailable(binder.Name); err != nil {
 		return err
 	}
-	if err := binderSrv.Create(&binder); err != nil {
+	if err := binderSrv.Create(binder); err != nil {
 		return err
 	}
 
