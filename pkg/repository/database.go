@@ -36,7 +36,7 @@ func (repo *DatabaseRepository) Dsn() string {
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
-//Deprecated
+// Deprecated
 func (repo *DatabaseRepository) db() (*gorm.DB, error) {
 	return gorm.Open(mysql.Open(repo.Dsn()), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),

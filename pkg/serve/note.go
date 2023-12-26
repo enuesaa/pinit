@@ -8,9 +8,10 @@ import (
 )
 
 type ListNotesItem struct {
-	Id         string `json:"id"`
-	Content    string `json:"content"`
+	Id      string `json:"id"`
+	Content string `json:"content"`
 }
+
 func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 	binderId, err := c.ParamsInt("id")
 	if err != nil {
@@ -20,12 +21,12 @@ func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	res := ApiListResponse[ListNotesItem] {
+	res := ApiListResponse[ListNotesItem]{
 		Items: make([]ListNotesItem, 0),
 	}
 	for _, note := range notes {
 		res.Items = append(res.Items, ListNotesItem{
-			Id: fmt.Sprintf("%d", note.ID),
+			Id:      fmt.Sprintf("%d", note.ID),
 			Content: note.Content,
 		})
 	}

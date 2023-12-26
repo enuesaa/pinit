@@ -9,6 +9,7 @@ type Action struct {
 	Name     string `json:"name"`
 	Template string `json:"template"`
 }
+
 func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
 	res := ApiListResponse[Action]{
 		Items: make([]Action, 0),

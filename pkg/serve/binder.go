@@ -15,6 +15,7 @@ type ListBindersItem struct {
 	CreatedAt  string `json:"createdAt"`
 	UpdatedAt  string `json:"updatedAt"`
 }
+
 func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
 	binders, err := usecase.ListBinders(ctl.Repos)
 	if err != nil {

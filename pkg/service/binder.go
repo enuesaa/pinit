@@ -67,12 +67,12 @@ func (srv *BinderService) queryFirst(ps ...predicate.Binder) (Binder, error) {
 
 func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
 	return Binder{
-		ID: eb.ID,
-		Name: eb.Name,
-		Category: eb.Category,
+		ID:         eb.ID,
+		Name:       eb.Name,
+		Category:   eb.Category,
 		ArchivedAt: eb.ArchivedAt,
-		CreatedAt: eb.CreatedAt,
-		UpdatedAt: eb.UpdatedAt,
+		CreatedAt:  eb.CreatedAt,
+		UpdatedAt:  eb.UpdatedAt,
 	}
 }
 

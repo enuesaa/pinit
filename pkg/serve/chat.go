@@ -5,13 +5,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
 type ChatRequest struct {
 	Message string `json:"message"`
 }
 type ChatResponse struct {
 	Message string `json:"message"`
 }
+
 func (ctl *ServeCtl) Chat(c *fiber.Ctx) error {
 	var req ChatRequest
 	if err := c.BodyParser(&req); err != nil {
