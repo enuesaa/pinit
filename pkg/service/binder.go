@@ -5,10 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"entgo.io/ent/dialect/sql/schema"
 	"github.com/enuesaa/pinit/pkg/ent"
 	entbinder "github.com/enuesaa/pinit/pkg/ent/binder"
-	"github.com/enuesaa/pinit/pkg/ent/migrate"
 	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
@@ -81,14 +79,6 @@ func (srv *BinderService) IsTableExist() (bool, error) {
 		return false, nil
 	}
 	return true, nil
-}
-
-func (srv *BinderService) CreateTable() error {
-	db, err := srv.repos.Database.EntDb()
-	if err != nil {
-		return err
-	}
-	return migrate.Create(context.Background(), db.Schema, []*schema.Table{migrate.BindersTable})
 }
 
 func (srv *BinderService) List() ([]Binder, error) {

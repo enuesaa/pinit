@@ -40,39 +40,5 @@ func CheckTableStatus(repos repository.Repos) error {
 }
 
 func Migrate(repos repository.Repos) error {
-	binderSrv := service.NewBinderService(repos)
-	noteSrv := service.NewNoteService(repos)
-	actionSrv := service.NewActionService(repos)
-
-	isBinderTableExist, err := binderSrv.IsTableExist()
-	if err != nil {
-		return err
-	}
-	if !isBinderTableExist {
-		if err := binderSrv.CreateTable(); err != nil {
-			return err
-		}
-	}
-
-	isNoteTableExist, err := noteSrv.IsTableExist()
-	if err != nil {
-		return err
-	}
-	if !isNoteTableExist {
-		if err := noteSrv.CreateTable(); err != nil {
-			return err
-		}
-	}
-
-	isActionTableExist, err := actionSrv.IsTableExist()
-	if err != nil {
-		return err
-	}
-	if !isActionTableExist {
-		if err := actionSrv.CreateTable(); err != nil {
-			return err
-		}
-	}
-
-	return nil
+	return repos.Database.Migrate()
 }

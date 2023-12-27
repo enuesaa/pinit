@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/ent"
@@ -9,6 +10,7 @@ import (
 type DatabaseRepositoryInterface interface {
 	Dsn() string
 	EntDb() (*ent.Client, error)
+	Migrate() error
 }
 
 type DatabaseRepository struct {
@@ -32,4 +34,12 @@ func (repo *DatabaseRepository) EntDb() (*ent.Client, error) {
 	}
 	// defer db.Close()
 	return db, nil
+}
+
+func (repo *DatabaseRepository) Migrate() error {
+	db, err := repo.EntDb()
+	if err != nil {
+		return err
+	}
+	return db.Schema.Create(context.Background())
 }

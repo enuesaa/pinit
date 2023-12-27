@@ -4,9 +4,7 @@ import (
 	"context"
 	"time"
 
-	"entgo.io/ent/dialect/sql/schema"
 	"github.com/enuesaa/pinit/pkg/ent"
-	"github.com/enuesaa/pinit/pkg/ent/migrate"
 	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
 	entnote "github.com/enuesaa/pinit/pkg/ent/note"
@@ -82,14 +80,6 @@ func (srv *NoteService) IsTableExist() (bool, error) {
 		return false, nil
 	}
 	return true, nil
-}
-
-func (srv *NoteService) CreateTable() error {
-	db, err := srv.repos.Database.EntDb()
-	if err != nil {
-		return err
-	}
-	return migrate.Create(context.Background(), db.Schema, []*schema.Table{migrate.NotesTable})
 }
 
 func (srv *NoteService) List() ([]Note, error) {

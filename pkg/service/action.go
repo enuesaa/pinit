@@ -4,9 +4,7 @@ import (
 	"context"
 	"time"
 
-	"entgo.io/ent/dialect/sql/schema"
 	"github.com/enuesaa/pinit/pkg/ent"
-	"github.com/enuesaa/pinit/pkg/ent/migrate"
 	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
@@ -77,14 +75,6 @@ func (srv *ActionService) IsTableExist() (bool, error) {
 		return false, nil
 	}
 	return true, nil
-}
-
-func (srv *ActionService) CreateTable() error {
-	db, err := srv.repos.Database.EntDb()
-	if err != nil {
-		return err
-	}
-	return migrate.Create(context.Background(), db.Schema, []*schema.Table{migrate.ActionsTable})
 }
 
 func (srv *ActionService) List() ([]Action, error) {
