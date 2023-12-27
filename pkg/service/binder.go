@@ -40,13 +40,13 @@ func (srv *BinderService) queryCount(ps ...predicate.Binder) (int, error) {
 	return db.Binder.Query().Where(ps...).Count(context.Background())
 }
 
-func (srv *BinderService) queryAll() ([]Binder, error) {
+func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
 	var list []Binder
 	db, err := srv.repos.Database.EntDb()
 	if err != nil {
 		return list, err
 	}
-	ebs, err := db.Binder.Query().All(context.Background())
+	ebs, err := db.Binder.Query().Where(ps...).All(context.Background())
 	for _, eb := range ebs {
 		list = append(list, srv.unwrap(eb))
 	}
