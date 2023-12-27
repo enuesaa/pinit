@@ -5,12 +5,14 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/ent"
+	"github.com/enuesaa/pinit/pkg/ent/predicate"
 )
 
 type DatabaseRepositoryInterface interface {
 	Dsn() string
 	EntDb() (*ent.Client, error)
 	Migrate() error
+	CountBinder(ps ...predicate.Binder) (int, error)
 }
 
 type DatabaseRepository struct {
@@ -37,6 +39,30 @@ func (repo *DatabaseRepository) EntDb() (*ent.Client, error) {
 }
 
 func (repo *DatabaseRepository) Migrate() error {
+	db, err := repo.EntDb()
+	if err != nil {
+		return err
+	}
+	return db.Schema.Create(context.Background())
+}
+
+func (repo *DatabaseRepository) CountBinder(ps ...predicate.Binder) (int, error) {
+	db, err := repo.EntDb()
+	if err != nil {
+		return 0, err
+	}
+	return db.Binder.Query().Where(ps...).Count(context.Background())
+}
+
+func (repo *DatabaseRepository) QueryBinderAll(ps ...predicate.Binder) error {
+	db, err := repo.EntDb()
+	if err != nil {
+		return err
+	}
+	return db.Schema.Create(context.Background())
+}
+
+func (repo *DatabaseRepository) QueryBinderFirst(ps ...predicate.Binder) error {
 	db, err := repo.EntDb()
 	if err != nil {
 		return err

@@ -27,14 +27,6 @@ type ActionService struct {
 	repos repository.Repos
 }
 
-func (srv *ActionService) queryCount(ps ...predicate.Action) (int, error) {
-	db, err := srv.repos.Database.EntDb()
-	if err != nil {
-		return 0, err
-	}
-	return db.Action.Query().Where(ps...).Count(context.Background())
-}
-
 func (srv *ActionService) queryAll(ps ...predicate.Action) ([]Action, error) {
 	var list []Action
 	db, err := srv.repos.Database.EntDb()
@@ -71,7 +63,7 @@ func (srv *ActionService) unwrap(eb *ent.Action) Action {
 }
 
 func (srv *ActionService) IsTableExist() (bool, error) {
-	if _, err := srv.queryCount(); err != nil {
+	if _, err := srv.repos.Database.CountBinder(); err != nil {
 		return false, nil
 	}
 	return true, nil
