@@ -23,7 +23,7 @@ func CreateWithPrompt(repos repository.Repos) error {
 	if err := noteSrv.RunPrompt(&note); err != nil {
 		return err
 	}
-	return noteSrv.Create(&note)
+	return noteSrv.Create(note)
 }
 
 func WriteNewNoteWithPrompt(repos repository.Repos, binderName string) error {
@@ -43,5 +43,5 @@ func WriteNewNoteWithPrompt(repos repository.Repos, binderName string) error {
 	if err := noteSrv.RunPrompt(&note); err != nil {
 		return err
 	}
-	return noteSrv.Create(&note)
+	return noteSrv.Create(note)
 }

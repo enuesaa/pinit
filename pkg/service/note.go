@@ -1,19 +1,25 @@
 package service
 
 import (
+	"context"
 	"time"
 
+	"entgo.io/ent/dialect/sql/schema"
+	"github.com/enuesaa/pinit/pkg/ent"
+	"github.com/enuesaa/pinit/pkg/ent/migrate"
+	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
+	entnote "github.com/enuesaa/pinit/pkg/ent/note"
 )
 
 type Note struct {
-	ID        uint      `gorm:"primaryKey"`
-	BinderId  uint      `gorm:"type:integer"`
-	Publisher string    `gorm:"type:varchar(255)"`
-	Comment   string    `gorm:"type:text"`
-	Content   string    `gorm:"type:text"`
-	CreatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp"`
-	UpdatedAt time.Time `gorm:"type:timestamp;not null;default:current_timestamp on update current_timestamp"`
+	ID        uint
+	BinderId  uint
+	Publisher string
+	Comment   string
+	Content   string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type NoteService struct {
@@ -26,56 +32,102 @@ func NewNoteService(repos repository.Repos) *NoteService {
 	}
 }
 
+func (srv *NoteService) queryCount(ps ...predicate.Note) (int, error) {
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return 0, err
+	}
+	return db.Note.Query().Where(ps...).Count(context.Background())
+}
+
+func (srv *NoteService) queryAll(ps ...predicate.Note) ([]Note, error) {
+	var list []Note
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return list, err
+	}
+	ebs, err := db.Note.Query().Where(ps...).All(context.Background())
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list, nil
+}
+
+func (srv *NoteService) queryFirst(ps ...predicate.Note) (Note, error) {
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return Note{}, err
+	}
+	eb, err := db.Note.Query().Where(ps...).First(context.Background())
+	if err != nil {
+		return Note{}, err
+	}
+	return srv.unwrap(eb), nil
+}
+
+func (srv *NoteService) unwrap(eb *ent.Note) Note {
+	return Note{
+		ID:         eb.ID,
+		BinderId:   eb.BinderID,
+		Publisher: eb.Publisher,
+		Comment: eb.Comment,
+		Content: eb.Comment,
+		CreatedAt:  eb.CreatedAt,
+		UpdatedAt:  eb.UpdatedAt,
+	}
+}
+
 func (srv *NoteService) IsTableExist() (bool, error) {
-	return srv.repos.Database.IsTableExist("notes")
+	if _, err := srv.queryCount(); err != nil {
+		return false, nil
+	}
+	return true, nil
 }
 
 func (srv *NoteService) CreateTable() error {
-	return srv.repos.Database.CreateTable(&Note{})
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return err
+	}
+	return migrate.Create(context.Background(), db.Schema, []*schema.Table{migrate.NotesTable})
 }
 
 func (srv *NoteService) List() ([]Note, error) {
 	notes := make([]Note, 0)
-	if err := srv.repos.Database.ListAll(&notes); err != nil {
+	if notes, err := srv.queryAll(); err != nil {
 		return notes, err
 	}
 	return notes, nil
 }
 
 func (srv *NoteService) Get(id uint) (Note, error) {
-	var note Note
-	if err := srv.repos.Database.WhereFirst(&note, "id = ?", id); err != nil {
-		return note, err
-	}
-	return note, nil
+	return srv.queryFirst(entnote.IDEQ(id))
 }
 
 // TODO return list response.
 func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
-	var note Note
-	if err := srv.repos.Database.WhereFirst(&note, "binder_id = ?", binderId); err != nil {
-		return note, err
-	}
-	return note, nil
+	return srv.queryFirst(entnote.BinderIDEQ(binderId))
 }
 
-// TODO: refactor
 func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
-	notes, err := srv.List()
-	if err != nil {
-		return make([]Note, 0), err
+	notes := make([]Note, 0)
+	if notes, err := srv.queryAll(entnote.BinderIDEQ(binderId)); err != nil {
+		return notes, err
 	}
-	list := make([]Note, 0)
-	for _, note := range notes {
-		if note.BinderId == binderId {
-			list = append(list, note)
-		}
-	}
-	return list, nil
+	return notes, nil
 }
 
-func (srv *NoteService) Create(note *Note) error {
-	return srv.repos.Database.Create(note)
+func (srv *NoteService) Create(note Note) error {
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return err
+	}
+	_, err = db.Note.Create().
+		SetContent(note.Content).
+		SetComment(note.Comment).
+		SetBinderID(note.BinderId).
+		Save(context.Background())
+	return err
 }
 
 func (srv *NoteService) RunPrompt(note *Note) error {
@@ -87,14 +139,28 @@ func (srv *NoteService) RunPrompt(note *Note) error {
 	return nil
 }
 
-func (srv *NoteService) Update(note *Note) error {
-	return srv.repos.Database.Update(note)
-}
-
-func (srv *NoteService) Delete(id uint) error {
-	note, err := srv.Get(id)
+func (srv *NoteService) Update(note Note) error {
+	db, err := srv.repos.Database.EntDb()
 	if err != nil {
 		return err
 	}
-	return srv.repos.Database.Delete(&note)
+	_, err = db.Note.Update().
+		Where(entnote.IDEQ(note.ID)).
+		SetContent(note.Content).
+		SetComment(note.Comment).
+		SetBinderID(note.BinderId).
+		Save(context.Background())
+
+	return err
+}
+
+func (srv *NoteService) Delete(id uint) error {
+	db, err := srv.repos.Database.EntDb()
+	if err != nil {
+		return err
+	}
+	_, err = db.Note.Delete().
+		Where(entnote.IDEQ(id)).
+		Exec(context.Background())
+	return err
 }
