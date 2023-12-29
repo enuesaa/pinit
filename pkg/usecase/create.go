@@ -14,12 +14,13 @@ func CreateWithPrompt(repos repository.Repos) error {
 	if err := binderSrv.CheckNameAvailable(binder.Name); err != nil {
 		return err
 	}
-	if err := binderSrv.Create(binder); err != nil {
+	binderId, err := binderSrv.Create(binder)
+	if err != nil {
 		return err
 	}
 
 	noteSrv := service.NewNoteService(repos)
-	note := service.Note{BinderId: binder.ID}
+	note := service.Note{BinderId: binderId}
 	if err := noteSrv.RunPrompt(&note); err != nil {
 		return err
 	}

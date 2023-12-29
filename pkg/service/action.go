@@ -78,9 +78,5 @@ func (srv *ActionService) IsTableExist() (bool, error) {
 }
 
 func (srv *ActionService) List() ([]Action, error) {
-	actions := make([]Action, 0)
-	if actions, err := srv.queryAll(); err != nil {
-		return actions, err
-	}
-	return actions, nil
+	return srv.queryAll()
 }

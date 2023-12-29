@@ -82,11 +82,7 @@ func (srv *BinderService) IsTableExist() (bool, error) {
 }
 
 func (srv *BinderService) List() ([]Binder, error) {
-	binders := make([]Binder, 0)
-	if binders, err := srv.queryAll(); err != nil {
-		return binders, err
-	}
-	return binders, nil
+	return srv.queryAll()
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
@@ -108,16 +104,19 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 	return nil
 }
 
-func (srv *BinderService) Create(binder Binder) error {
+func (srv *BinderService) Create(binder Binder) (uint, error) {
 	db, err := srv.repos.Database.EntDb()
 	if err != nil {
-		return err
+		return 0, err
 	}
-	_, err = db.Binder.Create().
+	saved, err := db.Binder.Create().
 		SetName(binder.Name).
 		SetCategory(binder.Category).
 		Save(context.Background())
-	return err
+	if err != nil {
+		return 0, err
+	}
+	return saved.ID, nil
 }
 
 func (srv *BinderService) RunPrompt(binder *Binder) error {

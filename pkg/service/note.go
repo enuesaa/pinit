@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/enuesaa/pinit/pkg/ent"
+	entnote "github.com/enuesaa/pinit/pkg/ent/note"
 	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
-	entnote "github.com/enuesaa/pinit/pkg/ent/note"
 )
 
 type Note struct {
@@ -65,13 +65,13 @@ func (srv *NoteService) queryFirst(ps ...predicate.Note) (Note, error) {
 
 func (srv *NoteService) unwrap(eb *ent.Note) Note {
 	return Note{
-		ID:         eb.ID,
-		BinderId:   eb.BinderID,
+		ID: eb.ID,
+		BinderId: eb.BinderID,
 		Publisher: eb.Publisher,
 		Comment: eb.Comment,
-		Content: eb.Comment,
-		CreatedAt:  eb.CreatedAt,
-		UpdatedAt:  eb.UpdatedAt,
+		Content: eb.Content,
+		CreatedAt: eb.CreatedAt,
+		UpdatedAt: eb.UpdatedAt,
 	}
 }
 
@@ -83,11 +83,7 @@ func (srv *NoteService) IsTableExist() (bool, error) {
 }
 
 func (srv *NoteService) List() ([]Note, error) {
-	notes := make([]Note, 0)
-	if notes, err := srv.queryAll(); err != nil {
-		return notes, err
-	}
-	return notes, nil
+	return srv.queryAll()
 }
 
 func (srv *NoteService) Get(id uint) (Note, error) {
@@ -100,11 +96,7 @@ func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
 }
 
 func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
-	notes := make([]Note, 0)
-	if notes, err := srv.queryAll(entnote.BinderIDEQ(binderId)); err != nil {
-		return notes, err
-	}
-	return notes, nil
+	return srv.queryAll(entnote.BinderIDEQ(binderId))
 }
 
 func (srv *NoteService) Create(note Note) error {
@@ -116,6 +108,7 @@ func (srv *NoteService) Create(note Note) error {
 		SetContent(note.Content).
 		SetComment(note.Comment).
 		SetBinderID(note.BinderId).
+		SetPublisher(note.Publisher).
 		Save(context.Background())
 	return err
 }
