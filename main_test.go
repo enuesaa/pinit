@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 	repos.Config.SetDbPassword(*testDbPasswordFlag)
 
 	if err := usecase.Migrate(repos); err != nil {
-		log.Fatalf("Error: failed to migrate")
+		log.Fatalf("Error: failed to migrate, %s", err.Error())
 	}
 
 	code := m.Run()
