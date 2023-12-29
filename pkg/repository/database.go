@@ -13,6 +13,8 @@ type DatabaseRepositoryInterface interface {
 	EntDb() (*ent.Client, error)
 	Migrate() error
 	CountBinder(ps ...predicate.Binder) (int, error)
+	QueryBinderAll(ps ...predicate.Binder) ([]*ent.Binder, error)
+	QueryBinderFirst(ps ...predicate.Binder) (*ent.Binder, error)
 }
 
 type DatabaseRepository struct {
@@ -54,18 +56,18 @@ func (repo *DatabaseRepository) CountBinder(ps ...predicate.Binder) (int, error)
 	return db.Binder.Query().Where(ps...).Count(context.Background())
 }
 
-func (repo *DatabaseRepository) QueryBinderAll(ps ...predicate.Binder) error {
+func (repo *DatabaseRepository) QueryBinderAll(ps ...predicate.Binder) ([]*ent.Binder, error) {
 	db, err := repo.EntDb()
 	if err != nil {
-		return err
+		return make([]*ent.Binder, 0), err
 	}
-	return db.Schema.Create(context.Background())
+	return db.Binder.Query().Where(ps...).All(context.Background())
 }
 
-func (repo *DatabaseRepository) QueryBinderFirst(ps ...predicate.Binder) error {
+func (repo *DatabaseRepository) QueryBinderFirst(ps ...predicate.Binder) (*ent.Binder, error) {
 	db, err := repo.EntDb()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return db.Schema.Create(context.Background())
+	return db.Binder.Query().Where(ps...).First(context.Background())
 }

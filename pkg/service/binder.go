@@ -7,7 +7,6 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/ent"
 	entbinder "github.com/enuesaa/pinit/pkg/ent/binder"
-	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -30,39 +29,6 @@ type BinderService struct {
 	repos repository.Repos
 }
 
-func (srv *BinderService) queryCount(ps ...predicate.Binder) (int, error) {
-	db, err := srv.repos.Database.EntDb()
-	if err != nil {
-		return 0, err
-	}
-	return db.Binder.Query().Where(ps...).Count(context.Background())
-}
-
-func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
-	var list []Binder
-	db, err := srv.repos.Database.EntDb()
-	if err != nil {
-		return list, err
-	}
-	ebs, err := db.Binder.Query().Where(ps...).All(context.Background())
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
-}
-
-func (srv *BinderService) queryFirst(ps ...predicate.Binder) (Binder, error) {
-	db, err := srv.repos.Database.EntDb()
-	if err != nil {
-		return Binder{}, err
-	}
-	eb, err := db.Binder.Query().Where(ps...).First(context.Background())
-	if err != nil {
-		return Binder{}, err
-	}
-	return srv.unwrap(eb), nil
-}
-
 func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
 	return Binder{
 		ID:         eb.ID,
@@ -75,30 +41,42 @@ func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
 }
 
 func (srv *BinderService) IsTableExist() (bool, error) {
-	if _, err := srv.queryCount(); err != nil {
+	if _, err := srv.repos.Database.CountBinder(); err != nil {
 		return false, nil
 	}
 	return true, nil
 }
 
 func (srv *BinderService) List() ([]Binder, error) {
-	binders := make([]Binder, 0)
-	if binders, err := srv.queryAll(); err != nil {
-		return binders, err
+	var list []Binder
+	ebs, err := srv.repos.Database.QueryBinderAll()
+	if err != nil {
+		return list, err
 	}
-	return binders, nil
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list, nil
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
-	return srv.queryFirst(entbinder.IDEQ(id))
+	eb, err := srv.repos.Database.QueryBinderFirst(entbinder.IDEQ(id))
+	if err != nil {
+		return Binder{}, err
+	}
+	return srv.unwrap(eb), nil
 }
 
 func (srv *BinderService) GetByName(name string) (Binder, error) {
-	return srv.queryFirst(entbinder.NameEQ(name))
+	eb, err := srv.repos.Database.QueryBinderFirst(entbinder.NameEQ(name))
+	if err != nil {
+		return Binder{}, err
+	}
+	return srv.unwrap(eb), nil
 }
 
 func (srv *BinderService) CheckNameAvailable(name string) error {
-	count, err := srv.queryCount(entbinder.NameEQ(name))
+	count, err := srv.repos.Database.CountBinder(entbinder.NameEQ(name))
 	if err != nil {
 		return err
 	}
