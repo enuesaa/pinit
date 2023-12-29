@@ -65,11 +65,11 @@ func (srv *NoteService) queryFirst(ps ...predicate.Note) (Note, error) {
 
 func (srv *NoteService) unwrap(eb *ent.Note) Note {
 	return Note{
-		ID: eb.ID,
-		BinderId: eb.BinderID,
+		ID:        eb.ID,
+		BinderId:  eb.BinderID,
 		Publisher: eb.Publisher,
-		Comment: eb.Comment,
-		Content: eb.Content,
+		Comment:   eb.Comment,
+		Content:   eb.Content,
 		CreatedAt: eb.CreatedAt,
 		UpdatedAt: eb.UpdatedAt,
 	}

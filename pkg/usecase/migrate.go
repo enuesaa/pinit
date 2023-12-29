@@ -7,6 +7,10 @@ import (
 	"github.com/enuesaa/pinit/pkg/service"
 )
 
+func Migrate(repos repository.Repos) error {
+	return repos.Database.Migrate()
+}
+
 func CheckTableStatus(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
 	noteSrv := service.NewNoteService(repos)
@@ -37,8 +41,4 @@ func CheckTableStatus(repos repository.Repos) error {
 	}
 
 	return nil
-}
-
-func Migrate(repos repository.Repos) error {
-	return repos.Database.Migrate()
 }

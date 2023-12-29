@@ -62,9 +62,9 @@ func (srv *ActionService) queryFirst(ps ...predicate.Action) (Action, error) {
 
 func (srv *ActionService) unwrap(eb *ent.Action) Action {
 	return Action{
-		ID: eb.ID,
-		Name: eb.Name,
-		Template: eb.Template,
+		ID:        eb.ID,
+		Name:      eb.Name,
+		Template:  eb.Template,
 		CreatedAt: eb.CreatedAt,
 		UpdatedAt: eb.UpdatedAt,
 	}
