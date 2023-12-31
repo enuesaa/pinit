@@ -14,3 +14,8 @@ func ListBinderNotes(repos repository.Repos, binderId uint) ([]service.Note, err
 	noteSrv := service.NewNoteService(repos)
 	return noteSrv.ListByBinderId(binderId)
 }
+
+func ListActions(repos repository.Repos) ([]service.Action, error) {
+	actionSrv := service.NewActionService(repos)
+	return actionSrv.List()
+}

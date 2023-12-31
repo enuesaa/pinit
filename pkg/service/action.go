@@ -28,7 +28,7 @@ type ActionService struct {
 }
 
 func (srv *ActionService) queryCount(ps ...predicate.Action) (int, error) {
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return 0, err
 	}
@@ -37,7 +37,7 @@ func (srv *ActionService) queryCount(ps ...predicate.Action) (int, error) {
 
 func (srv *ActionService) queryAll(ps ...predicate.Action) ([]Action, error) {
 	var list []Action
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return list, err
 	}
@@ -49,7 +49,7 @@ func (srv *ActionService) queryAll(ps ...predicate.Action) ([]Action, error) {
 }
 
 func (srv *ActionService) queryFirst(ps ...predicate.Action) (Action, error) {
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return Action{}, err
 	}

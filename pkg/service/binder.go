@@ -31,7 +31,7 @@ type BinderService struct {
 }
 
 func (srv *BinderService) queryCount(ps ...predicate.Binder) (int, error) {
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return 0, err
 	}
@@ -40,7 +40,7 @@ func (srv *BinderService) queryCount(ps ...predicate.Binder) (int, error) {
 
 func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
 	var list []Binder
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return list, err
 	}
@@ -52,7 +52,7 @@ func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
 }
 
 func (srv *BinderService) queryFirst(ps ...predicate.Binder) (Binder, error) {
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return Binder{}, err
 	}
@@ -105,7 +105,7 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 }
 
 func (srv *BinderService) Create(binder Binder) (uint, error) {
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return 0, err
 	}
@@ -130,7 +130,7 @@ func (srv *BinderService) RunPrompt(binder *Binder) error {
 }
 
 func (srv *BinderService) Update(binder Binder) error {
-	db, err := srv.repos.Database.EntDb()
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return err
 	}
@@ -142,8 +142,19 @@ func (srv *BinderService) Update(binder Binder) error {
 	return err
 }
 
-func (srv *BinderService) Delete(name string) error {
-	db, err := srv.repos.Database.EntDb()
+func (srv *BinderService) Delete(id uint) error {
+	db, err := srv.repos.Database.Db()
+	if err != nil {
+		return err
+	}
+	_, err = db.Binder.Delete().
+		Where(entbinder.IDEQ(id)).
+		Exec(context.Background())
+	return err
+}
+
+func (srv *BinderService) DeleteByName(name string) error {
+	db, err := srv.repos.Database.Db()
 	if err != nil {
 		return err
 	}

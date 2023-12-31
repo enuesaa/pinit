@@ -1,5 +1,20 @@
 package repository
 
+import (
+	"github.com/enuesaa/pinit/pkg/ent"
+)
+
+type DatabaseMockRepository struct {}
+
+// todo
+func (repo *DatabaseMockRepository) Db() (*ent.Client, error) {
+	return nil, nil
+}
+
+func (repo *DatabaseMockRepository) Migrate() error {
+	return nil
+}
+
 // db.Use(hook.On(func(next ent.Mutator) ent.Mutator {
 // 	return hook.BinderFunc(func(ctx context.Context, m *ent.BinderMutation) (ent.Value, error) {
 // 		fmt.Printf("a\n")

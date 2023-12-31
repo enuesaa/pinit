@@ -12,15 +12,10 @@ func DeleteBinder(repos repository.Repos, binderName string) error {
 		return err
 	}
 
-	// delete related notes.
 	noteSrv := service.NewNoteService(repos)
-	note, err := noteSrv.GetFirstByBinderId(binder.ID)
-	if err != nil {
-		return err
-	}
-	if err := noteSrv.Delete(note.ID); err != nil {
+	if err := noteSrv.DeleteByBinderId(binder.ID); err != nil {
 		return err
 	}
 
-	return binderSrv.Delete(binderName)
+	return binderSrv.Delete(binder.ID)
 }
