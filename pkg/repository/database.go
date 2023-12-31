@@ -8,6 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// アプリケーションのスタート時に Open して client をそのまま repository にするのがシンプルかも
 type DatabaseRepositoryInterface interface {
 	Db() (*ent.Client, error)
 	Migrate() error

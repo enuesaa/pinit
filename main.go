@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/enuesaa/pinit/pkg/cli"
+	// "github.com/enuesaa/pinit/pkg/ent"
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/spf13/cobra"
 )
@@ -20,6 +21,13 @@ func main() {
 	}
 
 	repos := repository.NewRepos()
+
+	// client := ent.NewClient()
+	// fmt.Printf("%+v\n", client)
+	// list, err := client.Binder.Query().All(context.Background())
+	// fmt.Printf("%+v\n", err)
+	// fmt.Printf("%+v\n", list)
+
 	repos.Config.Init()
 	repos.Config.Load()
 	app.AddCommand(cli.CreateConfigureCmd(repos))
