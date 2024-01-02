@@ -44,6 +44,14 @@ func (srv *NoteService) unwrap(eb *ent.Note) Note {
 	}
 }
 
+func (srv *NoteService) unwrapList(ebs []*ent.Note) []Note {
+	var list []Note
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list
+}
+
 func (srv *NoteService) IsTableExist() (bool, error) {
 	if _, err := srv.repos.Db.Note().Query().Select("id").Limit(1).All(context.Background()); err != nil {
 		return false, nil
@@ -52,15 +60,11 @@ func (srv *NoteService) IsTableExist() (bool, error) {
 }
 
 func (srv *NoteService) List() ([]Note, error) {
-	var list []Note
 	ebs, err := srv.repos.Db.Note().Query().All(context.Background())
 	if err != nil {
-		return list, err
+		return make([]Note, 0), err
 	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
+	return srv.unwrapList(ebs), nil
 }
 
 func (srv *NoteService) Get(id uint) (Note, error) {
@@ -75,15 +79,11 @@ func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
 }
 
 func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
-	var list []Note
 	ebs, err := srv.repos.Db.Note().Query().Where(entnote.BinderIDEQ(binderId)).All(context.Background())
 	if err != nil {
-		return list, err
+		return make([]Note, 0), err
 	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
+	return srv.unwrapList(ebs), nil
 }
 
 func (srv *NoteService) Create(note Note) (uint, error) {
@@ -97,15 +97,6 @@ func (srv *NoteService) Create(note Note) (uint, error) {
 		return 0, err
 	}
 	return saved.ID, nil
-}
-
-func (srv *NoteService) RunPrompt(note *Note) error {
-	content, err := srv.repos.Prompt.Ask("Content", note.Content)
-	if err != nil {
-		return err
-	}
-	note.Content = content
-	return nil
 }
 
 func (srv *NoteService) Update(note Note) error {

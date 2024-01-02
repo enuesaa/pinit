@@ -43,6 +43,14 @@ func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
 	}
 }
 
+func (srv *BinderService) unwrapList(ebs []*ent.Binder) []Binder {
+	var list []Binder
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list
+}
+
 func (srv *BinderService) IsTableExist() (bool, error) {
 	if _, err := srv.repos.Db.Binder().Query().Select("id").Limit(1).All(context.Background()); err != nil {
 		return false, nil
@@ -51,15 +59,11 @@ func (srv *BinderService) IsTableExist() (bool, error) {
 }
 
 func (srv *BinderService) List() ([]Binder, error) {
-	var list []Binder
 	ebs, err := srv.repos.Db.Binder().Query().All(context.Background())
 	if err != nil {
-		return list, err
+		return make([]Binder, 0), err
 	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
+	return srv.unwrapList(ebs), nil
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
@@ -94,16 +98,6 @@ func (srv *BinderService) Create(binder Binder) (uint, error) {
 		return 0, err
 	}
 	return saved.ID, nil
-}
-
-func (srv *BinderService) RunPrompt(binder *Binder) error {
-	name, err := srv.repos.Prompt.Ask("Name", binder.Name)
-	if err != nil {
-		return err
-	}
-	binder.Name = name
-	binder.Category = ""
-	return nil
 }
 
 func (srv *BinderService) Update(binder Binder) error {

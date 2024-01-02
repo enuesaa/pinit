@@ -36,6 +36,14 @@ func (srv *ActionService) unwrap(eb *ent.Action) Action {
 	}
 }
 
+func (srv *ActionService) unwrapList(ebs []*ent.Action) []Action {
+	var list []Action
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list
+}
+
 func (srv *ActionService) IsTableExist() (bool, error) {
 	if _, err := srv.repos.Db.Action().Query().Select("id").Limit(1).All(context.Background()); err != nil {
 		return false, nil
@@ -44,13 +52,9 @@ func (srv *ActionService) IsTableExist() (bool, error) {
 }
 
 func (srv *ActionService) List() ([]Action, error) {
-	var list []Action
 	ebs, err := srv.repos.Db.Action().Query().All(context.Background())
 	if err != nil {
-		return list, err
+		return make([]Action, 0), err
 	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
+	return srv.unwrapList(ebs), nil
 }
