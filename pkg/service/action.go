@@ -62,7 +62,7 @@ func (srv *ActionService) unwrap(eb *ent.Action) Action {
 }
 
 func (srv *ActionService) IsTableExist() (bool, error) {
-	if _, err := srv.queryCount(); err != nil {
+	if _, err := srv.repos.Db.Action().Query().Select("id").Limit(1).All(context.Background()); err != nil {
 		return false, nil
 	}
 	return true, nil

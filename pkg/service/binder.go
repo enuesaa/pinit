@@ -66,7 +66,7 @@ func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
 }
 
 func (srv *BinderService) IsTableExist() (bool, error) {
-	if _, err := srv.queryCount(); err != nil {
+	if _, err := srv.repos.Db.Binder().Query().Select("id").Limit(1).All(context.Background()); err != nil {
 		return false, nil
 	}
 	return true, nil
