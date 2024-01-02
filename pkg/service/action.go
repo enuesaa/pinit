@@ -28,20 +28,15 @@ type ActionService struct {
 }
 
 func (srv *ActionService) queryCount(ps ...predicate.Action) (int, error) {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return 0, err
-	}
-	return db.Action.Query().Where(ps...).Count(context.Background())
+	return srv.repos.Database.Action().Query().Where(ps...).Count(context.Background())
 }
 
 func (srv *ActionService) queryAll(ps ...predicate.Action) ([]Action, error) {
 	var list []Action
-	db, err := srv.repos.Database.Db()
+	ebs, err := srv.repos.Database.Action().Query().Where(ps...).All(context.Background())
 	if err != nil {
 		return list, err
 	}
-	ebs, err := db.Action.Query().Where(ps...).All(context.Background())
 	for _, eb := range ebs {
 		list = append(list, srv.unwrap(eb))
 	}
@@ -49,11 +44,7 @@ func (srv *ActionService) queryAll(ps ...predicate.Action) ([]Action, error) {
 }
 
 func (srv *ActionService) queryFirst(ps ...predicate.Action) (Action, error) {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return Action{}, err
-	}
-	eb, err := db.Action.Query().Where(ps...).First(context.Background())
+	eb, err := srv.repos.Database.Action().Query().Where(ps...).First(context.Background())
 	if err != nil {
 		return Action{}, err
 	}

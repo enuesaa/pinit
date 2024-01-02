@@ -14,7 +14,6 @@ type DatabaseRepositoryInterface interface {
 	Binder() *ent.BinderClient
 	Note() *ent.NoteClient
 	Action() *ent.ActionClient
-	Db() (*ent.Client, error)
 	Migrate() error
 }
 
@@ -49,21 +48,12 @@ func (repo *DatabaseRepository) dsn() string {
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
-//Deprecated
-func (repo *DatabaseRepository) Db() (*ent.Client, error) {
-	db, err := ent.Open("mysql", repo.dsn())
-	if err != nil {
-		return nil, err
-	}
-	// defer db.Close()
-	return db, nil
-}
-
 func (repo *DatabaseRepository) Migrate() error {
-	db, err := repo.Db()
+	db, err := ent.Open("mysql", repo.dsn())
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 	return db.Schema.Create(context.Background())
 }
 

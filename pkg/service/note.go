@@ -31,20 +31,15 @@ func NewNoteService(repos repository.Repos) *NoteService {
 }
 
 func (srv *NoteService) queryCount(ps ...predicate.Note) (int, error) {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return 0, err
-	}
-	return db.Note.Query().Where(ps...).Count(context.Background())
+	return srv.repos.Database.Note().Query().Where(ps...).Count(context.Background())
 }
 
 func (srv *NoteService) queryAll(ps ...predicate.Note) ([]Note, error) {
 	var list []Note
-	db, err := srv.repos.Database.Db()
+	ebs, err := srv.repos.Database.Note().Query().Where(ps...).All(context.Background())
 	if err != nil {
 		return list, err
 	}
-	ebs, err := db.Note.Query().Where(ps...).All(context.Background())
 	for _, eb := range ebs {
 		list = append(list, srv.unwrap(eb))
 	}
@@ -52,11 +47,7 @@ func (srv *NoteService) queryAll(ps ...predicate.Note) ([]Note, error) {
 }
 
 func (srv *NoteService) queryFirst(ps ...predicate.Note) (Note, error) {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return Note{}, err
-	}
-	eb, err := db.Note.Query().Where(ps...).First(context.Background())
+	eb, err := srv.repos.Database.Note().Query().Where(ps...).First(context.Background())
 	if err != nil {
 		return Note{}, err
 	}
@@ -100,11 +91,7 @@ func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
 }
 
 func (srv *NoteService) Create(note Note) (uint, error) {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return 0, err
-	}
-	saved, err := db.Note.Create().
+	saved, err := srv.repos.Database.Note().Create().
 		SetContent(note.Content).
 		SetComment(note.Comment).
 		SetBinderID(note.BinderId).
@@ -126,11 +113,7 @@ func (srv *NoteService) RunPrompt(note *Note) error {
 }
 
 func (srv *NoteService) Update(note Note) error {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return err
-	}
-	_, err = db.Note.Update().
+	_, err := srv.repos.Database.Note().Update().
 		Where(entnote.IDEQ(note.ID)).
 		SetContent(note.Content).
 		SetComment(note.Comment).
@@ -141,22 +124,14 @@ func (srv *NoteService) Update(note Note) error {
 }
 
 func (srv *NoteService) Delete(id uint) error {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return err
-	}
-	_, err = db.Note.Delete().
+	_, err := srv.repos.Database.Note().Delete().
 		Where(entnote.IDEQ(id)).
 		Exec(context.Background())
 	return err
 }
 
 func (srv *NoteService) DeleteByBinderId(id uint) error {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return err
-	}
-	_, err = db.Note.Delete().
+	_, err := srv.repos.Database.Note().Delete().
 		Where(entnote.BinderIDEQ(id)).
 		Exec(context.Background())
 	return err
