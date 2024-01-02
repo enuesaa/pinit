@@ -38,6 +38,9 @@ func (srv *ActionService) unwrap(eb *ent.Action) Action {
 
 func (srv *ActionService) unwrapList(ebs []*ent.Action) []Action {
 	var list []Action
+	if ebs == nil {
+		return list
+	}
 	for _, eb := range ebs {
 		list = append(list, srv.unwrap(eb))
 	}
@@ -53,8 +56,5 @@ func (srv *ActionService) IsTableExist() (bool, error) {
 
 func (srv *ActionService) List() ([]Action, error) {
 	ebs, err := srv.repos.Db.Action().Query().All(context.Background())
-	if err != nil {
-		return make([]Action, 0), err
-	}
-	return srv.unwrapList(ebs), nil
+	return srv.unwrapList(ebs), err
 }

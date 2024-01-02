@@ -45,6 +45,9 @@ func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
 
 func (srv *BinderService) unwrapList(ebs []*ent.Binder) []Binder {
 	var list []Binder
+	if ebs == nil {
+		return list
+	}
 	for _, eb := range ebs {
 		list = append(list, srv.unwrap(eb))
 	}
@@ -60,10 +63,7 @@ func (srv *BinderService) IsTableExist() (bool, error) {
 
 func (srv *BinderService) List() ([]Binder, error) {
 	ebs, err := srv.repos.Db.Binder().Query().All(context.Background())
-	if err != nil {
-		return make([]Binder, 0), err
-	}
-	return srv.unwrapList(ebs), nil
+	return srv.unwrapList(ebs), err
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
