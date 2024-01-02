@@ -14,14 +14,14 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 		Use:   "lookup <name>",
 		Short: "lookup a binder",
 		Args:  cobra.MinimumNArgs(1),
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			return usecase.OpenDbConnection(repos)
+		},
+		PostRunE: func(cmd *cobra.Command, args []string) error {
+			return usecase.CloseDbConnection(repos)
+		},
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
-
-			if err := usecase.OpenDbConnection(repos); err != nil {
-				log.Fatalf("Error: %s", err.Error())
-			}
-			defer usecase.CloseDbConnection(repos)
-
 			binder, err := usecase.DescribeBinder(repos, binderName)
 			if err != nil {
 				log.Printf("Error: %s", err.Error())
