@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/enuesaa/pinit/pkg/ent"
-	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -27,30 +26,6 @@ type ActionService struct {
 	repos repository.Repos
 }
 
-func (srv *ActionService) queryCount(ps ...predicate.Action) (int, error) {
-	return srv.repos.Db.Action().Query().Where(ps...).Count(context.Background())
-}
-
-func (srv *ActionService) queryAll(ps ...predicate.Action) ([]Action, error) {
-	var list []Action
-	ebs, err := srv.repos.Db.Action().Query().Where(ps...).All(context.Background())
-	if err != nil {
-		return list, err
-	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
-}
-
-func (srv *ActionService) queryFirst(ps ...predicate.Action) (Action, error) {
-	eb, err := srv.repos.Db.Action().Query().Where(ps...).First(context.Background())
-	if err != nil {
-		return Action{}, err
-	}
-	return srv.unwrap(eb), nil
-}
-
 func (srv *ActionService) unwrap(eb *ent.Action) Action {
 	return Action{
 		ID:        eb.ID,
@@ -69,5 +44,13 @@ func (srv *ActionService) IsTableExist() (bool, error) {
 }
 
 func (srv *ActionService) List() ([]Action, error) {
-	return srv.queryAll()
+	var list []Action
+	ebs, err := srv.repos.Db.Action().Query().All(context.Background())
+	if err != nil {
+		return list, err
+	}
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list, nil
 }

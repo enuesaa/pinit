@@ -6,7 +6,6 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/ent"
 	entnote "github.com/enuesaa/pinit/pkg/ent/note"
-	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -30,31 +29,10 @@ func NewNoteService(repos repository.Repos) *NoteService {
 	}
 }
 
-func (srv *NoteService) queryCount(ps ...predicate.Note) (int, error) {
-	return srv.repos.Db.Note().Query().Where(ps...).Count(context.Background())
-}
-
-func (srv *NoteService) queryAll(ps ...predicate.Note) ([]Note, error) {
-	var list []Note
-	ebs, err := srv.repos.Db.Note().Query().Where(ps...).All(context.Background())
-	if err != nil {
-		return list, err
-	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
-}
-
-func (srv *NoteService) queryFirst(ps ...predicate.Note) (Note, error) {
-	eb, err := srv.repos.Db.Note().Query().Where(ps...).First(context.Background())
-	if err != nil {
-		return Note{}, err
-	}
-	return srv.unwrap(eb), nil
-}
-
 func (srv *NoteService) unwrap(eb *ent.Note) Note {
+	if eb == nil {
+		return Note{}
+	}
 	return Note{
 		ID:        eb.ID,
 		BinderId:  eb.BinderID,
@@ -74,20 +52,38 @@ func (srv *NoteService) IsTableExist() (bool, error) {
 }
 
 func (srv *NoteService) List() ([]Note, error) {
-	return srv.queryAll()
+	var list []Note
+	ebs, err := srv.repos.Db.Note().Query().All(context.Background())
+	if err != nil {
+		return list, err
+	}
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list, nil
 }
 
 func (srv *NoteService) Get(id uint) (Note, error) {
-	return srv.queryFirst(entnote.IDEQ(id))
+	eb, err := srv.repos.Db.Note().Query().Where(entnote.IDEQ(id)).First(context.Background())
+	return srv.unwrap(eb), err
 }
 
 // TODO return list response.
 func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
-	return srv.queryFirst(entnote.BinderIDEQ(binderId))
+	eb, err := srv.repos.Db.Note().Query().Where(entnote.BinderIDEQ(binderId)).First(context.Background())
+	return srv.unwrap(eb), err
 }
 
 func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
-	return srv.queryAll(entnote.BinderIDEQ(binderId))
+	var list []Note
+	ebs, err := srv.repos.Db.Note().Query().Where(entnote.BinderIDEQ(binderId)).All(context.Background())
+	if err != nil {
+		return list, err
+	}
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list, nil
 }
 
 func (srv *NoteService) Create(note Note) (uint, error) {

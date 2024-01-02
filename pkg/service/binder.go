@@ -7,7 +7,6 @@ import (
 
 	"github.com/enuesaa/pinit/pkg/ent"
 	entbinder "github.com/enuesaa/pinit/pkg/ent/binder"
-	"github.com/enuesaa/pinit/pkg/ent/predicate"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -30,31 +29,10 @@ type BinderService struct {
 	repos repository.Repos
 }
 
-func (srv *BinderService) queryCount(ps ...predicate.Binder) (int, error) {
-	return srv.repos.Db.Binder().Query().Where(ps...).Count(context.Background())
-}
-
-func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
-	var list []Binder
-	ebs, err := srv.repos.Db.Binder().Query().Where(ps...).All(context.Background())
-	if err != nil {
-		return list, err
-	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
-	}
-	return list, nil
-}
-
-func (srv *BinderService) queryFirst(ps ...predicate.Binder) (Binder, error) {
-	eb, err := srv.repos.Db.Binder().Query().Where(ps...).First(context.Background())
-	if err != nil {
-		return Binder{}, err
-	}
-	return srv.unwrap(eb), nil
-}
-
 func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
+	if eb == nil {
+		return Binder{}
+	}
 	return Binder{
 		ID:         eb.ID,
 		Name:       eb.Name,
@@ -73,19 +51,31 @@ func (srv *BinderService) IsTableExist() (bool, error) {
 }
 
 func (srv *BinderService) List() ([]Binder, error) {
-	return srv.queryAll()
+	var list []Binder
+	ebs, err := srv.repos.Db.Binder().Query().All(context.Background())
+	if err != nil {
+		return list, err
+	}
+	for _, eb := range ebs {
+		list = append(list, srv.unwrap(eb))
+	}
+	return list, nil
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
-	return srv.queryFirst(entbinder.IDEQ(id))
+	eb, err := srv.repos.Db.Binder().Query().Where(entbinder.IDEQ(id)).First(context.Background())
+	return srv.unwrap(eb), err
 }
 
 func (srv *BinderService) GetByName(name string) (Binder, error) {
-	return srv.queryFirst(entbinder.NameEQ(name))
+	eb, err := srv.repos.Db.Binder().Query().Where(entbinder.NameEQ(name)).First(context.Background())
+	return srv.unwrap(eb), err
 }
 
 func (srv *BinderService) CheckNameAvailable(name string) error {
-	count, err := srv.queryCount(entbinder.NameEQ(name))
+	count, err := srv.repos.Db.Binder().Query().
+		Where(entbinder.NameEQ(name)).
+		Count(context.Background())
 	if err != nil {
 		return err
 	}
