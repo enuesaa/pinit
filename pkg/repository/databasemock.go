@@ -6,7 +6,14 @@ import (
 
 type DatabaseMockRepository struct {}
 
-// todo
+func (repo *DatabaseMockRepository) Open() error {
+	return nil
+}
+
+func (repo *DatabaseMockRepository) Close() error {
+	return nil
+}
+
 func (repo *DatabaseMockRepository) Db() (*ent.Client, error) {
 	return nil, nil
 }

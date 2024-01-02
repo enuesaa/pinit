@@ -10,13 +10,32 @@ import (
 
 // アプリケーションのスタート時に Open して client をそのまま repository にするのがシンプルかも
 type DatabaseRepositoryInterface interface {
+	Open() error
+	Close() error
 	Db() (*ent.Client, error)
 	Migrate() error
 }
 
 type DatabaseRepository struct {
+	client *ent.Client
 	config ConfigRepositoryInterface
 	Tls    bool
+}
+
+func (repo *DatabaseRepository) Open() error {
+	client, err := ent.Open("mysql", repo.dsn())
+	if err != nil {
+		return err
+	}
+	repo.client = client
+	return nil
+}
+
+func (repo *DatabaseRepository) Close() error {
+	if repo.client == nil {
+		return nil
+	}
+	return repo.client.Close()
 }
 
 func (repo *DatabaseRepository) dsn() string {
