@@ -13,6 +13,12 @@ func CreateWriteCmd(repos repository.Repos) *cobra.Command {
 		Use:   "write <name>",
 		Short: "write a note",
 		Args:  cobra.MinimumNArgs(1),
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			return usecase.OpenDbConnection(repos)
+		},
+		PostRunE: func(cmd *cobra.Command, args []string) error {
+			return usecase.CloseDbConnection(repos)
+		},
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
 			if err := usecase.WriteNewNoteWithPrompt(repos, binderName); err != nil {

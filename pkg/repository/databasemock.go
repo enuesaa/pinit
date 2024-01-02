@@ -22,6 +22,19 @@ func (repo *DatabaseMockRepository) Migrate() error {
 	return nil
 }
 
+func (repo *DatabaseMockRepository) Binder() *ent.BinderClient {
+	return nil
+}
+
+func (repo *DatabaseMockRepository) Note() *ent.NoteClient {
+	return nil
+}
+
+func (repo *DatabaseMockRepository) Action() *ent.ActionClient {
+	return nil
+}
+
+
 // db.Use(hook.On(func(next ent.Mutator) ent.Mutator {
 // 	return hook.BinderFunc(func(ctx context.Context, m *ent.BinderMutation) (ent.Value, error) {
 // 		fmt.Printf("a\n")

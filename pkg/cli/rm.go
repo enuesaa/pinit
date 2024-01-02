@@ -11,6 +11,12 @@ func CreateRmCmd(repos repository.Repos) *cobra.Command {
 		Use:   "rm <name>",
 		Short: "Remove a binder",
 		Args:  cobra.MinimumNArgs(1),
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			return usecase.OpenDbConnection(repos)
+		},
+		PostRunE: func(cmd *cobra.Command, args []string) error {
+			return usecase.CloseDbConnection(repos)
+		},
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
 			usecase.DeleteBinder(repos, binderName)
