@@ -1,10 +1,10 @@
 package repository
 
 type Repos struct {
-	Config   ConfigRepositoryInterface
-	Fs       FsRepositoryInterface
-	Database DatabaseRepositoryInterface
-	Prompt   PromptInterface
+	Config ConfigRepositoryInterface
+	Fs     FsRepositoryInterface
+	Db     DbRepositoryInterface
+	Prompt PromptInterface
 }
 
 func NewRepos() Repos {
@@ -13,7 +13,7 @@ func NewRepos() Repos {
 	return Repos{
 		Config: &config,
 		Fs:     &FsRepository{},
-		Database: &DatabaseRepository{
+		Db: &DbRepository{
 			config: &config,
 			Tls:    true,
 		},
@@ -27,7 +27,7 @@ func NewTestRepos() Repos {
 	return Repos{
 		Config: &config,
 		Fs:     &FsMockRepository{},
-		Database: &DatabaseRepository{
+		Db: &DbRepository{
 			config: &config,
 			Tls:    false,
 		},

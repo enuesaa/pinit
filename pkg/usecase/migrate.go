@@ -8,7 +8,7 @@ import (
 )
 
 func Migrate(repos repository.Repos) error {
-	return repos.Database.Migrate()
+	return repos.Db.Migrate()
 }
 
 func CheckTableStatus(repos repository.Repos) error {

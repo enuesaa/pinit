@@ -8,7 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type DatabaseRepositoryInterface interface {
+type DbRepositoryInterface interface {
 	Open() error
 	Close() error
 	Binder() *ent.BinderClient
@@ -17,13 +17,13 @@ type DatabaseRepositoryInterface interface {
 	Migrate() error
 }
 
-type DatabaseRepository struct {
+type DbRepository struct {
 	client *ent.Client
 	config ConfigRepositoryInterface
 	Tls    bool
 }
 
-func (repo *DatabaseRepository) Open() error {
+func (repo *DbRepository) Open() error {
 	client, err := ent.Open("mysql", repo.dsn())
 	if err != nil {
 		return err
@@ -32,14 +32,14 @@ func (repo *DatabaseRepository) Open() error {
 	return nil
 }
 
-func (repo *DatabaseRepository) Close() error {
+func (repo *DbRepository) Close() error {
 	if repo.client == nil {
 		return nil
 	}
 	return repo.client.Close()
 }
 
-func (repo *DatabaseRepository) dsn() string {
+func (repo *DbRepository) dsn() string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.config.DbUsername(), repo.config.DbPassword(), repo.config.DbHost(), repo.config.DbName())
 	params := "interpolateParams=true&parseTime=true"
 	if repo.Tls {
@@ -48,7 +48,7 @@ func (repo *DatabaseRepository) dsn() string {
 	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
-func (repo *DatabaseRepository) Migrate() error {
+func (repo *DbRepository) Migrate() error {
 	db, err := ent.Open("mysql", repo.dsn())
 	if err != nil {
 		return err
@@ -57,14 +57,14 @@ func (repo *DatabaseRepository) Migrate() error {
 	return db.Schema.Create(context.Background())
 }
 
-func (repo *DatabaseRepository) Binder() *ent.BinderClient {
+func (repo *DbRepository) Binder() *ent.BinderClient {
 	return repo.client.Binder
 }
 
-func (repo *DatabaseRepository) Note() *ent.NoteClient {
+func (repo *DbRepository) Note() *ent.NoteClient {
 	return repo.client.Note
 }
 
-func (repo *DatabaseRepository) Action() *ent.ActionClient {
+func (repo *DbRepository) Action() *ent.ActionClient {
 	return repo.client.Action
 }

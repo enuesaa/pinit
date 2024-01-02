@@ -8,10 +8,10 @@ import (
 )
 
 func OpenDbConnection(repos repository.Repos) error {
-	if err := repos.Database.Open(); err != nil {
+	if err := repos.Db.Open(); err != nil {
 		return fmt.Errorf("failed to open db connetcion.")
 	}
-	_, err := repos.Database.Binder().Query().Select("id").Limit(1).All(context.Background())
+	_, err := repos.Db.Binder().Query().Select("id").Limit(1).All(context.Background())
 	if err != nil {
 		return fmt.Errorf("failed to open db connetcion.")
 	}
@@ -19,7 +19,7 @@ func OpenDbConnection(repos repository.Repos) error {
 }
 
 func CloseDbConnection(repos repository.Repos) error {
-	if err := repos.Database.Close(); err != nil {
+	if err := repos.Db.Close(); err != nil {
 		return fmt.Errorf("failed to close db connection.")
 	}
 	return nil

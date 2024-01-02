@@ -31,12 +31,12 @@ type BinderService struct {
 }
 
 func (srv *BinderService) queryCount(ps ...predicate.Binder) (int, error) {
-	return srv.repos.Database.Binder().Query().Where(ps...).Count(context.Background())
+	return srv.repos.Db.Binder().Query().Where(ps...).Count(context.Background())
 }
 
 func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
 	var list []Binder
-	ebs, err := srv.repos.Database.Binder().Query().Where(ps...).All(context.Background())
+	ebs, err := srv.repos.Db.Binder().Query().Where(ps...).All(context.Background())
 	if err != nil {
 		return list, err
 	}
@@ -47,7 +47,7 @@ func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
 }
 
 func (srv *BinderService) queryFirst(ps ...predicate.Binder) (Binder, error) {
-	eb, err := srv.repos.Database.Binder().Query().Where(ps...).First(context.Background())
+	eb, err := srv.repos.Db.Binder().Query().Where(ps...).First(context.Background())
 	if err != nil {
 		return Binder{}, err
 	}
@@ -96,7 +96,7 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 }
 
 func (srv *BinderService) Create(binder Binder) (uint, error) {
-	saved, err := srv.repos.Database.Binder().Create().
+	saved, err := srv.repos.Db.Binder().Create().
 		SetName(binder.Name).
 		SetCategory(binder.Category).
 		Save(context.Background())
@@ -117,7 +117,7 @@ func (srv *BinderService) RunPrompt(binder *Binder) error {
 }
 
 func (srv *BinderService) Update(binder Binder) error {
-	_, err := srv.repos.Database.Binder().Update().
+	_, err := srv.repos.Db.Binder().Update().
 		Where(entbinder.IDEQ(binder.ID)).
 		SetName(binder.Name).
 		SetCategory(binder.Category).
@@ -126,14 +126,14 @@ func (srv *BinderService) Update(binder Binder) error {
 }
 
 func (srv *BinderService) Delete(id uint) error {
-	_, err := srv.repos.Database.Binder().Delete().
+	_, err := srv.repos.Db.Binder().Delete().
 		Where(entbinder.IDEQ(id)).
 		Exec(context.Background())
 	return err
 }
 
 func (srv *BinderService) DeleteByName(name string) error {
-	_, err := srv.repos.Database.Binder().Delete().
+	_, err := srv.repos.Db.Binder().Delete().
 		Where(entbinder.NameEQ(name)).
 		Exec(context.Background())
 	return err
