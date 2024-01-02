@@ -16,6 +16,12 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
+
+			if err := usecase.OpenDbConnection(repos); err != nil {
+				log.Fatalf("Error: %s", err.Error())
+			}
+			defer usecase.CloseDbConnection(repos)
+
 			binder, err := usecase.DescribeBinder(repos, binderName)
 			if err != nil {
 				log.Printf("Error: %s", err.Error())

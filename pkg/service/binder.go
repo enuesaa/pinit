@@ -52,11 +52,7 @@ func (srv *BinderService) queryAll(ps ...predicate.Binder) ([]Binder, error) {
 }
 
 func (srv *BinderService) queryFirst(ps ...predicate.Binder) (Binder, error) {
-	db, err := srv.repos.Database.Db()
-	if err != nil {
-		return Binder{}, err
-	}
-	eb, err := db.Binder.Query().Where(ps...).First(context.Background())
+	eb, err := srv.repos.Database.Binder().Query().Where(ps...).First(context.Background())
 	if err != nil {
 		return Binder{}, err
 	}

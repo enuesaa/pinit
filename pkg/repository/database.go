@@ -8,10 +8,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// アプリケーションのスタート時に Open して client をそのまま repository にするのがシンプルかも
 type DatabaseRepositoryInterface interface {
 	Open() error
 	Close() error
+	Binder() *ent.BinderClient
 	Db() (*ent.Client, error)
 	Migrate() error
 }
@@ -62,4 +62,8 @@ func (repo *DatabaseRepository) Migrate() error {
 		return err
 	}
 	return db.Schema.Create(context.Background())
+}
+
+func (repo *DatabaseRepository) Binder() *ent.BinderClient {
+	return repo.client.Binder
 }

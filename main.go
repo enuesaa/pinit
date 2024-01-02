@@ -23,9 +23,6 @@ func main() {
 
 	repos.Config.Init()
 	repos.Config.Load()
-	if err := repos.Database.Open(); err != nil {
-		log.Fatalf("Error: failed to open db connetcion. \n%s\n", err.Error())
-	}
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))
