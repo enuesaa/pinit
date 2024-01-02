@@ -26,23 +26,23 @@ type ActionService struct {
 	repos repository.Repos
 }
 
-func (srv *ActionService) unwrap(eb *ent.Action) Action {
+func (srv *ActionService) unwrap(record *ent.Action) Action {
 	return Action{
-		ID:        eb.ID,
-		Name:      eb.Name,
-		Template:  eb.Template,
-		CreatedAt: eb.CreatedAt,
-		UpdatedAt: eb.UpdatedAt,
+		ID:        record.ID,
+		Name:      record.Name,
+		Template:  record.Template,
+		CreatedAt: record.CreatedAt,
+		UpdatedAt: record.UpdatedAt,
 	}
 }
 
-func (srv *ActionService) unwrapList(ebs []*ent.Action) []Action {
+func (srv *ActionService) unwrapList(records []*ent.Action) []Action {
 	var list []Action
-	if ebs == nil {
+	if records == nil {
 		return list
 	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
+	for _, record := range records {
+		list = append(list, srv.unwrap(record))
 	}
 	return list
 }
@@ -55,6 +55,6 @@ func (srv *ActionService) IsTableExist() (bool, error) {
 }
 
 func (srv *ActionService) List() ([]Action, error) {
-	ebs, err := srv.repos.Db.Action().Query().All(context.Background())
-	return srv.unwrapList(ebs), err
+	records, err := srv.repos.Db.Action().Query().All(context.Background())
+	return srv.unwrapList(records), err
 }

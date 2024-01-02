@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/enuesaa/pinit/pkg/ent"
-	entbinder "github.com/enuesaa/pinit/pkg/ent/binder"
+	q "github.com/enuesaa/pinit/pkg/ent/binder"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -29,27 +29,27 @@ type BinderService struct {
 	repos repository.Repos
 }
 
-func (srv *BinderService) unwrap(eb *ent.Binder) Binder {
-	if eb == nil {
+func (srv *BinderService) unwrap(record *ent.Binder) Binder {
+	if record == nil {
 		return Binder{}
 	}
 	return Binder{
-		ID:         eb.ID,
-		Name:       eb.Name,
-		Category:   eb.Category,
-		ArchivedAt: eb.ArchivedAt,
-		CreatedAt:  eb.CreatedAt,
-		UpdatedAt:  eb.UpdatedAt,
+		ID:         record.ID,
+		Name:       record.Name,
+		Category:   record.Category,
+		ArchivedAt: record.ArchivedAt,
+		CreatedAt:  record.CreatedAt,
+		UpdatedAt:  record.UpdatedAt,
 	}
 }
 
-func (srv *BinderService) unwrapList(ebs []*ent.Binder) []Binder {
+func (srv *BinderService) unwrapList(records []*ent.Binder) []Binder {
 	var list []Binder
-	if ebs == nil {
+	if records == nil {
 		return list
 	}
-	for _, eb := range ebs {
-		list = append(list, srv.unwrap(eb))
+	for _, record := range records {
+		list = append(list, srv.unwrap(record))
 	}
 	return list
 }
@@ -62,23 +62,23 @@ func (srv *BinderService) IsTableExist() (bool, error) {
 }
 
 func (srv *BinderService) List() ([]Binder, error) {
-	ebs, err := srv.repos.Db.Binder().Query().All(context.Background())
-	return srv.unwrapList(ebs), err
+	records, err := srv.repos.Db.Binder().Query().All(context.Background())
+	return srv.unwrapList(records), err
 }
 
 func (srv *BinderService) Get(id uint) (Binder, error) {
-	eb, err := srv.repos.Db.Binder().Query().Where(entbinder.IDEQ(id)).First(context.Background())
-	return srv.unwrap(eb), err
+	record, err := srv.repos.Db.Binder().Query().Where(q.IDEQ(id)).First(context.Background())
+	return srv.unwrap(record), err
 }
 
 func (srv *BinderService) GetByName(name string) (Binder, error) {
-	eb, err := srv.repos.Db.Binder().Query().Where(entbinder.NameEQ(name)).First(context.Background())
-	return srv.unwrap(eb), err
+	record, err := srv.repos.Db.Binder().Query().Where(q.NameEQ(name)).First(context.Background())
+	return srv.unwrap(record), err
 }
 
 func (srv *BinderService) CheckNameAvailable(name string) error {
 	count, err := srv.repos.Db.Binder().Query().
-		Where(entbinder.NameEQ(name)).
+		Where(q.NameEQ(name)).
 		Count(context.Background())
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func (srv *BinderService) Create(binder Binder) (uint, error) {
 
 func (srv *BinderService) Update(binder Binder) error {
 	_, err := srv.repos.Db.Binder().Update().
-		Where(entbinder.IDEQ(binder.ID)).
+		Where(q.IDEQ(binder.ID)).
 		SetName(binder.Name).
 		SetCategory(binder.Category).
 		Save(context.Background())
@@ -111,14 +111,14 @@ func (srv *BinderService) Update(binder Binder) error {
 
 func (srv *BinderService) Delete(id uint) error {
 	_, err := srv.repos.Db.Binder().Delete().
-		Where(entbinder.IDEQ(id)).
+		Where(q.IDEQ(id)).
 		Exec(context.Background())
 	return err
 }
 
 func (srv *BinderService) DeleteByName(name string) error {
 	_, err := srv.repos.Db.Binder().Delete().
-		Where(entbinder.NameEQ(name)).
+		Where(q.NameEQ(name)).
 		Exec(context.Background())
 	return err
 }
