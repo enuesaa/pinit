@@ -4,6 +4,11 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
+func ConfigInit(repos repository.Repos) error {
+	repos.Config.Init()
+	return repos.Config.Load()
+}
+
 func Configure(repos repository.Repos) error {
 	dbHost, err := repos.Prompt.Ask("DB Host", repos.Config.DbHost())
 	if err != nil {

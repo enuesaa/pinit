@@ -16,13 +16,10 @@ func main() {
 	app := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app",
-		Version: "0.0.5",
+		Version: "0.0.6",
 	}
 
 	repos := repository.NewRepos()
-
-	repos.Config.Init()
-	repos.Config.Load()
 	app.AddCommand(cli.CreateConfigureCmd(repos))
 	app.AddCommand(cli.CreateLsCmd(repos))
 	app.AddCommand(cli.CreateCreateCmd(repos))
