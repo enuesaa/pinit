@@ -14,7 +14,7 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 		Use:   "configure",
 		Short: "Setup pinit",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.ConfigInit(repos)
+			return usecase.LoadConfig(repos)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			migrate, _ := cmd.Flags().GetBool("migrate")

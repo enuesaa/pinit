@@ -5,7 +5,7 @@ import (
 	"github.com/enuesaa/pinit/pkg/service"
 )
 
-func CreateWithPrompt(repos repository.Repos) error {
+func RunCreatePrompt(repos repository.Repos) error {
 	binderSrv := service.NewBinderService(repos)
 	var binder service.Binder
 	name, err := repos.Prompt.Ask("Name", binder.Name)
@@ -35,7 +35,7 @@ func CreateWithPrompt(repos repository.Repos) error {
 	return nil
 }
 
-func WriteNewNoteWithPrompt(repos repository.Repos, binderName string) error {
+func RunWritePrompt(repos repository.Repos, binderName string) error {
 	binderSrv := service.NewBinderService(repos)
 	binder, err := binderSrv.GetByName(binderName)
 	if err != nil {

@@ -7,6 +7,11 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
+func LoadConfig(repos repository.Repos) error {
+	repos.Config.Init()
+	return repos.Config.Load()
+}
+
 func OpenDbConnection(repos repository.Repos) error {
 	if err := repos.Db.Open(); err != nil {
 		return fmt.Errorf("failed to open db connetcion.")
@@ -18,9 +23,9 @@ func OpenDbConnection(repos repository.Repos) error {
 	return nil
 }
 
-func CloseDbConnection(repos repository.Repos) error {
-	if err := repos.Db.Close(); err != nil {
-		return fmt.Errorf("failed to close db connection.")
+func OnStartUp(repos repository.Repos) error {
+	if err := LoadConfig(repos); err != nil {
+		return err
 	}
-	return nil
+	return OpenDbConnection(repos)
 }
