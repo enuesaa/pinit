@@ -24,16 +24,14 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 			binderName := args[0]
 			binder, err := usecase.DescribeBinder(repos, binderName)
 			if err != nil {
-				log.Printf("Error: %s", err.Error())
-				return
+				log.Fatalf("Error: %s", err.Error())
 			}
 			fmt.Printf("Name: %s\n", binder.Name)
 			fmt.Printf("Category: %s\n", binder.Category)
 
 			notes, err := usecase.ListBinderNotes(repos, binder.ID)
 			if err != nil {
-				log.Printf("Error: %s", err.Error())
-				return
+				log.Fatalf("Error: %s", err.Error())
 			}
 			for _, note := range notes {
 				fmt.Printf("--\n")

@@ -20,8 +20,7 @@ func CreateCreateCmd(repos repository.Repos) *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := usecase.RunCreatePrompt(repos); err != nil {
-				log.Printf("Error: %s", err.Error())
-				return
+				log.Fatalf("Error: %s", err.Error())
 			}
 		},
 	}

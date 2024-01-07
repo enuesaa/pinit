@@ -4,7 +4,7 @@ import (
 	"github.com/enuesaa/pinit/pkg/ent"
 )
 
-type DatabaseMockRepository struct {}
+type DatabaseMockRepository struct{}
 
 func (repo *DatabaseMockRepository) Open() error {
 	return nil
@@ -33,7 +33,6 @@ func (repo *DatabaseMockRepository) Note() *ent.NoteClient {
 func (repo *DatabaseMockRepository) Action() *ent.ActionClient {
 	return nil
 }
-
 
 // db.Use(hook.On(func(next ent.Mutator) ent.Mutator {
 // 	return hook.BinderFunc(func(ctx context.Context, m *ent.BinderMutation) (ent.Value, error) {

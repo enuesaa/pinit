@@ -22,8 +22,7 @@ func CreateWriteCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]
 			if err := usecase.RunWritePrompt(repos, binderName); err != nil {
-				log.Printf("Error: %s", err.Error())
-				return
+				log.Fatalf("Error: %s", err.Error())
 			}
 		},
 	}
