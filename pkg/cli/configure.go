@@ -32,6 +32,9 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 			}
 
 			fmt.Printf("Checking table existence..\n")
+			if err := usecase.OpenDbConnection(repos); err != nil {
+				log.Fatalf("Error: %s", err.Error())
+			}
 			if err := usecase.CheckTableStatus(repos); err != nil {
 				log.Fatalf("Error: %s", err.Error())
 			}
