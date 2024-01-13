@@ -1,13 +1,13 @@
 import { Header } from '@/components/common/Header'
+import { ListBinders } from '@/components/data/ListBinders'
 import { Container } from '@radix-ui/themes'
-import { BinderStory } from '@/components/data/BinderStory'
 
 export default function TopPage() {
   return (
     <>
       <Header />
       <Container size='4' p='4'>
-        <BinderStory />
+        <ListBinders />
       </Container>
     </>
   )
