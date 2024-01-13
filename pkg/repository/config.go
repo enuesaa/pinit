@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+//Deprecated
 type ConfigRepositoryInterface interface {
 	Init()
 	Load() error

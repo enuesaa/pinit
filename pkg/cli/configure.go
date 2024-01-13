@@ -19,6 +19,10 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			migrate, _ := cmd.Flags().GetBool("migrate")
 
+			if err := usecase.CreateRegistry(repos); err != nil {
+				log.Fatalf("Error: %s", err.Error())
+			}
+
 			if err := usecase.Configure(repos); err != nil {
 				log.Fatalf("Error: %s", err.Error())
 			}

@@ -2,7 +2,16 @@ package usecase
 
 import (
 	"github.com/enuesaa/pinit/pkg/repository"
+	"github.com/enuesaa/pinit/pkg/service"
 )
+
+func CreateRegistry(repos repository.Repos) error {
+	registrySrv := service.NewRegistrySrv(repos)
+	if registrySrv.IsExist() {
+		return nil
+	}
+	return registrySrv.Create()
+}
 
 func Configure(repos repository.Repos) error {
 	dbHost, err := repos.Prompt.Ask("DB Host", repos.Config.DbHost())
