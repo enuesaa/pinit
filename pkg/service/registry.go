@@ -30,7 +30,6 @@ func (srv *RegistrySrv) GetPath() (string, error) {
 	return filepath.Join(homedir, ".pinit"), nil
 }
 
-
 func (srv *RegistrySrv) IsExist() bool {
 	path, err := srv.GetPath()
 	if err != nil {

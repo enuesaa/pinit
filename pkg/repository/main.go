@@ -8,16 +8,16 @@ type Repos struct {
 
 func NewRepos() Repos {
 	return Repos{
-		Fs: &FsRepository{},
-		Db: &DbRepository{},
+		Fs:     &FsRepository{},
+		Db:     &DbRepository{},
 		Prompt: &Prompt{},
 	}
 }
 
 func NewTestRepos() Repos {
 	return Repos{
-		Fs: &FsMockRepository{},
-		Db: &DbRepository{},
+		Fs:     &FsMockRepository{},
+		Db:     &DbRepository{},
 		Prompt: &Prompt{},
 	}
 }

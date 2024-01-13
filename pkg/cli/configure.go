@@ -11,17 +11,15 @@ import (
 func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:   "configure",
-		Short: "Setup pinit",
+		Short: "Setup",
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := usecase.CreateRegistryIfNotExist(repos); err != nil {
 				log.Fatalf("Error: %s", err.Error())
 			}
-
 			if err := usecase.OpenDb(repos); err != nil {
 				log.Fatalf("Error: %s", err.Error())
 			}
-
-			if err := usecase.Configure(repos); err != nil {
+			if err := usecase.ConfigureAppConfig(repos); err != nil {
 				log.Fatalf("Error: %s", err.Error())
 			}
 		},

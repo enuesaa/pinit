@@ -15,10 +15,10 @@ func CreateLookupCmd(repos repository.Repos) *cobra.Command {
 		Short: "lookup a binder",
 		Args:  cobra.MinimumNArgs(1),
 		PreRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.OnStartUp(repos)
+			return usecase.OpenDb(repos)
 		},
 		PostRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.CloseDbConnection(repos)
+			return usecase.CloseDb(repos)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			binderName := args[0]

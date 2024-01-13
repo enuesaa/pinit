@@ -14,10 +14,10 @@ func CreateLsCmd(repos repository.Repos) *cobra.Command {
 		Use:   "ls",
 		Short: "List binders",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.OnStartUp(repos)
+			return usecase.OpenDb(repos)
 		},
 		PostRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.CloseDbConnection(repos)
+			return usecase.CloseDb(repos)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			binders, err := usecase.ListBinders(repos)

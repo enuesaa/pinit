@@ -32,7 +32,7 @@ func (repo *DbRepository) Open() error {
 	}
 	dbPath := filepath.Join(homedir, ".pinit", "pinit.db")
 	dsn := fmt.Sprintf("file:%s?_fk=1", dbPath)
-    client, err := ent.Open(dialect.SQLite, dsn)
+	client, err := ent.Open(dialect.SQLite, dsn)
 	if err != nil {
 		return err
 	}

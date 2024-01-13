@@ -13,10 +13,10 @@ func CreateCreateCmd(repos repository.Repos) *cobra.Command {
 		Use:   "create",
 		Short: "Create new binder and write a note",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.OnStartUp(repos)
+			return usecase.OpenDb(repos)
 		},
 		PostRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.CloseDbConnection(repos)
+			return usecase.CloseDb(repos)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := usecase.RunCreatePrompt(repos); err != nil {

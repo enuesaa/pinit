@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"fmt"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/service"
 )
@@ -29,7 +31,7 @@ func CreateRegistryIfNotExist(repos repository.Repos) error {
 	return nil
 }
 
-func Configure(repos repository.Repos) error {
+func ConfigureAppConfig(repos repository.Repos) error {
 	registrySrv := service.NewRegistrySrv(repos)
 	token, err := repos.Prompt.Ask("OpenAI API Token", registrySrv.GetOpenAiApiToken())
 	if err != nil {
@@ -37,3 +39,18 @@ func Configure(repos repository.Repos) error {
 	}
 	return registrySrv.SetOpenAiApiToken(token)
 }
+
+func OpenDb(repos repository.Repos) error {
+	if err := repos.Db.Open(); err != nil {
+		return fmt.Errorf("failed to open db connetcion. %s", err.Error())
+	}
+	return nil
+}
+
+func CloseDb(repos repository.Repos) error {
+	if err := repos.Db.Close(); err != nil {
+		return fmt.Errorf("failed to close db connection.")
+	}
+	return nil
+}
+

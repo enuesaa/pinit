@@ -12,10 +12,10 @@ func CreateServeCmd(repos repository.Repos) *cobra.Command {
 		Use:   "serve",
 		Short: "Launch the web console",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.OnStartUp(repos)
+			return usecase.OpenDb(repos)
 		},
 		PostRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.CloseDbConnection(repos)
+			return usecase.CloseDb(repos)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			port, _ := cmd.Flags().GetInt("port")
