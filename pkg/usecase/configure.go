@@ -5,12 +5,29 @@ import (
 	"github.com/enuesaa/pinit/pkg/service"
 )
 
-func CreateRegistry(repos repository.Repos) error {
+func CreateRegistryIfNotExist(repos repository.Repos) error {
 	registrySrv := service.NewRegistrySrv(repos)
 	if registrySrv.IsExist() {
 		return nil
 	}
-	return registrySrv.Create()
+	if err := registrySrv.Create(); err != nil {
+		return err
+	}
+
+	if err := OpenDb(repos); err != nil {
+		return err
+	}
+
+	binderSrv := service.NewBinderService(repos)
+	is, err := binderSrv.IsTableExist()
+	if err != nil {
+		return err
+	}
+	if !is {
+		return repos.Db.Migrate()
+	}
+
+	return nil
 }
 
 func Configure(repos repository.Repos) error {

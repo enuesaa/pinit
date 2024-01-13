@@ -12,7 +12,7 @@ func LoadConfig(repos repository.Repos) error {
 	return repos.Config.Load()
 }
 
-func OpenDbConnection(repos repository.Repos) error {
+func OpenDb(repos repository.Repos) error {
 	if err := repos.Db.Open(); err != nil {
 		return fmt.Errorf("failed to open db connetcion. %s", err.Error())
 	}
@@ -27,5 +27,5 @@ func OnStartUp(repos repository.Repos) error {
 	if err := LoadConfig(repos); err != nil {
 		return err
 	}
-	return OpenDbConnection(repos)
+	return OpenDb(repos)
 }
