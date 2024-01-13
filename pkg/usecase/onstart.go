@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"context"
+	// "context"
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -14,12 +14,12 @@ func LoadConfig(repos repository.Repos) error {
 
 func OpenDbConnection(repos repository.Repos) error {
 	if err := repos.Db.Open(); err != nil {
-		return fmt.Errorf("failed to open db connetcion.")
+		return fmt.Errorf("failed to open db connetcion. %s", err.Error())
 	}
-	_, err := repos.Db.Binder().Query().Select("id").Limit(1).All(context.Background())
-	if err != nil {
-		return fmt.Errorf("failed to open db connetcion.")
-	}
+	// _, err := repos.Db.Binder().Query().Select("id").Limit(1).All(context.Background())
+	// if err != nil {
+	// 	return fmt.Errorf("failed to open db connetcion. %s", err.Error())
+	// }
 	return nil
 }
 

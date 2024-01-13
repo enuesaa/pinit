@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"entgo.io/ent/dialect"
 	"github.com/enuesaa/pinit/pkg/ent"
-	_ "github.com/go-sql-driver/mysql"
+    _ "github.com/mattn/go-sqlite3"
 )
 
 type DbRepositoryInterface interface {
@@ -24,7 +25,7 @@ type DbRepository struct {
 }
 
 func (repo *DbRepository) Open() error {
-	client, err := ent.Open("mysql", repo.dsn())
+    client, err := ent.Open(dialect.SQLite, "file:ent.db?_fk=1")
 	if err != nil {
 		return err
 	}
@@ -49,12 +50,10 @@ func (repo *DbRepository) dsn() string {
 }
 
 func (repo *DbRepository) Migrate() error {
-	db, err := ent.Open("mysql", repo.dsn())
-	if err != nil {
+	if err := repo.Open(); err != nil {
 		return err
 	}
-	defer db.Close()
-	return db.Schema.Create(context.Background())
+	return repo.client.Schema.Create(context.Background())
 }
 
 func (repo *DbRepository) Binder() *ent.BinderClient {

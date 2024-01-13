@@ -9,3 +9,4 @@ tmp
 pkg/ent/*
 !pkg/ent/generate.go
 !pkg/ent/schema
+ent.db
