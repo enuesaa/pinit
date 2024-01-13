@@ -3,7 +3,7 @@ package serve
 import (
 	"fmt"
 
-	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -17,7 +17,8 @@ type ListBindersItem struct {
 }
 
 func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
-	binders, err := usecase.ListBinders(ctl.Repos)
+	binderSrv := service.NewBinderService(ctl.repos)
+	binders, err := binderSrv.List()
 	if err != nil {
 		return err
 	}

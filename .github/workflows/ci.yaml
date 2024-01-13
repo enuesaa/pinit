@@ -16,4 +16,3 @@ jobs:
       - run: go test ./...
         env:
           PINIT_DB_PATH: test.db
-      - run: which sqlite3

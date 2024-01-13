@@ -3,7 +3,7 @@ package serve
 import (
 	"fmt"
 
-	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -17,7 +17,8 @@ func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	notes, err := usecase.ListBinderNotes(ctl.Repos, uint(binderId))
+	noteSrv := service.NewNoteService(ctl.repos)
+	notes, err := noteSrv.ListByBinderId(uint(binderId))
 	if err != nil {
 		return err
 	}

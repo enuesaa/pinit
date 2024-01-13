@@ -1,7 +1,7 @@
 package serve
 
 import (
-	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -14,7 +14,8 @@ func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
 	res := ApiListResponse[Action]{
 		Items: make([]Action, 0),
 	}
-	actions, err := usecase.ListActions(ctl.Repos)
+	actionSrv := service.NewActionService(ctl.repos)
+	actions, err := actionSrv.List()
 	if err != nil {
 		return err
 	}

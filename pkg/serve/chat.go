@@ -20,8 +20,8 @@ func (ctl *ServeCtl) Chat(c *fiber.Ctx) error {
 		return err
 	}
 
-	chatgptSrv := service.NewAiService(ctl.Repos)
-	registrySrv := service.NewRegistrySrv(ctl.Repos)
+	chatgptSrv := service.NewAiService(ctl.repos)
+	registrySrv := service.NewRegistrySrv(ctl.repos)
 	res, err := chatgptSrv.Call(registrySrv.GetOpenAiApiToken(), req.Message)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())

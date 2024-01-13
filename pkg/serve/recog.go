@@ -15,18 +15,18 @@ type RecogResponse struct {
 
 func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
 	body := c.BodyRaw()
-	aiSrv := service.NewAiService(ctl.Repos)
+	aiSrv := service.NewAiService(ctl.repos)
 
 	id := ctl.CreateId()
 	path := fmt.Sprintf("tmp/%s.wav", id)
-	if err := ctl.Repos.Fs.CreateDir(filepath.Dir(path)); err != nil {
+	if err := ctl.repos.Fs.CreateDir(filepath.Dir(path)); err != nil {
 		return err
 	}
-	if err := ctl.Repos.Fs.Create(path, body); err != nil {
+	if err := ctl.repos.Fs.Create(path, body); err != nil {
 		return err
 	}
 
-	registrySrv := service.NewRegistrySrv(ctl.Repos)
+	registrySrv := service.NewRegistrySrv(ctl.repos)
 	text, err := aiSrv.Speak(registrySrv.GetOpenAiApiToken(), path)
 	if err != nil {
 		return err
