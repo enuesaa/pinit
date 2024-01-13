@@ -9,23 +9,11 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    services:
-      db:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_USER: test
-          MYSQL_PASSWORD: test
-          MYSQL_DATABASE: test_pinit
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-        options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/env
-
       - run: go generate ./...
-      - run: go install
-
-      - run: go test -dbhost localhost -dbusername test -dbpassword test -dbname test_pinit
+      - run: go test ./...
+        env:
+          PINIT_DB_PATH: test.db
+      - run: which sqlite3
