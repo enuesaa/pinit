@@ -25,13 +25,25 @@ type DbRepository struct {
 	client *ent.Client
 }
 
+func (repo *DbRepository) dsn() (string, error) {
+	dbPath := os.Getenv("PINIT_DB_PATH")
+	if dbPath == "" {
+		homedir, err := os.UserHomeDir()
+		if err != nil {
+			return "", err
+		}
+		dbPath = filepath.Join(homedir, ".pinit", "pinit.db")
+	}
+	dsn := fmt.Sprintf("file:%s?_fk=1", dbPath)
+
+	return dsn, nil
+}
+
 func (repo *DbRepository) Open() error {
-	homedir, err := os.UserHomeDir()
+	dsn, err := repo.dsn()
 	if err != nil {
 		return err
 	}
-	dbPath := filepath.Join(homedir, ".pinit", "pinit.db")
-	dsn := fmt.Sprintf("file:%s?_fk=1", dbPath)
 	client, err := ent.Open(dialect.SQLite, dsn)
 	if err != nil {
 		return err
