@@ -22,6 +22,10 @@ func (repo *DatabaseMockRepository) Migrate() error {
 	return nil
 }
 
+func (repo *DatabaseMockRepository) Appconf() *ent.AppconfClient {
+	return nil
+}
+
 func (repo *DatabaseMockRepository) Binder() *ent.BinderClient {
 	return nil
 }

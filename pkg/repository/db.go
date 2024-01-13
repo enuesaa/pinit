@@ -12,6 +12,7 @@ import (
 type DbRepositoryInterface interface {
 	Open() error
 	Close() error
+	Appconf() *ent.AppconfClient
 	Binder() *ent.BinderClient
 	Note() *ent.NoteClient
 	Action() *ent.ActionClient
@@ -54,6 +55,10 @@ func (repo *DbRepository) Migrate() error {
 		return err
 	}
 	return repo.client.Schema.Create(context.Background())
+}
+
+func (repo *DbRepository) Appconf() *ent.AppconfClient {
+	return repo.client.Appconf
 }
 
 func (repo *DbRepository) Binder() *ent.BinderClient {

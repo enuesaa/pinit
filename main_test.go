@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/usecase"
 )
 
 var testDbHostFlag = flag.String("dbhost", "", "[Required] database host for test")
@@ -26,9 +25,9 @@ func TestMain(m *testing.M) {
 	repos.Config.SetDbUsername(*testDbUsernameFlag)
 	repos.Config.SetDbPassword(*testDbPasswordFlag)
 
-	if err := usecase.Migrate(repos); err != nil {
-		log.Fatalf("Error: failed to migrate, %s", err.Error())
-	}
+	// if err := usecase.Migrate(repos); err != nil {
+	// 	log.Fatalf("Error: failed to migrate, %s", err.Error())
+	// }
 
 	code := m.Run()
 	log.Printf("text finished with code %d", code)

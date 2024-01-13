@@ -1,8 +1,10 @@
 package service
 
 import (
+	"context"
 	"path/filepath"
 
+	q "github.com/enuesaa/pinit/pkg/ent/appconf"
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
@@ -53,4 +55,9 @@ func (srv *RegistrySrv) DeleteBufDir() error {
 		return err
 	}
 	return srv.repos.Fs.Remove(path)
+}
+
+func (srv *RegistrySrv) GetConf(key string) (string, error) {
+	record, err := srv.repos.Db.Appconf().Query().Where(q.KeyEQ(key)).First(context.Background())
+	return record.Value, err
 }
