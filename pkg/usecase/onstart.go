@@ -1,16 +1,11 @@
 package usecase
 
 import (
-	// "context"
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
-func LoadConfig(repos repository.Repos) error {
-	repos.Config.Init()
-	return repos.Config.Load()
-}
 
 func OpenDb(repos repository.Repos) error {
 	if err := repos.Db.Open(); err != nil {
@@ -24,8 +19,5 @@ func OpenDb(repos repository.Repos) error {
 }
 
 func OnStartUp(repos repository.Repos) error {
-	if err := LoadConfig(repos); err != nil {
-		return err
-	}
 	return OpenDb(repos)
 }

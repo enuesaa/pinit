@@ -21,9 +21,9 @@ func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
 				log.Fatalf("Error: %s", err.Error())
 			}
 
-			// if err := usecase.Configure(repos); err != nil {
-			// 	log.Fatalf("Error: %s", err.Error())
-			// }
+			if err := usecase.Configure(repos); err != nil {
+				log.Fatalf("Error: %s", err.Error())
+			}
 		},
 	}
 

@@ -7,11 +7,10 @@ import (
 
 func CreateRegistryIfNotExist(repos repository.Repos) error {
 	registrySrv := service.NewRegistrySrv(repos)
-	if registrySrv.IsExist() {
-		return nil
-	}
-	if err := registrySrv.Create(); err != nil {
-		return err
+	if !registrySrv.IsExist() {
+		if err := registrySrv.Create(); err != nil {
+			return err
+		}
 	}
 
 	if err := OpenDb(repos); err != nil {
@@ -32,27 +31,9 @@ func CreateRegistryIfNotExist(repos repository.Repos) error {
 
 func Configure(repos repository.Repos) error {
 	registrySrv := service.NewRegistrySrv(repos)
-
-	dbHost, err := repos.Prompt.Ask("DB Host", repos.Config.DbHost())
+	token, err := repos.Prompt.Ask("OpenAI API Token", registrySrv.GetOpenAiApiToken())
 	if err != nil {
 		return err
 	}
-	dbUsername, err := repos.Prompt.Ask("DB Username", repos.Config.DbUsername())
-	if err != nil {
-		return err
-	}
-	dbPassword, err := repos.Prompt.Ask("DB Password", repos.Config.DbPassword())
-	if err != nil {
-		return err
-	}
-	dbName, err := repos.Prompt.Ask("DB Name", repos.Config.DbName())
-	if err != nil {
-		return err
-	}
-	chatgptToken, err := repos.Prompt.Ask("OpenAI API Token", repos.Config.ChatgptToken())
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return registrySrv.SetOpenAiApiToken(token)
 }

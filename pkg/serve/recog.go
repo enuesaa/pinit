@@ -26,7 +26,8 @@ func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
 		return err
 	}
 
-	text, err := aiSrv.Speak(ctl.Repos.Config.ChatgptToken(), path)
+	registrySrv := service.NewRegistrySrv(ctl.Repos)
+	text, err := aiSrv.Speak(registrySrv.GetOpenAiApiToken(), path)
 	if err != nil {
 		return err
 	}

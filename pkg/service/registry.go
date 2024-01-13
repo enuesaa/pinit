@@ -8,6 +8,10 @@ import (
 	"github.com/enuesaa/pinit/pkg/repository"
 )
 
+type AppConfig struct {
+	chatgpttoken string
+}
+
 func NewRegistrySrv(repos repository.Repos) RegistrySrv {
 	return RegistrySrv{
 		repos: repos,
@@ -57,7 +61,32 @@ func (srv *RegistrySrv) DeleteBufDir() error {
 	return srv.repos.Fs.Remove(path)
 }
 
-func (srv *RegistrySrv) GetConf(key string) (string, error) {
-	record, err := srv.repos.Db.Appconf().Query().Where(q.KeyEQ(key)).First(context.Background())
-	return record.Value, err
+func (srv *RegistrySrv) GetOpenAiApiToken() string {
+	record, err := srv.repos.Db.Appconf().Query().Where(q.KeyEQ("openaiApiToken")).First(context.Background())
+	if err != nil {
+		return ""
+	}
+	return record.Value
+}
+
+func (srv *RegistrySrv) SetOpenAiApiToken(token string) error {
+	record, err := srv.repos.Db.Appconf().Query().Where(q.KeyEQ("openaiApiToken")).First(context.Background())
+	if err != nil {
+		_, err := srv.repos.Db.Appconf().Create().
+			SetKey("openaiApiToken").
+			SetValue(token).
+			Save(context.Background())
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+
+	_, err = record.Update().
+		SetValue(token).
+		Save(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
 }

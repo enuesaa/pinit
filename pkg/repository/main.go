@@ -1,36 +1,23 @@
 package repository
 
 type Repos struct {
-	Config ConfigRepositoryInterface
 	Fs     FsRepositoryInterface
 	Db     DbRepositoryInterface
 	Prompt PromptInterface
 }
 
 func NewRepos() Repos {
-	config := ConfigRepository{}
-
 	return Repos{
-		Config: &config,
-		Fs:     &FsRepository{},
-		Db: &DbRepository{
-			config: &config,
-			Tls:    true,
-		},
+		Fs: &FsRepository{},
+		Db: &DbRepository{},
 		Prompt: &Prompt{},
 	}
 }
 
 func NewTestRepos() Repos {
-	config := ConfigMockRepository{}
-
 	return Repos{
-		Config: &config,
-		Fs:     &FsMockRepository{},
-		Db: &DbRepository{
-			config: &config,
-			Tls:    false,
-		},
+		Fs: &FsMockRepository{},
+		Db: &DbRepository{},
 		Prompt: &Prompt{},
 	}
 }

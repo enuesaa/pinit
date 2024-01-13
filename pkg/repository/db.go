@@ -3,10 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"entgo.io/ent/dialect"
 	"github.com/enuesaa/pinit/pkg/ent"
-    _ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type DbRepositoryInterface interface {
@@ -21,12 +23,16 @@ type DbRepositoryInterface interface {
 
 type DbRepository struct {
 	client *ent.Client
-	config ConfigRepositoryInterface
-	Tls    bool
 }
 
 func (repo *DbRepository) Open() error {
-    client, err := ent.Open(dialect.SQLite, "file:ent.db?_fk=1")
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
+	dbPath := filepath.Join(homedir, ".pinit", "pinit.db")
+	dsn := fmt.Sprintf("file:%s?_fk=1", dbPath)
+    client, err := ent.Open(dialect.SQLite, dsn)
 	if err != nil {
 		return err
 	}
@@ -39,15 +45,6 @@ func (repo *DbRepository) Close() error {
 		return nil
 	}
 	return repo.client.Close()
-}
-
-func (repo *DbRepository) dsn() string {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", repo.config.DbUsername(), repo.config.DbPassword(), repo.config.DbHost(), repo.config.DbName())
-	params := "interpolateParams=true&parseTime=true"
-	if repo.Tls {
-		params = "interpolateParams=true&tls=true&parseTime=true"
-	}
-	return fmt.Sprintf("%s?%s", dsn, params)
 }
 
 func (repo *DbRepository) Migrate() error {
