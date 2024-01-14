@@ -4,6 +4,9 @@ import styles from './BinderStoryInputArea.css'
 import { useGetAction } from '@/lib/state'
 import { MouseEventHandler, useEffect, useRef } from 'react'
 import { useChat } from '@/lib/api'
+import dynamic from 'next/dynamic'
+
+const BinderStoryInputRecorder = dynamic(() => import('./BinderStoryInputRecorder').then(m => m.BinderStoryInputRecorder), {ssr: false})
 
 export const BinderStoryInputArea = () => {
   const action = useGetAction()
@@ -40,6 +43,7 @@ export const BinderStoryInputArea = () => {
     <div className={styles.main}>
       <TextArea className={styles.textarea} ref={textareaRef} size='3' />
       <span className={styles.speakButton}><FaMicrophone /></span>
+      <BinderStoryInputRecorder />
       <span className={styles.trashButton} onClick={handleTrash}><FaTrash /></span>
       <Button onClick={handleClick} variant='solid' m='2' style={{ cursor: 'pointer', fontSize: '29px', lineHeight: '15px' }}>
         <FaCaretRight />
