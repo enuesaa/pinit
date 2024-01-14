@@ -8,8 +8,10 @@ require (
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/google/uuid v1.4.0
 	github.com/mattn/go-sqlite3 v1.14.19
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/sashabaranov/go-openai v1.15.4
 	github.com/spf13/cobra v1.7.0
+	golang.org/x/tools v0.8.1-0.20230428195545-5283a0178901
 )
 
 require (
