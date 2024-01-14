@@ -1,5 +1,4 @@
 node_modules
-/.next/
 dist
 
 # debug
@@ -7,7 +6,11 @@ npm-debug.log*
 .pnpm-debug.log*
 
 # env files
-.env*.local
+.env
 
 # typescript
 *.tsbuildinfo
+
+.cache
+build
+public/build
