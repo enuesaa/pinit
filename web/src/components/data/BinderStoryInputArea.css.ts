@@ -10,7 +10,7 @@ export default {
   speakButton: style({
     position: 'absolute',
     right: '10px',
-    bottom: '5px',
+    bottom: '50px',
     cursor: 'pointer',
   })
 }

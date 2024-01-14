@@ -15,7 +15,7 @@ export const BinderStoryAction = ({ action }: Props) => {
   }
 
   return (
-    <Button m='2' style={{ cursor: 'pointer' }} onClick={handleClick}>
+    <Button m='2' variant='soft' style={{ cursor: 'pointer' }} onClick={handleClick}>
       {action.name}
     </Button>
   )
