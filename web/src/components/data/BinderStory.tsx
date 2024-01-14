@@ -10,13 +10,13 @@ export const BinderStory = () => {
   return (
     <Section p='1'>
       <Flex width='100%' gap='5'>
-        <Box grow='1'>
+        <Box style={{flexBasis: '50%'}}>
           {actions && actions.map((a,i) => (
             <BinderStoryAction key={i} action={a} />
           ))}
           <BinderStoryInputArea />
         </Box>
-        <Box grow='1'>
+        <Box style={{flexBasis: '50%'}}>
           <BinderStoryOutputArea />
         </Box>
       </Flex>

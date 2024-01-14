@@ -27,12 +27,12 @@ func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
 	}
 	// mock data
 	res.Items = append(res.Items, Action{
-		Name:     "normalize",
-		Template: "normalize message",
+		Name:     "grammer",
+		Template: "Can you check the grammar in this English sentence?\n\n",
 	})
 	res.Items = append(res.Items, Action{
 		Name:     "translate",
-		Template: "translate message",
+		Template: "translate message to japanese.\n\n",
 	})
 	return c.JSON(res)
 }

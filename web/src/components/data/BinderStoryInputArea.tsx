@@ -1,4 +1,4 @@
-import { Button, TextArea } from '@radix-ui/themes'
+import { Box, Button, Text, TextArea } from '@radix-ui/themes'
 import { FaCaretRight, FaMicrophone, FaTrash } from 'react-icons/fa'
 import styles from './BinderStoryInputArea.css'
 import { useGetAction } from '@/lib/state'
@@ -38,12 +38,14 @@ export const BinderStoryInputArea = () => {
 
   return (
     <div className={styles.main}>
-      <TextArea className={styles.textarea} ref={textareaRef} />
+      <TextArea className={styles.textarea} ref={textareaRef} size='3' />
       <span className={styles.speakButton}><FaMicrophone /></span>
       <span className={styles.trashButton} onClick={handleTrash}><FaTrash /></span>
       <Button onClick={handleClick} variant='solid' m='2' style={{ cursor: 'pointer', fontSize: '29px', lineHeight: '15px' }}>
         <FaCaretRight />
       </Button>
+
+      <Text as='p' m='6'>{chat.data}</Text>
     </div>
   )
 }
