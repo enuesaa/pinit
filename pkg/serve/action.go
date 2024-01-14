@@ -6,8 +6,8 @@ import (
 )
 
 type Action struct {
-	Name     string
-	Template string
+	Name     string `json:"name"`
+	Template string `json:"template"`
 }
 
 func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
@@ -25,5 +25,14 @@ func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
 			Template: action.Template,
 		})
 	}
+	// mock data
+	res.Items = append(res.Items, Action{
+		Name:     "normalize",
+		Template: "normalize message",
+	})
+	res.Items = append(res.Items, Action{
+		Name:     "translate",
+		Template: "translate message",
+	})
 	return c.JSON(res)
 }

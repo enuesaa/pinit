@@ -1,6 +1,9 @@
 import { style } from '@vanilla-extract/css'
 
 export default {
+  main: style({
+    position: 'relative',
+  }),
   textarea: style({
     height: '300px',
   }),

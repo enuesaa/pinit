@@ -11,6 +11,12 @@ export type Note = {
   content: string;
 }
 
+export type Action = {
+  id: number;
+  name: string;
+  template: string;
+}
+
 export const useListBinders = () => 
   useQuery('listBinders', async(): Promise<Binder[]> => {
     const res = await fetch(`/api/binders`)
@@ -25,6 +31,12 @@ export const useListBinderNotes = (id: number) =>
     return body?.items
   })
 
+export const useListActions = () => 
+  useQuery('listActions', async(): Promise<Action[]> => {
+    const res = await fetch(`/api/actions`)
+    const body = await res.json()
+    return body?.items
+  })
 
 export const useRecog = () =>
   useMutation({
