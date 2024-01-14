@@ -1,5 +1,4 @@
-import { Box, Container, Flex, Separator } from '@radix-ui/themes'
-import Link from 'next/link'
+import { Box, Container, Flex, Separator, Link } from '@radix-ui/themes'
 import { FaBolt } from 'react-icons/fa'
 import styles from './Header.css'
 import { PlaygorundMenu } from './PlaygorundMenu'

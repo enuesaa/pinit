@@ -4,9 +4,7 @@ import styles from './BinderStoryInputArea.css'
 import { useGetAction } from '@/lib/state'
 import { MouseEventHandler, useEffect, useRef } from 'react'
 import { useChat } from '@/lib/api'
-import dynamic from 'next/dynamic'
-
-const BinderStoryInputRecorder = dynamic(() => import('./BinderStoryInputRecorder').then(m => m.BinderStoryInputRecorder), {ssr: false})
+import { BinderStoryInputRecorder } from './BinderStoryInputRecorder'
 
 export const BinderStoryInputArea = () => {
   const action = useGetAction()

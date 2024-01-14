@@ -1,8 +1,6 @@
 import { Button, Dialog, Flex } from '@radix-ui/themes'
 import { Dispatch, SetStateAction } from 'react'
-import dynamic from 'next/dynamic'
-
-const SpeakToText = dynamic(() => import('./SpeakToText').then(m => m.SpeakToText), {ssr: false})
+import { SpeakToText } from './SpeakToText'
 
 type Props = {
   open: boolean

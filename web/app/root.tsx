@@ -2,13 +2,15 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@re
 import { Theme } from '@radix-ui/themes'
 import '@radix-ui/themes/styles.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { injectApiMock } from '@/lib/apimock'
+import { StrictMode } from 'react'
+// import { injectApiMock } from '@/lib/apimock'
 
 export default function App() {
   const queryClient = new QueryClient()
-  if (process.env.NODE_ENV === 'development') {
-    injectApiMock(queryClient)
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   injectApiMock(queryClient)
+  // }
+
   return (
     <html lang='ja'>
       <head>
@@ -17,15 +19,17 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <QueryClientProvider client={queryClient}>
-          <Theme appearance='dark' accentColor='amber'>
-            <Outlet />
-            <ScrollRestoration />
-            <Scripts />
-            <LiveReload />
-          </Theme>
-        </QueryClientProvider>
+      <body className='dark'>
+        <StrictMode>
+          <QueryClientProvider client={queryClient}>
+            <Theme appearance='dark' accentColor='amber'>
+              <Outlet />
+            </Theme>
+          </QueryClientProvider>
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </StrictMode>
       </body>
     </html>
   );
@@ -40,7 +44,7 @@ export function HydrateFallback() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className='dark'>
         <Scripts />
         <LiveReload />
       </body>
