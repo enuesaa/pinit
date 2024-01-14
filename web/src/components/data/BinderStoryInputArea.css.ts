@@ -12,5 +12,11 @@ export default {
     right: '10px',
     bottom: '50px',
     cursor: 'pointer',
-  })
+  }),
+  trashButton: style({
+    position: 'absolute',
+    right: '10px',
+    top: '5px',
+    cursor: 'pointer',
+  }),
 }
