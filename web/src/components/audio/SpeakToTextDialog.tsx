@@ -11,7 +11,9 @@ export const SpeakToTextDialog = ({ open, setOpen }: Props) => {
     <Dialog.Root open={open}>
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Dialog.Title>Speak c</Dialog.Title>
-        <Dialog.Description mt='2' mb='4'>OpenAI API Token</Dialog.Description>
+        <Dialog.Description mt='2' mb='4'>
+          OpenAI API Token
+        </Dialog.Description>
 
         <SpeakToText />
         <Flex mt='6' justify='end'>

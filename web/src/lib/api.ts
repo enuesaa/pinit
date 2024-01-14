@@ -1,38 +1,38 @@
 import { useMutation, useQuery } from 'react-query'
 
 export type Binder = {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 export type Note = {
-  id: number;
-  binderId: number;
-  content: string;
+  id: number
+  binderId: number
+  content: string
 }
 
 export type Action = {
-  id: number;
-  name: string;
-  template: string;
+  id: number
+  name: string
+  template: string
 }
 
-export const useListBinders = () => 
-  useQuery('listBinders', async(): Promise<Binder[]> => {
+export const useListBinders = () =>
+  useQuery('listBinders', async (): Promise<Binder[]> => {
     const res = await fetch(`/api/binders`)
     const body = await res.json()
     return body?.items
   })
 
-export const useListBinderNotes = (id: number) => 
-  useQuery(`listBinderNotes-${id}`, async(): Promise<Note[]> => {
+export const useListBinderNotes = (id: number) =>
+  useQuery(`listBinderNotes-${id}`, async (): Promise<Note[]> => {
     const res = await fetch(`/api/binders/${id}/notes`)
     const body = await res.json()
     return body?.items
   })
 
-export const useListActions = () => 
-  useQuery('listActions', async(): Promise<Action[]> => {
+export const useListActions = () =>
+  useQuery('listActions', async (): Promise<Action[]> => {
     const res = await fetch(`/api/actions`)
     const body = await res.json()
     return body?.items
@@ -41,7 +41,7 @@ export const useListActions = () =>
 export const useRecog = () =>
   useMutation({
     mutationFn: async (blobUrl: string): Promise<string> => {
-      const response = await fetch(blobUrl);
+      const response = await fetch(blobUrl)
       const blob = await response.blob()
       const file = new File([blob], 'hello', { type: blob.type })
       const res = await fetch('/api/recog', {
@@ -67,7 +67,7 @@ export const useChat = () =>
         },
         body: JSON.stringify({
           message,
-        })
+        }),
       })
       const body = await res.json()
       return body?.message ?? ''

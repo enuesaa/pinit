@@ -1,6 +1,6 @@
 import { Header } from '@/components/common/Header'
-import { Container } from '@radix-ui/themes'
 import { BinderStory } from '@/components/data/BinderStory'
+import { Container } from '@radix-ui/themes'
 
 export default function Page() {
   return (

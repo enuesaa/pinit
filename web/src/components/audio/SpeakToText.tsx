@@ -1,9 +1,9 @@
-import { PauseIcon, TriangleRightIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
+import { useRecog } from '@/lib/api'
+import { PaperPlaneIcon, PauseIcon, TriangleRightIcon } from '@radix-ui/react-icons'
 import { Flex, IconButton, TextArea } from '@radix-ui/themes'
 import { MouseEventHandler, useState } from 'react'
-import { SpeakToTextCopyButton } from './SpeakToTextCopyButton'
 import { useReactMediaRecorder } from 'react-media-recorder'
-import { useRecog } from '@/lib/api'
+import { SpeakToTextCopyButton } from './SpeakToTextCopyButton'
 
 export const SpeakToText = () => {
   const { startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({})
@@ -11,7 +11,7 @@ export const SpeakToText = () => {
   const [text, setText] = useState('')
 
   const handleSend: MouseEventHandler<HTMLButtonElement> = async (e) => {
-    e.preventDefault()  
+    e.preventDefault()
     if (mediaBlobUrl === undefined || mediaBlobUrl === null) {
       return
     }

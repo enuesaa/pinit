@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import '@radix-ui/themes/styles.css'
 import { Theme } from '@radix-ui/themes'
-import TopPage from './pages/index'
+import '@radix-ui/themes/styles.css'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import BindersPage from './pages/binders'
+import TopPage from './pages/index'
 
 export const App = () => {
   const queryClient = new QueryClient()

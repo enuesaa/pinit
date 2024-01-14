@@ -6,7 +6,7 @@ type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
-export const ChatDialog = ({ open, setOpen }: Props) => {  
+export const ChatDialog = ({ open, setOpen }: Props) => {
   return (
     <Dialog.Root open={open}>
       <Dialog.Content style={{ maxWidth: 450 }}>

@@ -1,12 +1,11 @@
-import { useListBinderNotes } from '@/lib/api'
-import { Binder } from '@/lib/api'
+import { Binder, useListBinderNotes } from '@/lib/api'
 import { Table } from '@radix-ui/themes'
 
 type Props = {
   binder: Binder
 }
 export const ListBindersTableItem = ({ binder }: Props) => {
-  const {data: notes} = useListBinderNotes(binder.id)
+  const { data: notes } = useListBinderNotes(binder.id)
   const latestNote = (notes !== undefined ? notes.at(0) : null) ?? null
 
   return (

@@ -3,9 +3,9 @@ import { Table } from '@radix-ui/themes'
 import { ListBindersTableItem } from './ListBindersTableItem'
 
 export const ListBindersTable = () => {
-  const {data: binders} = useListBinders()
+  const { data: binders } = useListBinders()
   if (binders === undefined) {
-    return (<></>)
+    return <></>
   }
 
   return (

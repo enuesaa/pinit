@@ -22,7 +22,7 @@ export const Chat = () => {
     <>
       <TextArea size='3' ref={textareaRef} style={{ height: '300px' }} />
       <Button onClick={handleChat}>chat</Button>
-      <TextArea value={res} readOnly size='3'style={{ height: '300px' }} />
+      <TextArea value={res} readOnly size='3' style={{ height: '300px' }} />
       <SpeakToTextCopyButton text={res ?? ''} />
     </>
   )

@@ -4,7 +4,9 @@ import { ListBindersTable } from './ListBindersTable'
 export const ListBinders = () => {
   return (
     <>
-      <Heading as='h2' size='5'>Binders</Heading>
+      <Heading as='h2' size='5'>
+        Binders
+      </Heading>
       <ListBindersTable />
     </>
   )
