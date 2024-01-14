@@ -1,8 +1,10 @@
-import { Box } from '@radix-ui/themes'
+import { Box, Button } from '@radix-ui/themes'
+import styles from './BinderStoryActions.css'
 
 export const BinderStoryActions = () => {
   return (
     <>
+      <ActionItem />
       <ActionItem />
     </>
   )
@@ -10,6 +12,8 @@ export const BinderStoryActions = () => {
 
 const ActionItem = () => {
   return (
-    <Box display='inline-block'>aa</Box>
+    <Button m='2' className={styles.button}>
+      action
+    </Button>
   )
 }
