@@ -10,7 +10,3 @@ npm-debug.log*
 
 # typescript
 *.tsbuildinfo
-
-.cache
-build
-public/build

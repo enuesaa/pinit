@@ -1,21 +1,24 @@
-import { unstable_vitePlugin as remix } from '@remix-run/dev'
 import { defineConfig } from 'vite'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
+import react from '@vitejs/plugin-react'
 import path from 'node:path'
 
 export default defineConfig({
-  ssr: {
-    noExternal: ['@radix-ui/themes'],
+  root: './',
+  esbuild: {
+    target: 'esnext',
+    format: 'esm',
+  },
+  build: {
+    outDir: './dist',
   },
   plugins: [
-    remix({
-      unstable_ssr: false,
-    }),
+    react(),
     vanillaExtractPlugin(),
   ],
   resolve: {
     alias: {
-      '@/': path.join(__dirname, './app/')
+      '@/': path.join(__dirname, './src/')
     }
   },
 })
