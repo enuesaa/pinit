@@ -2,9 +2,8 @@ import { useChat } from '@/lib/api'
 import { useGetAction } from '@/lib/state'
 import { Button, Text, TextArea } from '@radix-ui/themes'
 import { MouseEventHandler, useEffect, useRef } from 'react'
-import { FaCaretRight, FaMicrophone, FaTrash } from 'react-icons/fa'
+import { FaCaretRight } from 'react-icons/fa'
 import styles from './BinderStoryInputArea.css'
-import { BinderStoryInputRecorder } from './BinderStoryInputRecorder'
 
 export const BinderStoryInputArea = () => {
   const action = useGetAction()
@@ -24,14 +23,6 @@ export const BinderStoryInputArea = () => {
     textareaRef.current.value += oldValue
   }, [action])
 
-  const handleTrash: MouseEventHandler<HTMLSpanElement> = (e) => {
-    e.preventDefault()
-    if (textareaRef.current === null) {
-      return
-    }
-    textareaRef.current.value = ''
-  }
-
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
     await chat.mutateAsync(textareaRef.current?.value ?? '')
@@ -40,13 +31,6 @@ export const BinderStoryInputArea = () => {
   return (
     <div className={styles.main}>
       <TextArea className={styles.textarea} ref={textareaRef} size='3' />
-      <span className={styles.speakButton}>
-        <FaMicrophone />
-      </span>
-      <BinderStoryInputRecorder />
-      <span className={styles.trashButton} onClick={handleTrash}>
-        <FaTrash />
-      </span>
       <Button
         onClick={handleClick}
         variant='solid'

@@ -1,11 +1,12 @@
 import { useRecog } from '@/lib/api'
 import { useChooseAction } from '@/lib/state'
-import { PaperPlaneIcon, PauseIcon, TriangleRightIcon } from '@radix-ui/react-icons'
-import { IconButton } from '@radix-ui/themes'
+import { PaperPlaneIcon, PauseIcon } from '@radix-ui/react-icons'
+import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
+import { FaMicrophone } from 'react-icons/fa'
 import { useReactMediaRecorder } from 'react-media-recorder'
 
-export const BinderStoryInputRecorder = () => {
+export const BinderStoryRecorder = () => {
   const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({})
   const invokeRecogApi = useRecog()
   const choose = useChooseAction()
@@ -28,23 +29,23 @@ export const BinderStoryInputRecorder = () => {
 
   if (status === 'recording') {
     return (
-      <IconButton variant='soft' style={{ cursor: 'pointer' }} onClick={stopRecording}>
+      <Button m='2' variant='soft' style={{cursor: 'pointer'}} onClick={stopRecording}>
         <PauseIcon />
-      </IconButton>
+      </Button>
     )
   }
 
   if (status === 'stopped') {
     return (
-      <IconButton variant='soft' style={{ cursor: 'pointer', width: '33%' }} onClick={handleSend}>
+      <Button m='2' variant='soft' style={{cursor: 'pointer'}} onClick={handleSend}>
         <PaperPlaneIcon />
-      </IconButton>
+      </Button>
     )
   }
 
   return (
-    <IconButton variant='soft' style={{ cursor: 'pointer' }} onClick={handleStart}>
-      <TriangleRightIcon />
-    </IconButton>
+    <Button m='2' variant='soft' style={{cursor: 'pointer'}} onClick={handleStart}>
+      <FaMicrophone />
+    </Button>
   )
 }
