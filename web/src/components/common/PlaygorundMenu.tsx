@@ -1,4 +1,4 @@
-import { Button, HoverCard, Link } from '@radix-ui/themes'
+import { Button, HoverCard } from '@radix-ui/themes'
 import { MouseEventHandler, useState } from 'react'
 import { SpeakToTextDialog } from '../audio/SpeakToTextDialog'
 import { ChatDialog } from '../chat/ChatDialog'
@@ -24,7 +24,6 @@ export const PlaygorundMenu = () => {
           </Button>
         </HoverCard.Trigger>
         <HoverCard.Content>
-          <Link href='/binders'>list</Link>
           <Button variant='ghost' style={{ cursor: 'pointer', display: 'block' }} onClick={handleOpenSpeakToText}>
             speak
           </Button>

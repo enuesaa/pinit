@@ -2,7 +2,6 @@ import { Theme } from '@radix-ui/themes'
 import '@radix-ui/themes/styles.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import BindersPage from './pages/binders'
 import TopPage from './pages/index'
 
 export const App = () => {
@@ -18,7 +17,6 @@ export const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<TopPage />} />
-            <Route path='/settings' element={<BindersPage />} />
           </Routes>
         </BrowserRouter>
       </Theme>

@@ -1,14 +1,10 @@
-import { Header } from '@/components/common/Header'
 import { BinderStory } from '@/components/data/BinderStory'
-import { Container } from '@radix-ui/themes'
+import { WithSidebar } from '@/components/common/WithSidebar'
 
 export default function Page() {
   return (
-    <>
-      <Header />
-      <Container size='4' p='4'>
-        <BinderStory />
-      </Container>
-    </>
+    <WithSidebar>
+      <BinderStory />
+    </WithSidebar>
   )
 }

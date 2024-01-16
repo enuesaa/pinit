@@ -1,13 +1,18 @@
-import { Heading } from '@radix-ui/themes'
-import { ListBindersTable } from './ListBindersTable'
+import { useListBinders } from '@/lib/api'
+import { Section } from '@radix-ui/themes'
+import { BinderCard } from './BinderCard'
 
 export const ListBinders = () => {
+  const { data: binders } = useListBinders()
+  if (binders === undefined) {
+    return <></>
+  }
+
   return (
-    <>
-      <Heading as='h2' size='5'>
-        Binders
-      </Heading>
-      <ListBindersTable />
-    </>
+    <Section>
+      {binders.map((binder, i) => (
+        <BinderCard key={i} binder={binder} />
+      ))}
+    </Section>
   )
 }
