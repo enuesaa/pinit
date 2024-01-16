@@ -17,7 +17,7 @@ export const BinderStoryChatButton = () => {
   }
 
   return (
-  <Button variant='solid' m='2' className={styles.main} onClick={handleClick}>
+  <Button variant='surface' m='2' className={styles.main} onClick={handleClick}>
     <FaCaretRight />
   </Button>
   )

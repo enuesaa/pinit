@@ -20,6 +20,6 @@ export const BinderStoryInput = () => {
   }
 
   return (
-    <TextArea className={styles.textarea} ref={textareaRef} size='3' onKeyDown={handleKeyDown} />
+    <TextArea className={styles.textarea} ref={textareaRef} size='3' onKeyUp={handleKeyDown} />
   )
 }

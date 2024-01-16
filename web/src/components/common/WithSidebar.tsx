@@ -9,7 +9,7 @@ type Props = {
 export const WithSidebar = ({ children }: Props) => {
   return (
     <Flex gap='5'>
-      <Box style={{width: '500px'}}>
+      <Box grow='0' shrink='0' style={{width: '500px'}}>
         <Header />
         <ListBinders />
       </Box>
