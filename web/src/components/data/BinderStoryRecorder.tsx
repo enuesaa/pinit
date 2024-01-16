@@ -1,5 +1,5 @@
 import { useRecog } from '@/lib/api'
-import { useChooseAction } from '@/lib/state'
+import { useSetStoryInput, useSetStoryOuptut } from '@/lib/state'
 import { PaperPlaneIcon, PauseIcon } from '@radix-ui/react-icons'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
@@ -9,7 +9,7 @@ import { useReactMediaRecorder } from 'react-media-recorder'
 export const BinderStoryRecorder = () => {
   const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({})
   const invokeRecogApi = useRecog()
-  const choose = useChooseAction()
+  const setInput = useSetStoryInput()
 
   const handleSend: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
@@ -17,9 +17,7 @@ export const BinderStoryRecorder = () => {
       return
     }
     const text = await invokeRecogApi.mutateAsync(mediaBlobUrl)
-    console.log(text)
-    // TODO change hook because recorder is not action.
-    choose({ id: 0, name: 'record', template: text })
+    setInput(text)
   }
 
   const handleStart: MouseEventHandler<HTMLButtonElement> = async (e) => {

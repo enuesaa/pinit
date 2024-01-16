@@ -1,5 +1,5 @@
 import { Action } from '@/lib/api'
-import { useChooseAction } from '@/lib/state'
+import { useSetStoryInput } from '@/lib/state'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 
@@ -7,11 +7,11 @@ type Props = {
   action: Action
 }
 export const BinderStoryAction = ({ action }: Props) => {
-  const choose = useChooseAction()
+  const setInput = useSetStoryInput()
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault()
-    choose(action)
+    setInput(action.template)
   }
 
   return (
