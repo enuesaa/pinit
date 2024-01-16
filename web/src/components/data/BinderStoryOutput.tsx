@@ -1,12 +1,23 @@
 import { useGetStory } from '@/lib/state'
-import { Text } from '@radix-ui/themes'
+import { Box, Link } from '@radix-ui/themes'
+import Markdown from 'react-markdown'
 
 export const BinderStoryOutput = () => {
   const story = useGetStory()
 
   return (
-    <Text as='p' m='6'>
-      {story.output}
-    </Text>
+    <Box m='6'>
+      <Markdown components={{a: LinkBlank}}>
+        {story.output}
+      </Markdown>
+    </Box>
+  )
+}
+
+const LinkBlank = ({ href, children }: any) => {
+  return (
+    <Link href={href} target='_blank'>
+      {children}
+    </Link>
   )
 }
