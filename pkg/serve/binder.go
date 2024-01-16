@@ -37,3 +37,24 @@ func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
 	}
 	return c.JSON(res)
 }
+
+type CreateBinderRequest struct {
+	Name string `json:"name"`
+}
+func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
+	var req CreateBinderRequest
+	if err := c.BodyParser(&req); err != nil {
+		return err
+	}
+	binder := service.Binder{
+		Name: req.Name,
+		Category: "",
+	}	
+
+	binderSrv := service.NewBinderService(ctl.repos)
+	if _, err := binderSrv.Create(binder); err != nil {
+		return err
+	}
+
+	return c.JSON(struct{}{})
+}

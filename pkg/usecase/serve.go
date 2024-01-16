@@ -14,6 +14,7 @@ func Serve(repos repository.Repos, port int) error {
 
 	app := fiber.New()
 	app.Get("/api/binders", ctl.ListBinders)
+	app.Post("/api/binders", ctl.CreateBinder)
 	app.Get("/api/binders/:id/notes", ctl.ListNotes)
 	app.Get("/api/actions", ctl.ListActions)
 	app.Post("/api/chat", ctl.Chat)

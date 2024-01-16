@@ -56,7 +56,7 @@ export const useRecog = () =>
     },
   })
 
-export const useChat = () =>
+  export const useChat = () =>
   useMutation({
     mutationKey: 'chat',
     mutationFn: async (message: string): Promise<string> => {
@@ -71,5 +71,22 @@ export const useChat = () =>
       })
       const body = await res.json()
       return body?.message ?? ''
+    },
+  })
+
+export const useCreateBinder = () =>
+  useMutation({
+    mutationKey: 'createBinder',
+    mutationFn: async (name: string) => {
+      const res = await fetch('/api/binders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+        }),
+      })
+      await res.json()
     },
   })

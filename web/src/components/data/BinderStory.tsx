@@ -6,6 +6,7 @@ import { BinderStoryOutput } from './BinderStoryOutput'
 import { BinderStoryRecorder } from './BinderStoryRecorder'
 import { BinderStoryTrash } from './BinderStoryTrash'
 import { BinderStoryChatButton } from './BinderStoryChatButton'
+import { BinderStorySaveButton } from './BinderStorySaveButton'
 
 export const BinderStory = () => {
   const { data: actions } = useListActions()
@@ -17,6 +18,7 @@ export const BinderStory = () => {
       <BinderStoryTrash />
       <BinderStoryInput />
       <BinderStoryChatButton />
+      <BinderStorySaveButton />
       <BinderStoryOutput />
     </Section>
   )
