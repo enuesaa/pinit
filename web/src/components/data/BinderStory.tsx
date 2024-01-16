@@ -1,7 +1,8 @@
 import { useListActions } from '@/lib/api'
 import { Section } from '@radix-ui/themes'
 import { BinderStoryAction } from './BinderStoryAction'
-import { BinderStoryInputArea } from './BinderStoryInputArea'
+import { BinderStoryInput } from './BinderStoryInput'
+import { BinderStoryOutput } from './BinderStoryOutput'
 import { BinderStoryRecorder } from './BinderStoryRecorder'
 import { BinderStoryTrash } from './BinderStoryTrash'
 
@@ -13,7 +14,8 @@ export const BinderStory = () => {
       {actions && actions.map((a, i) => <BinderStoryAction key={i} action={a} />)}
       <BinderStoryRecorder />
       <BinderStoryTrash />
-      <BinderStoryInputArea />
+      <BinderStoryInput />
+      <BinderStoryOutput />
     </Section>
   )
 }
