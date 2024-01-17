@@ -4,7 +4,7 @@ export default {
   main: style({
     padding: '10px 30px',
     cursor: 'pointer',
-    fontSize: '29px',
+    fontSize: '25px',
     lineHeight: '15px',
   }),
 }
