@@ -52,9 +52,10 @@ func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
 	}	
 
 	binderSrv := service.NewBinderService(ctl.repos)
-	if _, err := binderSrv.Create(binder); err != nil {
+	id, err := binderSrv.Create(binder)
+	if err != nil {
 		return err
 	}
 
-	return c.JSON(struct{}{})
+	return c.JSON(struct{ Id uint `json:"id"`}{ Id: id })
 }

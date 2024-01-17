@@ -16,6 +16,8 @@ func Serve(repos repository.Repos, port int) error {
 	app.Get("/api/binders", ctl.ListBinders)
 	app.Post("/api/binders", ctl.CreateBinder)
 	app.Get("/api/binders/:id/notes", ctl.ListNotes)
+	//TODO change endpoint
+	app.Post("/api/notes", ctl.CreateNote)
 	app.Get("/api/actions", ctl.ListActions)
 	app.Post("/api/chat", ctl.Chat)
 	app.Post("/api/recog", ctl.Recog)

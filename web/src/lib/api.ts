@@ -74,10 +74,11 @@ export const useRecog = () =>
     },
   })
 
+// todo refactor
 export const useCreateBinder = () =>
   useMutation({
     mutationKey: 'createBinder',
-    mutationFn: async (name: string) => {
+    mutationFn: async ({name, content}: {name: string, content: string}) => {
       const res = await fetch('/api/binders', {
         method: 'POST',
         headers: {
@@ -87,6 +88,17 @@ export const useCreateBinder = () =>
           name,
         }),
       })
-      await res.json()
+      const body = await res.json()
+      const binderId = body.id as number
+      await fetch('/api/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          binderId,
+          content,
+        }),
+      })
     },
   })

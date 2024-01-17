@@ -11,7 +11,9 @@ export const BinderStorySaveButton = () => {
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    await createBinder.mutateAsync(story.input.slice(0, 100))
+    const name = story.input.slice(0, 100)
+    const content = story.output
+    await createBinder.mutateAsync({ name, content })
   }
 
   return (

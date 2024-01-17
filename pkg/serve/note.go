@@ -33,3 +33,27 @@ func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 	}
 	return c.JSON(res)
 }
+
+type CreateNoteRequest struct {
+	BinderId uint `json:"binderId"`
+	Content string `json:"content"`
+}
+func (ctl *ServeCtl) CreateNote(c *fiber.Ctx) error {
+	var req CreateNoteRequest
+	if err := c.BodyParser(&req); err != nil {
+		return err
+	}
+	note := service.Note{
+		BinderId: req.BinderId,
+		Comment: "",
+		Content: req.Content,
+		Publisher: "",
+	}
+
+	noteSrv := service.NewNoteService(ctl.repos)
+	if _, err := noteSrv.Create(note); err != nil {
+		return err
+	}
+
+	return c.JSON(struct{}{})
+}
