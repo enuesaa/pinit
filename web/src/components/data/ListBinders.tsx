@@ -9,7 +9,7 @@ export const ListBinders = () => {
   }
 
   return (
-    <Section>
+    <Section p='2'>
       {binders.map((binder, i) => (
         <BinderCard key={i} binder={binder} />
       ))}
