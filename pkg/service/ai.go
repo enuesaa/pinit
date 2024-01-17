@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	openai "github.com/sashabaranov/go-openai"
 
@@ -53,7 +52,6 @@ func (srv *AiService) Speak(token string, path string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	fmt.Printf("res: %+v\n", res)
 
 	return res.Text, nil
 }
