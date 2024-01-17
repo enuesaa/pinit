@@ -102,3 +102,17 @@ export const useCreateBinder = () =>
       })
     },
   })
+
+export const useDeleteBinder = () =>
+  useMutation({
+    mutationKey: 'deleteBinder',
+    mutationFn: async (id: number) => {
+      const res = await fetch(`/api/binders/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      await res.json()
+    },
+  })

@@ -59,3 +59,22 @@ func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
 
 	return c.JSON(struct{ Id uint `json:"id"`}{ Id: id })
 }
+
+func (ctl *ServeCtl) DeleteBinder(c *fiber.Ctx) error {
+	binderId, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+
+	noteSrv := service.NewNoteService(ctl.repos)
+	if err := noteSrv.DeleteByBinderId(uint(binderId)); err != nil {
+		return err
+	}
+
+	binderSrv := service.NewBinderService(ctl.repos)
+	if err := binderSrv.Delete(uint(binderId)); err != nil {
+		return err
+	}
+
+	return c.JSON(struct{}{})
+}

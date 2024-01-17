@@ -15,6 +15,7 @@ func Serve(repos repository.Repos, port int) error {
 	app := fiber.New()
 	app.Get("/api/binders", ctl.ListBinders)
 	app.Post("/api/binders", ctl.CreateBinder)
+	app.Delete("/api/binders/:id", ctl.DeleteBinder)
 	app.Get("/api/binders/:id/notes", ctl.ListNotes)
 	//TODO change endpoint
 	app.Post("/api/notes", ctl.CreateNote)
