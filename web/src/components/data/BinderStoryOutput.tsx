@@ -6,7 +6,7 @@ export const BinderStoryOutput = () => {
   const story = useGetStory()
 
   return (
-    <Box m='6'>
+    <Box mt='6' ml='3'>
       <Markdown components={{a: LinkBlank}}>
         {story.output}
       </Markdown>
