@@ -8,6 +8,10 @@ import (
 type ApiListResponse[T interface{}] struct {
 	Items []T `json:"items"`
 }
+type ApiCreateResponse struct {
+	Id uint `json:"id"`
+}
+type ApiDeleteResponse struct {}
 
 func New(repos repository.Repos) ServeCtl {
 	return ServeCtl{

@@ -17,13 +17,13 @@ type ListBindersItem struct {
 }
 
 func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
+	res := ApiListResponse[ListBindersItem]{
+		Items: make([]ListBindersItem, 0),
+	}
 	binderSrv := service.NewBinderService(ctl.repos)
 	binders, err := binderSrv.List()
 	if err != nil {
 		return err
-	}
-	res := ApiListResponse[ListBindersItem]{
-		Items: make([]ListBindersItem, 0),
 	}
 	for _, binder := range binders {
 		res.Items = append(res.Items, ListBindersItem{
@@ -41,26 +41,23 @@ func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
 type CreateBinderRequest struct {
 	Name string `json:"name"`
 }
-
 func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
 	var req CreateBinderRequest
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
+	binderSrv := service.NewBinderService(ctl.repos)
+
 	binder := service.Binder{
 		Name:     req.Name,
 		Category: "",
 	}
-
-	binderSrv := service.NewBinderService(ctl.repos)
 	id, err := binderSrv.Create(binder)
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(struct {
-		Id uint `json:"id"`
-	}{Id: id})
+	return c.JSON(ApiCreateResponse{Id: id})
 }
 
 func (ctl *ServeCtl) DeleteBinder(c *fiber.Ctx) error {
@@ -70,14 +67,14 @@ func (ctl *ServeCtl) DeleteBinder(c *fiber.Ctx) error {
 	}
 
 	noteSrv := service.NewNoteService(ctl.repos)
+	binderSrv := service.NewBinderService(ctl.repos)
+
 	if err := noteSrv.DeleteByBinderId(uint(binderId)); err != nil {
 		return err
 	}
-
-	binderSrv := service.NewBinderService(ctl.repos)
 	if err := binderSrv.Delete(uint(binderId)); err != nil {
 		return err
 	}
 
-	return c.JSON(struct{}{})
+	return c.JSON(ApiDeleteResponse{})
 }

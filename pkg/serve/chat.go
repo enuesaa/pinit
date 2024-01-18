@@ -1,8 +1,6 @@
 package serve
 
 import (
-	"fmt"
-
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,10 +20,11 @@ func (ctl *ServeCtl) Chat(c *fiber.Ctx) error {
 
 	chatgptSrv := service.NewAiService(ctl.repos)
 	registrySrv := service.NewRegistrySrv(ctl.repos)
+
 	res, err := chatgptSrv.Call(registrySrv.GetOpenAiApiToken(), req.Message)
 	if err != nil {
-		fmt.Printf("Error: %s\n", err.Error())
 		return err
 	}
+
 	return c.JSON(ChatResponse{Message: res})
 }
