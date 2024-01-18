@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 export type Binder = {
   id: number
@@ -75,8 +75,10 @@ export const useChat = () =>
   })
 
 // todo refactor
-export const useCreateBinder = () =>
-  useMutation({
+export const useCreateBinder = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
     mutationKey: 'createBinder',
     mutationFn: async ({ name, content }: { name: string; content: string }) => {
       const res = await fetch('/api/binders', {
@@ -101,10 +103,16 @@ export const useCreateBinder = () =>
         }),
       })
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey:'listBinders'})
+    },
   })
+}
 
-export const useDeleteBinder = () =>
-  useMutation({
+export const useDeleteBinder = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
     mutationKey: 'deleteBinder',
     mutationFn: async (id: number) => {
       const res = await fetch(`/api/binders/${id}`, {
@@ -115,4 +123,8 @@ export const useDeleteBinder = () =>
       })
       await res.json()
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey:'listBinders'})
+    },
   })
+}
