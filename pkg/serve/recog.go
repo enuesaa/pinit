@@ -1,8 +1,7 @@
 package serve
 
 import (
-	"fmt"
-	"path/filepath"
+	"bytes"
 
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
@@ -18,16 +17,8 @@ func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
 	aiSrv := service.NewAiService(ctl.repos)
 
 	id := ctl.CreateId()
-	path := fmt.Sprintf("tmp/%s.wav", id)
-	if err := ctl.repos.Fs.CreateDir(filepath.Dir(path)); err != nil {
-		return err
-	}
-	if err := ctl.repos.Fs.Create(path, body); err != nil {
-		return err
-	}
-
 	registrySrv := service.NewRegistrySrv(ctl.repos)
-	text, err := aiSrv.Speak(registrySrv.GetOpenAiApiToken(), path)
+	text, err := aiSrv.Speak(registrySrv.GetOpenAiApiToken(), bytes.NewReader(body))
 	if err != nil {
 		return err
 	}
