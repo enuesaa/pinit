@@ -16,7 +16,7 @@ export const BinderStoryRecorder = () => {
     if (mediaBlobUrl === undefined || mediaBlobUrl === null) {
       return
     }
-    (async() => {
+    ;(async () => {
       const text = await invokeRecogApi.mutateAsync(mediaBlobUrl)
       setInput(`${story.input}\n\n${text}`)
     })()
@@ -29,14 +29,14 @@ export const BinderStoryRecorder = () => {
 
   if (status === 'recording') {
     return (
-      <Button m='2' variant='soft' style={{cursor: 'pointer'}} onClick={stopRecording}>
+      <Button m='2' variant='soft' style={{ cursor: 'pointer' }} onClick={stopRecording}>
         <PauseIcon />
       </Button>
     )
   }
 
   return (
-    <Button m='2' variant='soft' style={{cursor: 'pointer'}} onClick={handleStart}>
+    <Button m='2' variant='soft' style={{ cursor: 'pointer' }} onClick={handleStart}>
       <FaMicrophone />
     </Button>
   )

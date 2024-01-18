@@ -1,9 +1,9 @@
+import { useCreateBinder } from '@/lib/api'
+import { useGetStory } from '@/lib/state'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
-import styles from './BinderStoryChatButton.css'
-import { useGetStory } from '@/lib/state'
-import { useCreateBinder } from '@/lib/api'
 import { FaCheck } from 'react-icons/fa'
+import styles from './BinderStoryChatButton.css'
 
 export const BinderStorySaveButton = () => {
   const story = useGetStory()

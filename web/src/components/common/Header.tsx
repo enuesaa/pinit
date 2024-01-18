@@ -1,4 +1,4 @@
-import { Container, Flex, Link, Separator } from '@radix-ui/themes'
+import { Container, Link, Separator } from '@radix-ui/themes'
 import { FaBolt } from 'react-icons/fa'
 import styles from './Header.css'
 

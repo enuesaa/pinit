@@ -41,15 +41,16 @@ func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
 type CreateBinderRequest struct {
 	Name string `json:"name"`
 }
+
 func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
 	var req CreateBinderRequest
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
 	binder := service.Binder{
-		Name: req.Name,
+		Name:     req.Name,
 		Category: "",
-	}	
+	}
 
 	binderSrv := service.NewBinderService(ctl.repos)
 	id, err := binderSrv.Create(binder)
@@ -57,7 +58,9 @@ func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(struct{ Id uint `json:"id"`}{ Id: id })
+	return c.JSON(struct {
+		Id uint `json:"id"`
+	}{Id: id})
 }
 
 func (ctl *ServeCtl) DeleteBinder(c *fiber.Ctx) error {

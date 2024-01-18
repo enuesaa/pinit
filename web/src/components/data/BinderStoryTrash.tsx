@@ -12,7 +12,7 @@ export const BinderStoryTrash = () => {
   }
 
   return (
-    <Button m='2' variant='soft' style={{cursor: 'pointer'}} onClick={handleClick}>
+    <Button m='2' variant='soft' style={{ cursor: 'pointer' }} onClick={handleClick}>
       <FaTrash />
     </Button>
   )

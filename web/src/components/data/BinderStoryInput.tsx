@@ -19,7 +19,5 @@ export const BinderStoryInput = () => {
     setStoryInput(e.currentTarget.value)
   }
 
-  return (
-    <TextArea className={styles.textarea} ref={textareaRef} size='3' onKeyUp={handleKeyDown} />
-  )
+  return <TextArea className={styles.textarea} ref={textareaRef} size='3' onKeyUp={handleKeyDown} />
 }

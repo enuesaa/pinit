@@ -7,9 +7,7 @@ export const BinderStoryOutput = () => {
 
   return (
     <Box mt='6' ml='3'>
-      <Markdown components={{a: LinkBlank}}>
-        {story.output}
-      </Markdown>
+      <Markdown components={{ a: LinkBlank }}>{story.output}</Markdown>
     </Box>
   )
 }

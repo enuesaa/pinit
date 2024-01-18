@@ -35,18 +35,19 @@ func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 }
 
 type CreateNoteRequest struct {
-	BinderId uint `json:"binderId"`
-	Content string `json:"content"`
+	BinderId uint   `json:"binderId"`
+	Content  string `json:"content"`
 }
+
 func (ctl *ServeCtl) CreateNote(c *fiber.Ctx) error {
 	var req CreateNoteRequest
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
 	note := service.Note{
-		BinderId: req.BinderId,
-		Comment: "",
-		Content: req.Content,
+		BinderId:  req.BinderId,
+		Comment:   "",
+		Content:   req.Content,
 		Publisher: "",
 	}
 

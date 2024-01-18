@@ -1,10 +1,10 @@
 import { useChat } from '@/lib/api'
+import { useGetStory, useSetStoryOuptut } from '@/lib/state'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaCaretRight, FaHourglassStart } from 'react-icons/fa'
-import styles from './BinderStoryChatButton.css'
-import { useGetStory, useSetStoryOuptut } from '@/lib/state'
 import { IoWarningOutline } from 'react-icons/io5'
+import styles from './BinderStoryChatButton.css'
 
 export const BinderStoryChatButton = () => {
   const chat = useChat()
@@ -24,7 +24,7 @@ export const BinderStoryChatButton = () => {
       </Button>
     )
   }
-  
+
   if (chat.isError) {
     return (
       <Button variant='surface' m='2' className={styles.main} onClick={handleClick}>

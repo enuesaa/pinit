@@ -1,12 +1,12 @@
 import { useListActions } from '@/lib/api'
 import { Section } from '@radix-ui/themes'
 import { BinderStoryAction } from './BinderStoryAction'
+import { BinderStoryChatButton } from './BinderStoryChatButton'
 import { BinderStoryInput } from './BinderStoryInput'
 import { BinderStoryOutput } from './BinderStoryOutput'
 import { BinderStoryRecorder } from './BinderStoryRecorder'
-import { BinderStoryTrash } from './BinderStoryTrash'
-import { BinderStoryChatButton } from './BinderStoryChatButton'
 import { BinderStorySaveButton } from './BinderStorySaveButton'
+import { BinderStoryTrash } from './BinderStoryTrash'
 
 export const BinderStory = () => {
   const { data: actions } = useListActions()
