@@ -3,7 +3,6 @@ package usecase
 import (
 	"fmt"
 
-	"github.com/enuesaa/pinit/pkg/schema"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,6 +13,7 @@ type ListNotesItem struct {
 }
 
 func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
+	res := NewServeListResponse[ListNotesItem]()
 	binderId, err := c.ParamsInt("id")
 	if err != nil {
 		return err
@@ -22,9 +22,6 @@ func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 	notes, err := noteSrv.ListByBinderId(uint(binderId))
 	if err != nil {
 		return err
-	}
-	res := schema.ListResponse[ListNotesItem]{
-		Items: make([]ListNotesItem, 0),
 	}
 	for _, note := range notes {
 		res.Items = append(res.Items, ListNotesItem{
@@ -53,9 +50,10 @@ func (ctl *ServeCtl) CreateNote(c *fiber.Ctx) error {
 	}
 
 	noteSrv := service.NewNoteService(ctl.repos)
-	if _, err := noteSrv.Create(note); err != nil {
+	id, err := noteSrv.Create(note);
+	if err != nil {
 		return err
 	}
 
-	return c.JSON(struct{}{})
+	return c.JSON(ServeCreateResponse{ Id: id })
 }

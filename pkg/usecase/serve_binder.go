@@ -3,7 +3,6 @@ package usecase
 import (
 	"fmt"
 
-	"github.com/enuesaa/pinit/pkg/schema"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
@@ -18,9 +17,8 @@ type ListBindersItem struct {
 }
 
 func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
-	res := schema.ListResponse[ListBindersItem]{
-		Items: make([]ListBindersItem, 0),
-	}
+	res := NewServeListResponse[ListBindersItem]()
+
 	binderSrv := service.NewBinderService(ctl.repos)
 	binders, err := binderSrv.List()
 	if err != nil {
@@ -58,7 +56,7 @@ func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(schema.CreateResponse{Id: id})
+	return c.JSON(ServeCreateResponse{Id: id})
 }
 
 func (ctl *ServeCtl) DeleteBinder(c *fiber.Ctx) error {
@@ -77,5 +75,5 @@ func (ctl *ServeCtl) DeleteBinder(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(schema.DeleteResponse{})
+	return c.JSON(ServeDeleteResponse{})
 }

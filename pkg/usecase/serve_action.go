@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"github.com/enuesaa/pinit/pkg/schema"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,9 +10,7 @@ type ListActionsItem struct {
 	Template string `json:"template"`
 }
 func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
-	res := schema.ListResponse[ListActionsItem]{
-		Items: make([]ListActionsItem, 0),
-	}
+	res := NewServeListResponse[ListActionsItem]()
 
 	actionSrv := service.NewActionService(ctl.repos)
 	actions, err := actionSrv.List()
