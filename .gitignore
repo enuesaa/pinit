@@ -11,5 +11,3 @@ pkg/ent/*
 !pkg/ent/schema
 
 test.db
-
-dist/
