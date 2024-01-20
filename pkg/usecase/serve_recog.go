@@ -1,4 +1,4 @@
-package serve
+package usecase
 
 import (
 	"bytes"

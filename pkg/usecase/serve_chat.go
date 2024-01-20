@@ -1,4 +1,4 @@
-package serve
+package usecase
 
 import (
 	"github.com/enuesaa/pinit/pkg/service"

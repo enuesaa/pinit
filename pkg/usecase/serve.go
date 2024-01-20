@@ -4,13 +4,27 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/serve"
 	"github.com/enuesaa/pinit/web"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
+func NewServeCtl(repos repository.Repos) ServeCtl {
+	return ServeCtl{
+		repos: repos,
+	}
+}
+
+type ServeCtl struct {
+	repos repository.Repos
+}
+
+func (ctl *ServeCtl) CreateId() string {
+	return uuid.New().String()
+}
+
 func Serve(repos repository.Repos, port int) error {
-	ctl := serve.New(repos)
+	ctl := NewServeCtl(repos)
 
 	app := fiber.New()
 	app.Get("/api/binders", ctl.ListBinders)

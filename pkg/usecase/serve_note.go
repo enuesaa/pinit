@@ -1,8 +1,9 @@
-package serve
+package usecase
 
 import (
 	"fmt"
 
+	"github.com/enuesaa/pinit/pkg/schema"
 	"github.com/enuesaa/pinit/pkg/service"
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,7 +23,7 @@ func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	res := ApiListResponse[ListNotesItem]{
+	res := schema.ListResponse[ListNotesItem]{
 		Items: make([]ListNotesItem, 0),
 	}
 	for _, note := range notes {
