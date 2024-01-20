@@ -1,0 +1,8 @@
+version: 1
+
+# see https://zenn.dev/kou_pg_0131/articles/goreleaser-usage
+brews:
+  - repository:
+      owner: enuesaa
+      name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
