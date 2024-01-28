@@ -1,0 +1,7 @@
+version: 1
+
+brews:
+  - repository:
+      owner: enuesaa
+      name: homebrew-tap
+      token: "{{ .Env.TAP_GITLAB_TOKEN }}"
