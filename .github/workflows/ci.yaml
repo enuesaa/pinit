@@ -3,18 +3,18 @@ name: ci
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - '**'
 
 jobs:
   ci:
     runs-on: ubuntu-latest
-    env:
-      CGO_ENABLED: 1
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/env
+
       - run: go generate ./...
+      - run: go install
+
       - run: go test ./...
         env:
           PINIT_DB_PATH: test.db

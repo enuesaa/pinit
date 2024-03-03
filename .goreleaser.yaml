@@ -1,0 +1,4 @@
+builds:
+  - env:
+      # go-sqlite3 requires cgo
+      - CGO_ENABLED=1
