@@ -2,3 +2,10 @@ builds:
   - env:
       # go-sqlite3 requires cgo
       - CGO_ENABLED=1
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
