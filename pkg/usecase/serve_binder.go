@@ -40,6 +40,7 @@ func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
 type CreateBinderRequest struct {
 	Name string `json:"name"`
 }
+
 func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
 	var req CreateBinderRequest
 	if err := c.BodyParser(&req); err != nil {

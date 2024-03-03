@@ -50,10 +50,10 @@ func (ctl *ServeCtl) CreateNote(c *fiber.Ctx) error {
 	}
 
 	noteSrv := service.NewNoteService(ctl.repos)
-	id, err := noteSrv.Create(note);
+	id, err := noteSrv.Create(note)
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(ServeCreateResponse{ Id: id })
+	return c.JSON(ServeCreateResponse{Id: id})
 }

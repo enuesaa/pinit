@@ -36,7 +36,7 @@ func CreateServeCmd(repos repository.Repos) *cobra.Command {
 			app.Post("/api/chat", ctl.Chat)
 			app.Post("/api/recog", ctl.Recog)
 			app.Get("/*", web.Serve)
-		
+
 			addr := fmt.Sprintf(":%d", port)
 			if err := app.Listen(addr); err != nil {
 				log.Fatalf("Error: %s", err.Error())

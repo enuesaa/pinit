@@ -4,13 +4,6 @@ A personal note-taking app.
 > [!Note]
 > Work in progress.. `pinit` is currently under development.
 
-## Install
-```bash
-git clone https://github.com/enuesaa/pinit.git --depth 1
-cd pinit
-go install
-```
-
 ## Usage
 ```console
 $ pinit --help
