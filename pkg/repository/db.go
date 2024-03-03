@@ -2,14 +2,19 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"os"
 	"path/filepath"
 
 	"entgo.io/ent/dialect"
 	"github.com/enuesaa/pinit/pkg/ent"
-	_ "github.com/mattn/go-sqlite3"
+	"modernc.org/sqlite"
 )
+
+func init() {
+	sql.Register("sqlite3", &sqlite.Driver{})
+}
 
 type DbRepositoryInterface interface {
 	Open() error

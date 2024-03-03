@@ -1,8 +1,5 @@
 builds:
-  - env:
-      # go-sqlite3 requires cgo
-      - CGO_ENABLED=1
-    goos:
+  - goos:
       - darwin
       - linux
       - windows
