@@ -9,11 +9,11 @@ type Props = {
 export const WithSidebar = ({ children }: Props) => {
   return (
     <Flex gap='5'>
-      <Box grow='0' shrink='0' style={{ width: '500px' }}>
+      <Box flexGrow='0' flexShrink='0' style={{ width: '500px' }}>
         <Header />
         <ListBinders />
       </Box>
-      <Box grow='1' shrink='1'>
+      <Box flexGrow='1' flexShrink='1'>
         {children}
       </Box>
     </Flex>
