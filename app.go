@@ -53,4 +53,6 @@ func (a *App) Chat(req usecase.ChatRequest) (usecase.ChatResponse, error) {
 	return a.ctl().Chat(req)
 }
 
-// app.Post("/api/recog", ctl.Recog)
+func (a *App) Recog(req string) (usecase.RecogResponse, error) {
+	return a.ctl().Recog([]byte(req))
+}

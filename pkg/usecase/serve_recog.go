@@ -4,7 +4,6 @@ import (
 	"bytes"
 
 	"github.com/enuesaa/pinit/pkg/service"
-	"github.com/gofiber/fiber/v2"
 )
 
 type RecogResponse struct {
@@ -12,20 +11,19 @@ type RecogResponse struct {
 	Text string `json:"text"`
 }
 
-func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
-	body := c.BodyRaw()
+func (ctl *ServeCtl) Recog(body []byte) (RecogResponse, error) {
 	aiSrv := service.NewAiService(ctl.repos)
 
 	id := ctl.CreateId()
 	registrySrv := service.NewRegistrySrv(ctl.repos)
 	text, err := aiSrv.Speak(registrySrv.GetOpenAiApiToken(), bytes.NewReader(body))
 	if err != nil {
-		return err
+		return RecogResponse{}, err
 	}
 
 	res := RecogResponse{
 		Id:   id,
 		Text: text,
 	}
-	return c.JSON(res)
+	return res, nil
 }

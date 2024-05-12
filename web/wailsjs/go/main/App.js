@@ -29,3 +29,7 @@ export function ListBinders() {
 export function ListNotes(arg1) {
   return window['go']['main']['App']['ListNotes'](arg1);
 }
+
+export function Recog(arg1) {
+  return window['go']['main']['App']['Recog'](arg1);
+}

@@ -15,3 +15,5 @@ export function ListActios():Promise<Array<usecase.ListActionsItem>>;
 export function ListBinders():Promise<Array<usecase.ListBindersItem>>;
 
 export function ListNotes(arg1:number):Promise<Array<usecase.ListNotesItem>>;
+
+export function Recog(arg1:string):Promise<usecase.RecogResponse>;

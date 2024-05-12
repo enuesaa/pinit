@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { Chat, CreateBinder, CreateNote, DeleteBinder, ListActios, ListBinders, ListNotes } from '../../wailsjs/go/main/App'
+import { Chat, CreateBinder, CreateNote, DeleteBinder, ListActios, ListBinders, ListNotes, Recog } from '../../wailsjs/go/main/App'
 import { usecase } from '../../wailsjs/go/models'
 
 export const useListBinders = () =>
@@ -22,16 +22,10 @@ export const useRecog = () =>
     mutationFn: async (blobUrl: string): Promise<string> => {
       const response = await fetch(blobUrl)
       const blob = await response.blob()
-      const file = new File([blob], 'hello', { type: blob.type })
-      const res = await fetch('/api/recog', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'audio/wav',
-        },
-        body: file,
-      })
-      const resbody = await res.json()
-      return resbody?.text ?? ''
+      const text = await blob.text()
+      console.log(text)
+      const res = await Recog(text)
+      return res.text ?? ''
     },
   })
 
