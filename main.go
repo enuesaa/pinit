@@ -13,6 +13,8 @@ func init() {
 }
 
 func main() {
+	start()
+
 	app := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app",

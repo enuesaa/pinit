@@ -7,3 +7,6 @@
 # app
 tmp
 *.db
+build/bin
+web/node_modules
+web/dist
