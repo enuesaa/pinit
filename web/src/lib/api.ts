@@ -1,41 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-
-export type Binder = {
-  id: number
-  name: string
-}
-
-export type Note = {
-  id: number
-  binderId: number
-  content: string
-}
-
-export type Action = {
-  id: number
-  name: string
-  template: string
-}
+import { Chat, CreateBinder, CreateNote, DeleteBinder, ListActios, ListBinders, ListNotes } from '../../wailsjs/go/main/App'
+import { usecase } from '../../wailsjs/go/models'
 
 export const useListBinders = () =>
-  useQuery('listBinders', async (): Promise<Binder[]> => {
-    const res = await fetch(`/api/binders`)
-    const body = await res.json()
-    return body?.items
+  useQuery('listBinders', async (): Promise<usecase.ListBindersItem[]> => {
+    return await ListBinders()
   })
 
 export const useListBinderNotes = (id: number) =>
-  useQuery(`listBinderNotes-${id}`, async (): Promise<Note[]> => {
-    const res = await fetch(`/api/binders/${id}/notes`)
-    const body = await res.json()
-    return body?.items
+  useQuery(`listBinderNotes-${id}`, async (): Promise<usecase.ListNotesItem[]> => {
+    return await ListNotes(id)
   })
 
 export const useListActions = () =>
-  useQuery('listActions', async (): Promise<Action[]> => {
-    const res = await fetch(`/api/actions`)
-    const body = await res.json()
-    return body?.items
+  useQuery('listActions', async (): Promise<usecase.ListActionsItem[]> => {
+    return await ListActios()
   })
 
 export const useRecog = () =>
@@ -60,17 +39,8 @@ export const useChat = () =>
   useMutation({
     mutationKey: 'chat',
     mutationFn: async (message: string): Promise<string> => {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message,
-        }),
-      })
-      const body = await res.json()
-      return body?.message ?? ''
+      const res = await Chat({message})
+      return res.message
     },
   })
 
@@ -81,26 +51,11 @@ export const useCreateBinder = () => {
   return useMutation({
     mutationKey: 'createBinder',
     mutationFn: async ({ name, content }: { name: string; content: string }) => {
-      const res = await fetch('/api/binders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-        }),
-      })
-      const body = await res.json()
-      const binderId = body.id as number
-      await fetch('/api/notes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          binderId,
-          content,
-        }),
+      const res = await CreateBinder({name})
+      const binderId = res.id as number
+      await CreateNote({
+        binderId,
+        content,
       })
     },
     onSuccess: () => {
@@ -115,13 +70,7 @@ export const useDeleteBinder = () => {
   return useMutation({
     mutationKey: 'deleteBinder',
     mutationFn: async (id: number) => {
-      const res = await fetch(`/api/binders/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      await res.json()
+      await DeleteBinder(id)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey:'listBinders'})

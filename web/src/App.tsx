@@ -7,10 +7,6 @@ import TopPage from './pages/index'
 export const App = () => {
   const queryClient = new QueryClient()
 
-  // if (process.env.NODE_ENV === 'development') {
-  //   injectApiMock(queryClient)
-  // }
-
   return (
     <QueryClientProvider client={queryClient}>
       <Theme appearance='dark' accentColor='purple'>

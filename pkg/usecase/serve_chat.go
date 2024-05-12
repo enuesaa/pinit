@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"github.com/enuesaa/pinit/pkg/service"
-	"github.com/gofiber/fiber/v2"
 )
 
 type ChatRequest struct {
@@ -12,19 +11,14 @@ type ChatResponse struct {
 	Message string `json:"message"`
 }
 
-func (ctl *ServeCtl) Chat(c *fiber.Ctx) error {
-	var req ChatRequest
-	if err := c.BodyParser(&req); err != nil {
-		return err
-	}
-
+func (ctl *ServeCtl) Chat(req ChatRequest) (ChatResponse, error) {
 	chatgptSrv := service.NewAiService(ctl.repos)
 	registrySrv := service.NewRegistrySrv(ctl.repos)
 
 	res, err := chatgptSrv.Call(registrySrv.GetOpenAiApiToken(), req.Message)
 	if err != nil {
-		return err
+		return ChatResponse{}, err
 	}
 
-	return c.JSON(ChatResponse{Message: res})
+	return ChatResponse{Message: res}, nil
 }
