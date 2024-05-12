@@ -5,7 +5,9 @@ import (
 	"log"
 
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/wailsapp/wails/v3/pkg/application"
+	"github.com/wailsapp/wails/v2"
+	"github.com/wailsapp/wails/v2/pkg/options"
+	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 )
 
 //go:embed all:web/dist
@@ -16,35 +18,29 @@ func init() {
 }
 
 func main() {
-	pinitapp := App{
+	if err := record(); err != nil {
+		log.Fatalf("Error: %s", err.Error())
+	}
+
+	app := App{
 		repos: repository.NewRepos(),
 	}
 
-	app := application.New(application.Options{
-		Name:        "pinit",
-		Description: "",
-		Assets:      application.AssetOptions{
-			FS: assets,
+	err := wails.Run(&options.App{
+		Title: "pinit",
+		Width: 1024,
+		Height: 768,
+		AssetServer: &assetserver.Options{
+			Assets: assets,
 		},
+		OnStartup: app.startup,
+		OnShutdown: app.shutdown,
 		Bind: []interface{}{
-			&pinitapp,
+			&app,
 		},
 	})
 
-	// err := wails.Run(&options.App{
-	// 	Title: "pinit",
-	// 	Width: 1024,
-	// 	Height: 768,
-	// 	AssetServer: &assetserver.Options{
-	// 		Assets: assets,
-	// 	},
-	// 	OnStartup: app.startup,
-	// 	OnShutdown: app.shutdown,
-	// 	Bind: []interface{}{
-	// 		&app,
-	// 	},
-	// })
-	if err := app.Run(); err != nil {
+	if err != nil {
 		log.Fatalf("Error: %s", err.Error())
 	}
 }
