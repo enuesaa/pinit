@@ -13,7 +13,9 @@ func init() {
 }
 
 func main() {
-	start()
+	if err := start(); err != nil {
+		log.Fatalf("Error: %s", err.Error())
+	}
 
 	app := &cobra.Command{
 		Use:     "pinit",
@@ -22,12 +24,6 @@ func main() {
 	}
 
 	repos := repository.NewRepos()
-	app.AddCommand(cli.CreateConfigureCmd(repos))
-	app.AddCommand(cli.CreateLsCmd(repos))
-	app.AddCommand(cli.CreateCreateCmd(repos))
-	app.AddCommand(cli.CreateWriteCmd(repos))
-	app.AddCommand(cli.CreateLookupCmd(repos))
-	app.AddCommand(cli.CreateRmCmd(repos))
 	app.AddCommand(cli.CreateServeCmd(repos))
 
 	// disable default

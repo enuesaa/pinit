@@ -11,8 +11,8 @@ import (
 //go:embed all:web/dist
 var assets embed.FS
 
-func start() {
-	app := NewApp()
+func start() error {
+	app := &App{}
 
 	err := wails.Run(&options.App{
 		Title:  "pinit",
@@ -27,8 +27,5 @@ func start() {
 			app,
 		},
 	})
-
-	if err != nil {
-		println("Error:", err.Error())
-	}
+	return err
 }
