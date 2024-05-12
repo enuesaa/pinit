@@ -12,12 +12,12 @@ export const BinderStoryRecorder = () => {
   const story = useGetStory()
   const setInput = useSetStoryInput()
 
+  console.log('media', navigator.mediaDevices)
+
   useEffect(() => {
-    console.log('ac')
     if (mediaBlobUrl === undefined || mediaBlobUrl === null) {
       return
     }
-    console.log('b')
     ;(async () => {
       const text = await invokeRecogApi.mutateAsync(mediaBlobUrl)
       setInput(`${story.input}\n\n${text}`)
@@ -28,7 +28,6 @@ export const BinderStoryRecorder = () => {
     e.preventDefault()
     startRecording()
   }
-  console.log(status)
 
   if (status === 'recording') {
     return (
