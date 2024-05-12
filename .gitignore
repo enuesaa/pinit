@@ -4,10 +4,6 @@
 # editor
 .vscode
 
+# app
 tmp
-
-pkg/ent/*
-!pkg/ent/generate.go
-!pkg/ent/schema
-
-test.db
+*.db
