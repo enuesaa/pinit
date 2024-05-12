@@ -12,9 +12,8 @@ export const BinderStoryRecorder = () => {
   const story = useGetStory()
   const setInput = useSetStoryInput()
 
-  console.log('media', navigator.mediaDevices)
-
   useEffect(() => {
+    console.log('navigator', navigator)
     if (mediaBlobUrl === undefined || mediaBlobUrl === null) {
       return
     }

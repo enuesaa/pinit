@@ -6,11 +6,9 @@ toolchain go1.22.0
 
 require (
 	entgo.io/ent v0.13.1
-	github.com/MarkKremer/microphone v1.2.0
 	github.com/erikgeiser/promptkit v0.9.0
 	github.com/gofiber/fiber/v2 v2.52.2
 	github.com/google/uuid v1.6.0
-	github.com/gopxl/beep v1.4.1
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/sashabaranov/go-openai v1.20.2
 	github.com/spf13/cobra v1.8.0
@@ -37,7 +35,6 @@ require (
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/gordonklaus/portaudio v0.0.0-20230709114228-aafa478834f5 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/hashicorp/hcl/v2 v2.20.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

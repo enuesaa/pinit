@@ -18,10 +18,6 @@ func init() {
 }
 
 func main() {
-	if err := record(); err != nil {
-		log.Fatalf("Error: %s", err.Error())
-	}
-
 	app := App{
 		repos: repository.NewRepos(),
 	}
