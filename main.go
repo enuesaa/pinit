@@ -2,37 +2,38 @@ package main
 
 import (
 	"log"
+	"embed"
 
-	"github.com/enuesaa/pinit/pkg/cli"
-	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/spf13/cobra"
+	"github.com/wailsapp/wails/v2"
+	"github.com/wailsapp/wails/v2/pkg/options"
+	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 )
+
+//go:embed all:web/dist
+var assets embed.FS
 
 func init() {
 	log.SetFlags(0)
 }
 
 func main() {
-	if err := start(); err != nil {
+	app := &App{}
+
+	err := wails.Run(&options.App{
+		Title:  "pinit",
+		Width:  1024,
+		Height: 768,
+		AssetServer: &assetserver.Options{
+			Assets: assets,
+		},
+		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		OnStartup:        app.startup,
+		Bind: []interface{}{
+			app,
+		},
+	})
+
+	if err != nil {
 		log.Fatalf("Error: %s", err.Error())
 	}
-
-	app := &cobra.Command{
-		Use:     "pinit",
-		Short:   "A personal note-taking app",
-		Version: "0.0.8",
-	}
-
-	repos := repository.NewRepos()
-	app.AddCommand(cli.CreateServeCmd(repos))
-
-	// disable default
-	app.SetHelpCommand(&cobra.Command{Hidden: true})
-	app.CompletionOptions.DisableDefaultCmd = true
-	app.SilenceUsage = true
-	app.PersistentFlags().SortFlags = false
-	app.PersistentFlags().BoolP("help", "", false, "Show help information")
-	app.PersistentFlags().BoolP("version", "", false, "Show version")
-
-	app.Execute()
 }

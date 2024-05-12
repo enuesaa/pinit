@@ -5,3 +5,7 @@
 export function Greet2(arg1) {
   return window['go']['main']['App']['Greet2'](arg1);
 }
+
+export function ListBinders() {
+  return window['go']['main']['App']['ListBinders']();
+}
