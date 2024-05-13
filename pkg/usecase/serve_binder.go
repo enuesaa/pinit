@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/service"
+	"github.com/gofiber/fiber/v2"
 )
 
 type ListBindersItem struct {
@@ -15,13 +16,13 @@ type ListBindersItem struct {
 	UpdatedAt  string `json:"updatedAt"`
 }
 
-func (ctl *ServeCtl) ListBinders() ([]ListBindersItem, error) {
+func (ctl *ServeCtl) ListBinders(c *fiber.Ctx) error {
 	res := NewServeListResponse[ListBindersItem]()
 
 	binderSrv := service.NewBinderService(ctl.repos)
 	binders, err := binderSrv.List()
 	if err != nil {
-		return res.Items, err
+		return err
 	}
 	for _, binder := range binders {
 		res.Items = append(res.Items, ListBindersItem{
@@ -33,14 +34,18 @@ func (ctl *ServeCtl) ListBinders() ([]ListBindersItem, error) {
 			UpdatedAt:  binder.UpdatedAt.String(),
 		})
 	}
-	return res.Items, nil
+	return c.JSON(res)
 }
 
 type CreateBinderRequest struct {
 	Name string `json:"name"`
 }
 
-func (ctl *ServeCtl) CreateBinder(req CreateBinderRequest) (ServeCreateResponse, error) {
+func (ctl *ServeCtl) CreateBinder(c *fiber.Ctx) error {
+	var req CreateBinderRequest
+	if err := c.BodyParser(&req); err != nil {
+		return err
+	}
 	binderSrv := service.NewBinderService(ctl.repos)
 
 	binder := service.Binder{
@@ -49,13 +54,18 @@ func (ctl *ServeCtl) CreateBinder(req CreateBinderRequest) (ServeCreateResponse,
 	}
 	id, err := binderSrv.Create(binder)
 	if err != nil {
-		return ServeCreateResponse{}, err
+		return err
 	}
 
-	return ServeCreateResponse{Id: id}, nil
+	return c.JSON(ServeCreateResponse{Id: id})
 }
 
-func (ctl *ServeCtl) DeleteBinder(binderId int) error {
+func (ctl *ServeCtl) DeleteBinder(c *fiber.Ctx) error {
+	binderId, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
+
 	noteSrv := service.NewNoteService(ctl.repos)
 	binderSrv := service.NewBinderService(ctl.repos)
 
@@ -65,5 +75,6 @@ func (ctl *ServeCtl) DeleteBinder(binderId int) error {
 	if err := binderSrv.Delete(uint(binderId)); err != nil {
 		return err
 	}
-	return nil
+
+	return c.JSON(ServeDeleteResponse{})
 }

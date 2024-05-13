@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  remove:
+    desc: remove tmp files
+    cmds:
+      - rm -rf tmp
+
+  dev:
+    desc: start dev server
+    cmds:
+      - go run -tags dev . serve

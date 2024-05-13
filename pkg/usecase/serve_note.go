@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/service"
+	"github.com/gofiber/fiber/v2"
 )
 
 type ListNotesItem struct {
@@ -11,12 +12,16 @@ type ListNotesItem struct {
 	Content string `json:"content"`
 }
 
-func (ctl *ServeCtl) ListNotes(binderId int) ([]ListNotesItem, error) {
+func (ctl *ServeCtl) ListNotes(c *fiber.Ctx) error {
 	res := NewServeListResponse[ListNotesItem]()
+	binderId, err := c.ParamsInt("id")
+	if err != nil {
+		return err
+	}
 	noteSrv := service.NewNoteService(ctl.repos)
 	notes, err := noteSrv.ListByBinderId(uint(binderId))
 	if err != nil {
-		return res.Items, err
+		return err
 	}
 	for _, note := range notes {
 		res.Items = append(res.Items, ListNotesItem{
@@ -24,7 +29,7 @@ func (ctl *ServeCtl) ListNotes(binderId int) ([]ListNotesItem, error) {
 			Content: note.Content,
 		})
 	}
-	return res.Items, nil
+	return c.JSON(res)
 }
 
 type CreateNoteRequest struct {
@@ -32,7 +37,11 @@ type CreateNoteRequest struct {
 	Content  string `json:"content"`
 }
 
-func (ctl *ServeCtl) CreateNote(req CreateNoteRequest) (ServeCreateResponse, error) {
+func (ctl *ServeCtl) CreateNote(c *fiber.Ctx) error {
+	var req CreateNoteRequest
+	if err := c.BodyParser(&req); err != nil {
+		return err
+	}
 	note := service.Note{
 		BinderId:  req.BinderId,
 		Comment:   "",
@@ -43,8 +52,8 @@ func (ctl *ServeCtl) CreateNote(req CreateNoteRequest) (ServeCreateResponse, err
 	noteSrv := service.NewNoteService(ctl.repos)
 	id, err := noteSrv.Create(note)
 	if err != nil {
-		return ServeCreateResponse{}, err
+		return err
 	}
 
-	return ServeCreateResponse{Id: id}, nil
+	return c.JSON(ServeCreateResponse{Id: id})
 }

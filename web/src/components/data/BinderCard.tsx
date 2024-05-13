@@ -1,18 +1,17 @@
-import { useListBinderNotes } from '@/lib/api'
-import { usecase } from '../../../wailsjs/go/models'
+import { Binder, useListBinderNotes } from '@/lib/api'
 import { Card, Text } from '@radix-ui/themes'
 import { BinderCardDeleteButton } from './BinderCardDeleteButton'
 
 type Props = {
-  binder: usecase.ListBindersItem
+  binder: Binder
 }
 export const BinderCard = ({ binder }: Props) => {
-  const { data: notes } = useListBinderNotes(Number(binder.id))
+  const { data: notes } = useListBinderNotes(binder.id)
   const latestNote = (notes !== undefined ? notes.at(0) : null) ?? null
 
   return (
     <Card m='3'>
-      <BinderCardDeleteButton binderId={Number(binder.id)} />
+      <BinderCardDeleteButton binderId={binder.id} />
       <Text as='div' size='2' weight='bold' mb='2'>
         {binder.name}
       </Text>

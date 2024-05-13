@@ -1,10 +1,10 @@
-import { usecase } from '../../../wailsjs/go/models'
+import { Action } from '@/lib/api'
 import { useSetStoryInput } from '@/lib/state'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 
 type Props = {
-  action: usecase.ListActionsItem
+  action: Action
 }
 export const BinderStoryAction = ({ action }: Props) => {
   const setInput = useSetStoryInput()

@@ -13,7 +13,6 @@ export const BinderStoryRecorder = () => {
   const setInput = useSetStoryInput()
 
   useEffect(() => {
-    console.log('navigator', navigator)
     if (mediaBlobUrl === undefined || mediaBlobUrl === null) {
       return
     }
