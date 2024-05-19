@@ -23,7 +23,7 @@ func main() {
 	app := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app",
-		Version: "0.0.8",
+		Version: "0.0.9",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
 			return usecase.OpenDb(repos)
 		},
