@@ -104,7 +104,7 @@ export const useCreateBinder = () => {
       })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:'listBinders'})
+      queryClient.invalidateQueries({ queryKey: 'listBinders' })
     },
   })
 }
@@ -124,7 +124,7 @@ export const useDeleteBinder = () => {
       await res.json()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:'listBinders'})
+      queryClient.invalidateQueries({ queryKey: 'listBinders' })
     },
   })
 }

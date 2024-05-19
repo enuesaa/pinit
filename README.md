@@ -9,16 +9,15 @@ A personal note-taking app.
 $ pinit --help
 A personal note-taking app
 
+Usage:
+  pinit [flags]
+  pinit [command]
+
 Available Commands:
-  configure   Setup pinit
-  create      Create new binder and write a note
-  describe    describe a binder
-  ls          List binders
-  rm          Remove a binder
-  serve       Launch the web console
-  write       write a note
+  configure   Setup
 
 Flags:
-      --help      Show help information
-      --version   Show version
+      --help       Show help information
+      --port int   port. Default: 3000 (default 3000)
+      --version    Show version
 ```

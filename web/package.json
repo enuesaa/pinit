@@ -1,8 +1,6 @@
 {
-  "name": "pinit-web",
-  "version": "0.0.1",
+  "name": "web",
   "private": true,
-  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3001 --host 127.0.0.1",
@@ -32,5 +30,18 @@
     "prettier-plugin-organize-imports": "^3.2.4",
     "typescript": "5.3.3",
     "vite": "^5.2.6"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "endOfLine": "lf",
+    "trailingComma": "es5",
+    "plugins": [
+      "prettier-plugin-organize-imports"
+    ]
   }
 }
