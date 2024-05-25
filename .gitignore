@@ -7,5 +7,5 @@
 # app
 *.db
 build/bin
-web/node_modules
-web/dist
+ui/node_modules
+ui/dist

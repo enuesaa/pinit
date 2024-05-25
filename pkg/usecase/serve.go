@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/web"
+	"github.com/enuesaa/pinit/ui"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/pkg/browser"
@@ -46,7 +46,7 @@ func (ctl *ServeCtl) Serve() error {
 	app.Get("/api/actions", ctl.ActionList)
 	app.Post("/api/chat", ctl.Chat)
 	app.Post("/api/recog", ctl.Recog)
-	app.Get("/*", web.Serve)
+	app.Get("/*", ui.Serve)
 
 	return app.Listen(ctl.Addr())
 }
