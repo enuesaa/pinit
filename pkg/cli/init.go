@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
@@ -18,11 +16,11 @@ func CreateInitCmd(repos repository.Repos) *cobra.Command {
 			}
 
 			if !usecase.DBIsExist(repos) {
-				fmt.Printf("database migration start\n")
+				repos.Log.Info("database migration start")
 				if err := usecase.DBSetup(repos); err != nil {
 					return err
 				}
-				fmt.Printf("database migration succeeded\n")
+				repos.Log.Info("database migration succeeded")
 			}
 
 			if err := usecase.DBOpen(repos); err != nil {
@@ -30,11 +28,11 @@ func CreateInitCmd(repos repository.Repos) *cobra.Command {
 			}
 			defer usecase.DBClose(repos)
 
-			fmt.Printf("app setup..\n")
+			repos.Log.Info("app setup...")
 			if err := usecase.ConfigAsk(repos); err != nil {
 				return err
 			}
-			fmt.Printf("succeeded\n")
+			repos.Log.Info("succeeded")
 
 			return nil
 		},

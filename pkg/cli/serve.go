@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
@@ -24,7 +22,7 @@ func CreateServeCmd(repos repository.Repos) *cobra.Command {
 			ctl := usecase.NewServeCtl(repos, port)
 			if err := ctl.Open(); err != nil {
 				// ignore this err because this is not critical for app.
-				fmt.Printf("failed to open url because `%s`\n", err.Error())
+				repos.Log.Info("failed to open url because `%s`", err.Error())
 			}
 
 			return ctl.Serve()

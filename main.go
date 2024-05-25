@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/enuesaa/pinit/pkg/cli"
@@ -31,6 +30,6 @@ func main() {
 	app.SilenceErrors = true
 
 	if err := app.Execute(); err != nil {
-		log.Fatalf("Error: %s", err.Error())
+		repos.Log.Err(err)
 	}
 }

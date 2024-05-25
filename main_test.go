@@ -13,15 +13,15 @@ func TestMain(m *testing.M) {
 
 	defer func ()  {
 		if err := repos.Fs.Remove(dbPath); err != nil {
-			repos.Log.Err("failed to remove database file", err)
+			repos.Log.Errf(err, "failed to remove database file")
 		}
 	}()
 
 	if err := usecase.DBSetup(repos); err != nil {
-		repos.Log.Err("failed to migrate database", err)
+		repos.Log.Errf(err, "failed to migrate database")
 	}
 	if err := usecase.DBOpen(repos); err != nil {
-		repos.Log.Err("failed to open database", err)
+		repos.Log.Errf(err, "failed to open database")
 	}
 	defer usecase.DBClose(repos)
 
