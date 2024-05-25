@@ -11,7 +11,7 @@ import (
 func TestMain(m *testing.M) {
 	repos := repository.NewRepos()
 
-	if err := usecase.CreateRegistryIfNotExist(repos); err != nil {
+	if err := usecase.DBSetup(repos); err != nil {
 		log.Fatalf("Error: failed to migrate, %s", err.Error())
 	}
 

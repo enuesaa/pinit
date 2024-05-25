@@ -16,10 +16,10 @@ func CreateServeCmd(repos repository.Repos) *cobra.Command {
 		Use:   "serve",
 		Short: "Serve pinit app",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.OpenDb(repos)
+			return usecase.DBOpen(repos)
 		},
 		PostRunE: func(cmd *cobra.Command, args []string) error {
-			return usecase.CloseDb(repos)
+			return usecase.DBClose(repos)
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			port, _ := cmd.Flags().GetInt("port")

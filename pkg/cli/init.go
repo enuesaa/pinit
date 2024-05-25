@@ -16,16 +16,25 @@ func CreateInitCmd(repos repository.Repos) *cobra.Command {
 			if err := usecase.EnvCheck(repos); err != nil {
 				return err
 			}
-			if err := usecase.DBCreate(repos); err != nil {
-				return err
+
+			if !usecase.DBIsExist(repos) {
+				fmt.Printf("database migration start\n")
+				if err := usecase.DBSetup(repos); err != nil {
+					return err
+				}
+				fmt.Printf("database migration succeeded\n")
 			}
+
 			if err := usecase.DBOpen(repos); err != nil {
 				return err
 			}
-			if err := usecase.DBMigrate(repos); err != nil {
+			defer usecase.DBClose(repos)
+
+			fmt.Printf("setup application start\n")
+			if err := usecase.ConfigAsk(repos); err != nil {
 				return err
 			}
-			fmt.Printf("succeed\n")
+			fmt.Printf("setup application succeeded\n")
 
 			return nil
 		},
