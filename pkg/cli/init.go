@@ -8,10 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateConfigureCmd(repos repository.Repos) *cobra.Command {
+func CreateInitCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "configure",
-		Short: "Setup",
+		Use:   "init",
+		Short: "Initialize pinit app. Run database migration and setup application.",
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := usecase.CreateRegistryIfNotExist(repos); err != nil {
 				log.Fatalf("Error: %s", err.Error())

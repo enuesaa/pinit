@@ -10,14 +10,15 @@ $ pinit --help
 A personal note-taking app
 
 Usage:
-  pinit [flags]
   pinit [command]
 
 Available Commands:
-  configure   Setup
+  init        Initialize pinit app. Run database migration and setup application.
+  serve       Serve pinit app
 
 Flags:
-      --help       Show help information
-      --port int   port. Default: 3000 (default 3000)
-      --version    Show version
+      --help      Show help information
+      --version   Show version
+
+Use "pinit [command] --help" for more information about a command.
 ```
