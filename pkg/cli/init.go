@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
@@ -14,15 +16,17 @@ func CreateInitCmd(repos repository.Repos) *cobra.Command {
 			if err := usecase.EnvCheck(repos); err != nil {
 				return err
 			}
-			if err := usecase.CreateRegistryIfNotExist(repos); err != nil {
+			if err := usecase.DBCreate(repos); err != nil {
 				return err
 			}
-			if err := usecase.OpenDb(repos); err != nil {
+			if err := usecase.DBOpen(repos); err != nil {
 				return err
 			}
-			if err := usecase.ConfigureAppConfig(repos); err != nil {
+			if err := usecase.DBMigrate(repos); err != nil {
 				return err
 			}
+			fmt.Printf("succeed\n")
+
 			return nil
 		},
 	}

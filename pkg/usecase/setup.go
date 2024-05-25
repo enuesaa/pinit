@@ -40,6 +40,7 @@ func ConfigureAppConfig(repos repository.Repos) error {
 	return registrySrv.SetOpenAiApiToken(token)
 }
 
+//Deprecated
 func OpenDb(repos repository.Repos) error {
 	if err := repos.Db.Open(); err != nil {
 		return fmt.Errorf("failed to open db connetcion. %s", err.Error())

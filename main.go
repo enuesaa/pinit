@@ -30,6 +30,7 @@ func main() {
 	app.PersistentFlags().SortFlags = false
 	app.PersistentFlags().BoolP("help", "", false, "Show help information")
 	app.PersistentFlags().BoolP("version", "", false, "Show version")
+	app.SilenceErrors = true
 
 	if err := app.Execute(); err != nil {
 		log.Fatalf("Error: %s", err.Error())

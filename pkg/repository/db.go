@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"entgo.io/ent/dialect"
 	"github.com/enuesaa/pinit/pkg/ent"
@@ -10,6 +12,8 @@ import (
 
 type DbRepositoryInterface interface {
 	CheckEnv() error
+	IsDBExist() bool
+	CreateDB() error
 	Open() error
 	Close() error
 	Appconf() *ent.AppconfClient
@@ -29,6 +33,17 @@ func (repo *DbRepository) CheckEnv() error {
 		return fmt.Errorf("environment variable `PINIT_DB_PATH` is empty. Please set absolute path to database file.")
 	}
 	return nil
+}
+
+func (repo *DbRepository) IsDBExist() bool {
+	if _, err := os.Stat(repo.env.dbPath); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+func (repo *DbRepository) CreateDB() error {
+	return os.MkdirAll(filepath.Dir(repo.env.dbPath), os.ModePerm)
 }
 
 func (repo *DbRepository) dsn() string {

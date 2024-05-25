@@ -10,6 +10,14 @@ func (repo *DatabaseMockRepository) CheckEnv() error {
 	return nil
 }
 
+func (repo *DatabaseMockRepository) IsDBExist() bool {
+	return true
+}
+
+func (repo *DatabaseMockRepository) CreateDB() error {
+	return nil
+}
+
 func (repo *DatabaseMockRepository) Open() error {
 	return nil
 }
