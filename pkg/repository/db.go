@@ -3,8 +3,6 @@ package repository
 import (
 	"context"
 	"fmt"
-	"os"
-	"path/filepath"
 
 	"entgo.io/ent/dialect"
 	"github.com/enuesaa/pinit/pkg/ent"
@@ -21,28 +19,16 @@ type DbRepositoryInterface interface {
 }
 
 type DbRepository struct {
+	env Env
 	client *ent.Client
 }
 
-func (repo *DbRepository) dsn() (string, error) {
-	dbPath := os.Getenv("PINIT_DB_PATH")
-	if dbPath == "" {
-		homedir, err := os.UserHomeDir()
-		if err != nil {
-			return "", err
-		}
-		dbPath = filepath.Join(homedir, ".pinit", "pinit.db")
-	}
-	dsn := fmt.Sprintf("file:%s?_fk=1", dbPath)
-
-	return dsn, nil
+func (repo *DbRepository) dsn() string {
+	return fmt.Sprintf("file:%s?_fk=1", repo.env.dbPath)
 }
 
 func (repo *DbRepository) Open() error {
-	dsn, err := repo.dsn()
-	if err != nil {
-		return err
-	}
+	dsn := repo.dsn()
 	client, err := ent.Open(dialect.SQLite, dsn)
 	if err != nil {
 		return err
