@@ -6,6 +6,10 @@ import (
 
 type DatabaseMockRepository struct{}
 
+func (repo *DatabaseMockRepository) CheckEnv() error {
+	return nil
+}
+
 func (repo *DatabaseMockRepository) Open() error {
 	return nil
 }

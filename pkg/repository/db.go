@@ -9,6 +9,7 @@ import (
 )
 
 type DbRepositoryInterface interface {
+	CheckEnv() error
 	Open() error
 	Close() error
 	Appconf() *ent.AppconfClient
@@ -21,6 +22,13 @@ type DbRepositoryInterface interface {
 type DbRepository struct {
 	env Env
 	client *ent.Client
+}
+
+func (repo *DbRepository) CheckEnv() error {
+	if repo.env.dbPath == "" {
+		return fmt.Errorf("environment variable `PINIT_DB_PATH` is empty. Please set absolute path to database file.")
+	}
+	return nil
 }
 
 func (repo *DbRepository) dsn() string {
