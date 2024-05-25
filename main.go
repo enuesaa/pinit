@@ -9,10 +9,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func init() {
-	log.SetFlags(0)
-}
-
 func main() {
 	dbPath := os.Getenv("PINIT_DB_PATH")
 	repos := repository.New(dbPath)
