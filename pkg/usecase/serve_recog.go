@@ -7,12 +7,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type RecogResponse struct {
-	Id   string `json:"id"`
-	Text string `json:"text"`
-}
-
 func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
+	type RecogResponse struct {
+		Id   string `json:"id"`
+		Text string `json:"text"`
+	}
+
 	body := c.BodyRaw()
 	aiSrv := service.NewAiService(ctl.repos)
 

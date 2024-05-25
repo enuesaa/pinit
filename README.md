@@ -13,8 +13,8 @@ Usage:
   pinit [command]
 
 Available Commands:
-  init        Initialize pinit app. Run database migration and setup application.
-  serve       Serve pinit app
+  init        Initialize pinit. Run database migration and setup pinit
+  serve       Serve pinit
 
 Flags:
       --help      Show help information

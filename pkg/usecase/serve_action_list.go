@@ -5,12 +5,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type ListActionsItem struct {
-	Name     string `json:"name"`
-	Template string `json:"template"`
-}
-
-func (ctl *ServeCtl) ListActions(c *fiber.Ctx) error {
+func (ctl *ServeCtl) ActionList(c *fiber.Ctx) error {
+	type ListActionsItem struct {
+		Name     string `json:"name"`
+		Template string `json:"template"`
+	}
+	
 	res := NewServeListResponse[ListActionsItem]()
 
 	actionSrv := service.NewActionService(ctl.repos)

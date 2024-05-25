@@ -11,7 +11,7 @@ import (
 func CreateInitCmd(repos repository.Repos) *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:   "init",
-		Short: "Initialize pinit app. Run database migration and setup application.",
+		Short: "Initialize pinit. Run database migration and setup pinit",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := usecase.EnvCheck(repos); err != nil {
 				return err
@@ -30,11 +30,11 @@ func CreateInitCmd(repos repository.Repos) *cobra.Command {
 			}
 			defer usecase.DBClose(repos)
 
-			fmt.Printf("setup application start\n")
+			fmt.Printf("app setup..\n")
 			if err := usecase.ConfigAsk(repos); err != nil {
 				return err
 			}
-			fmt.Printf("setup application succeeded\n")
+			fmt.Printf("succeeded\n")
 
 			return nil
 		},
