@@ -23,7 +23,7 @@ func (repo *FsMockRepository) IsDir(path string) (bool, error) {
 		if strings.HasPrefix(filepath, path) {
 			if filepath == path {
 				// this is file. not dir.
-				if *result != true {
+				if !*result {
 					*result = false
 				}
 				continue
@@ -32,11 +32,7 @@ func (repo *FsMockRepository) IsDir(path string) (bool, error) {
 			continue
 		}
 	}
-	if result != nil {
-		return *result, nil
-	}
-
-	return false, fmt.Errorf("file or dir does not exist.")
+	return false, fmt.Errorf("file or dir does not exist")
 }
 
 func (repo *FsMockRepository) Create(path string, body []byte) error {
