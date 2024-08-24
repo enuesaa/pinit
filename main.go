@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
+	"github.com/enuesaa/pinit/pkg/usecase"
 	"github.com/spf13/cobra"
 )
 
@@ -18,9 +18,35 @@ func main() {
 		Use:     "pinit",
 		Short:   "A personal note-taking app",
 		Version: "0.0.10",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			port, _ := cmd.Flags().GetInt("port")
+			isServe, _ := cmd.Flags().GetBool("serve")
+
+			if !isServe {
+				return cmd.Help()
+			}
+
+			if !usecase.DBIsExist(repos) {
+				if err := usecase.DBSetup(repos); err != nil {
+					return err
+				}
+			}
+			if err := usecase.DBOpen(repos); err != nil {
+				return err
+			}
+			defer usecase.DBClose(repos)
+
+			ctl := usecase.NewServeCtl(repos, port)
+			if err := ctl.Open(); err != nil {
+				// ignore this err because this is not critical for app.
+				repos.Log.Info("failed to open url because `%s`", err.Error())
+			}
+
+			return ctl.Serve()
+		},
 	}
-	app.AddCommand(cli.CreateInitCmd(repos))
-	app.AddCommand(cli.CreateServeCmd(repos))
+	app.Flags().Bool("serve", false, "Start pinit app")
+	app.Flags().Int("port", 3000, "port. Default: 3000")
 
 	// disable default
 	app.SetHelpCommand(&cobra.Command{Hidden: true})
