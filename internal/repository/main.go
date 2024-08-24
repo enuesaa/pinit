@@ -8,7 +8,6 @@ import (
 type Repos struct {
 	Fs     FsRepositoryInterface
 	Db     DbRepositoryInterface
-	Prompt PromptInterface
 	Log    LogRepositoryInterface
 }
 
@@ -21,7 +20,6 @@ func New() (Repos, error) {
 	repos := Repos{
 		Fs:     &FsRepository{},
 		Db:     &DbRepository{dbPath: dbPath},
-		Prompt: &Prompt{},
 		Log:    &LogRepository{},
 	}
 	return repos, nil
@@ -36,7 +34,6 @@ func NewMock() (Repos, error) {
 	repos := Repos{
 		Fs:     &FsRepository{},
 		Db:     &DbRepository{dbPath: dbPath},
-		Prompt: &Prompt{},
 		Log:    &LogRepository{},
 	}
 	return repos, nil

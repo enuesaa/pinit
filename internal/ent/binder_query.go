@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (bq *BinderQuery) Order(o ...binder.OrderOption) *BinderQuery {
 // First returns the first Binder entity from the query.
 // Returns a *NotFoundError when no Binder was found.
 func (bq *BinderQuery) First(ctx context.Context) (*Binder, error) {
-	nodes, err := bq.Limit(1).All(setContextOp(ctx, bq.ctx, "First"))
+	nodes, err := bq.Limit(1).All(setContextOp(ctx, bq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (bq *BinderQuery) FirstX(ctx context.Context) *Binder {
 // Returns a *NotFoundError when no Binder ID was found.
 func (bq *BinderQuery) FirstID(ctx context.Context) (id uint, err error) {
 	var ids []uint
-	if ids, err = bq.Limit(1).IDs(setContextOp(ctx, bq.ctx, "FirstID")); err != nil {
+	if ids, err = bq.Limit(1).IDs(setContextOp(ctx, bq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (bq *BinderQuery) FirstIDX(ctx context.Context) uint {
 // Returns a *NotSingularError when more than one Binder entity is found.
 // Returns a *NotFoundError when no Binder entities are found.
 func (bq *BinderQuery) Only(ctx context.Context) (*Binder, error) {
-	nodes, err := bq.Limit(2).All(setContextOp(ctx, bq.ctx, "Only"))
+	nodes, err := bq.Limit(2).All(setContextOp(ctx, bq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (bq *BinderQuery) OnlyX(ctx context.Context) *Binder {
 // Returns a *NotFoundError when no entities are found.
 func (bq *BinderQuery) OnlyID(ctx context.Context) (id uint, err error) {
 	var ids []uint
-	if ids, err = bq.Limit(2).IDs(setContextOp(ctx, bq.ctx, "OnlyID")); err != nil {
+	if ids, err = bq.Limit(2).IDs(setContextOp(ctx, bq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (bq *BinderQuery) OnlyIDX(ctx context.Context) uint {
 
 // All executes the query and returns a list of Binders.
 func (bq *BinderQuery) All(ctx context.Context) ([]*Binder, error) {
-	ctx = setContextOp(ctx, bq.ctx, "All")
+	ctx = setContextOp(ctx, bq.ctx, ent.OpQueryAll)
 	if err := bq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (bq *BinderQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if bq.ctx.Unique == nil && bq.path != nil {
 		bq.Unique(true)
 	}
-	ctx = setContextOp(ctx, bq.ctx, "IDs")
+	ctx = setContextOp(ctx, bq.ctx, ent.OpQueryIDs)
 	if err = bq.Select(binder.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (bq *BinderQuery) IDsX(ctx context.Context) []uint {
 
 // Count returns the count of the given query.
 func (bq *BinderQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, bq.ctx, "Count")
+	ctx = setContextOp(ctx, bq.ctx, ent.OpQueryCount)
 	if err := bq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (bq *BinderQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (bq *BinderQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, bq.ctx, "Exist")
+	ctx = setContextOp(ctx, bq.ctx, ent.OpQueryExist)
 	switch _, err := bq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (bgb *BinderGroupBy) Aggregate(fns ...AggregateFunc) *BinderGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (bgb *BinderGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, bgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, bgb.build.ctx, ent.OpQueryGroupBy)
 	if err := bgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (bs *BinderSelect) Aggregate(fns ...AggregateFunc) *BinderSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (bs *BinderSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, bs.ctx, "Select")
+	ctx = setContextOp(ctx, bs.ctx, ent.OpQuerySelect)
 	if err := bs.prepareQuery(ctx); err != nil {
 		return err
 	}

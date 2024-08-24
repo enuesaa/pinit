@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -60,7 +61,7 @@ func (nq *NoteQuery) Order(o ...note.OrderOption) *NoteQuery {
 // First returns the first Note entity from the query.
 // Returns a *NotFoundError when no Note was found.
 func (nq *NoteQuery) First(ctx context.Context) (*Note, error) {
-	nodes, err := nq.Limit(1).All(setContextOp(ctx, nq.ctx, "First"))
+	nodes, err := nq.Limit(1).All(setContextOp(ctx, nq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (nq *NoteQuery) FirstX(ctx context.Context) *Note {
 // Returns a *NotFoundError when no Note ID was found.
 func (nq *NoteQuery) FirstID(ctx context.Context) (id uint, err error) {
 	var ids []uint
-	if ids, err = nq.Limit(1).IDs(setContextOp(ctx, nq.ctx, "FirstID")); err != nil {
+	if ids, err = nq.Limit(1).IDs(setContextOp(ctx, nq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -106,7 +107,7 @@ func (nq *NoteQuery) FirstIDX(ctx context.Context) uint {
 // Returns a *NotSingularError when more than one Note entity is found.
 // Returns a *NotFoundError when no Note entities are found.
 func (nq *NoteQuery) Only(ctx context.Context) (*Note, error) {
-	nodes, err := nq.Limit(2).All(setContextOp(ctx, nq.ctx, "Only"))
+	nodes, err := nq.Limit(2).All(setContextOp(ctx, nq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (nq *NoteQuery) OnlyX(ctx context.Context) *Note {
 // Returns a *NotFoundError when no entities are found.
 func (nq *NoteQuery) OnlyID(ctx context.Context) (id uint, err error) {
 	var ids []uint
-	if ids, err = nq.Limit(2).IDs(setContextOp(ctx, nq.ctx, "OnlyID")); err != nil {
+	if ids, err = nq.Limit(2).IDs(setContextOp(ctx, nq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -159,7 +160,7 @@ func (nq *NoteQuery) OnlyIDX(ctx context.Context) uint {
 
 // All executes the query and returns a list of Notes.
 func (nq *NoteQuery) All(ctx context.Context) ([]*Note, error) {
-	ctx = setContextOp(ctx, nq.ctx, "All")
+	ctx = setContextOp(ctx, nq.ctx, ent.OpQueryAll)
 	if err := nq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (nq *NoteQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if nq.ctx.Unique == nil && nq.path != nil {
 		nq.Unique(true)
 	}
-	ctx = setContextOp(ctx, nq.ctx, "IDs")
+	ctx = setContextOp(ctx, nq.ctx, ent.OpQueryIDs)
 	if err = nq.Select(note.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -199,7 +200,7 @@ func (nq *NoteQuery) IDsX(ctx context.Context) []uint {
 
 // Count returns the count of the given query.
 func (nq *NoteQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, nq.ctx, "Count")
+	ctx = setContextOp(ctx, nq.ctx, ent.OpQueryCount)
 	if err := nq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -217,7 +218,7 @@ func (nq *NoteQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (nq *NoteQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, nq.ctx, "Exist")
+	ctx = setContextOp(ctx, nq.ctx, ent.OpQueryExist)
 	switch _, err := nq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -449,7 +450,7 @@ func (ngb *NoteGroupBy) Aggregate(fns ...AggregateFunc) *NoteGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (ngb *NoteGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ngb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, ngb.build.ctx, ent.OpQueryGroupBy)
 	if err := ngb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -497,7 +498,7 @@ func (ns *NoteSelect) Aggregate(fns ...AggregateFunc) *NoteSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (ns *NoteSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ns.ctx, "Select")
+	ctx = setContextOp(ctx, ns.ctx, ent.OpQuerySelect)
 	if err := ns.prepareQuery(ctx); err != nil {
 		return err
 	}

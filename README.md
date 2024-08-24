@@ -33,3 +33,7 @@ $ pinit --serve
 go generate ./...
 go run . serve
 ```
+
+## TODO
+- [app] set openai api token on web
+- [note] enable to add multiple notes to binder.
