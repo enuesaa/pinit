@@ -10,14 +10,6 @@ import (
 	"github.com/pkg/browser"
 )
 
-
-func NewServeCtl(repos repository.Repos, port int) ServeCtl {
-	return ServeCtl{
-		repos: repos,
-		port: port,
-	}
-}
-
 type ServeCtl struct {
 	repos repository.Repos
 	port int
@@ -49,4 +41,18 @@ func (ctl *ServeCtl) Serve() error {
 	app.Get("/*", ui.Serve)
 
 	return app.Listen(ctl.Addr())
+}
+
+func Serve(repos repository.Repos, port int) error {
+	ctl := ServeCtl{
+		repos: repos,
+		port: port,
+	}
+
+	if err := ctl.Open(); err != nil {
+		// ignore this err because this is not critical for app.
+		ctl.repos.Log.Info("failed to open url because `%s`", err.Error())
+	}
+
+	return ctl.Serve()
 }

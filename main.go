@@ -36,13 +36,7 @@ func main() {
 			}
 			defer usecase.DBClose(repos)
 
-			ctl := usecase.NewServeCtl(repos, port)
-			if err := ctl.Open(); err != nil {
-				// ignore this err because this is not critical for app.
-				repos.Log.Info("failed to open url because `%s`", err.Error())
-			}
-
-			return ctl.Serve()
+			return usecase.Serve(repos, port)
 		},
 	}
 	app.Flags().Bool("serve", false, "Start pinit app")
