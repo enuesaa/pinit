@@ -22,3 +22,9 @@ Flags:
 
 Use "pinit [command] --help" for more information about a command.
 ```
+
+## How to develop
+```bash
+go generate ./...
+go run . serve
+```
