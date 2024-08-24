@@ -17,7 +17,7 @@ func main() {
 	app := &cobra.Command{
 		Use:     "pinit",
 		Short:   "A personal note-taking app",
-		Version: "0.0.10",
+		Version: "0.0.11",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			port, _ := cmd.Flags().GetInt("port")
 			isServe, _ := cmd.Flags().GetBool("serve")
