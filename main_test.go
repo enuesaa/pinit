@@ -8,8 +8,9 @@ import (
 )
 
 func TestMain(m *testing.M) {
+	repos := repository.New()
 	dbPath := "test.db"
-	repos := repository.New(dbPath)
+	repos.Db.Use(dbPath)
 
 	defer func ()  {
 		if err := repos.Fs.Remove(dbPath); err != nil {

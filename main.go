@@ -1,16 +1,13 @@
 package main
 
 import (
-	"os"
-
 	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/spf13/cobra"
 )
 
 func main() {
-	dbPath := os.Getenv("PINIT_DB_PATH")
-	repos := repository.New(dbPath)
+	repos := repository.New()
 
 	app := &cobra.Command{
 		Use:     "pinit",

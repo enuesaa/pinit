@@ -7,17 +7,10 @@ type Repos struct {
 	Log    LogRepositoryInterface
 }
 
-type Env struct {
-	dbPath string
-}
-
-func New(dbPath string) Repos {
-	env := Env{
-		dbPath: dbPath,
-	}
+func New() Repos {
 	return Repos{
 		Fs:     &FsRepository{},
-		Db:     &DbRepository{env: env},
+		Db:     &DbRepository{},
 		Prompt: &Prompt{},
 		Log:    &LogRepository{},
 	}

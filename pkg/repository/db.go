@@ -11,7 +11,8 @@ import (
 )
 
 type DbRepositoryInterface interface {
-	CheckEnv() error
+	Init() error
+	Use(path string)
 	IsDBExist() bool
 	CreateDB() error
 	Open() error
@@ -24,30 +25,39 @@ type DbRepositoryInterface interface {
 }
 
 type DbRepository struct {
-	env Env
+	dbPath string
 	client *ent.Client
 }
 
-func (repo *DbRepository) CheckEnv() error {
-	if repo.env.dbPath == "" {
-		return fmt.Errorf("environment variable `PINIT_DB_PATH` is empty. Please set absolute path to database file.")
+func (repo *DbRepository) Init() error {
+	if repo.dbPath != "" {
+		return nil
 	}
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		return err
+	}
+	repo.dbPath = filepath.Join(homedir, ".pinit", "pinit.db")
 	return nil
 }
 
+func (repo *DbRepository) Use(path string) {
+	repo.dbPath = path
+}
+
 func (repo *DbRepository) IsDBExist() bool {
-	if _, err := os.Stat(repo.env.dbPath); os.IsNotExist(err) {
+	if _, err := os.Stat(repo.dbPath); os.IsNotExist(err) {
 		return false
 	}
 	return true
 }
 
 func (repo *DbRepository) CreateDB() error {
-	return os.MkdirAll(filepath.Dir(repo.env.dbPath), os.ModePerm)
+	return os.MkdirAll(filepath.Dir(repo.dbPath), os.ModePerm)
 }
 
 func (repo *DbRepository) dsn() string {
-	return fmt.Sprintf("file:%s?_fk=1", repo.env.dbPath)
+	return fmt.Sprintf("file:%s?_fk=1", repo.dbPath)
 }
 
 func (repo *DbRepository) Open() error {
