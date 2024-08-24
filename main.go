@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/internal/repository"
+	"github.com/enuesaa/pinit/internal/usecase"
 	"github.com/spf13/cobra"
 )
 

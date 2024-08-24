@@ -4,8 +4,8 @@ import (
 	"log"
 	"testing"
 
-	"github.com/enuesaa/pinit/pkg/repository"
-	"github.com/enuesaa/pinit/pkg/usecase"
+	"github.com/enuesaa/pinit/internal/repository"
+	"github.com/enuesaa/pinit/internal/usecase"
 )
 
 func TestMain(m *testing.M) {
