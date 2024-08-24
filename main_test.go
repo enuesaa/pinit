@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"testing"
 
 	"github.com/enuesaa/pinit/pkg/repository"
@@ -8,15 +9,10 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	repos := repository.New()
-	dbPath := "test.db"
-	repos.Db.Use(dbPath)
-
-	defer func ()  {
-		if err := repos.Fs.Remove(dbPath); err != nil {
-			repos.Log.Errf(err, "failed to remove database file")
-		}
-	}()
+	repos, err := repository.NewMock()
+	if err != nil {
+		log.Panic("failed to start app")
+	}
 
 	if err := usecase.DBSetup(repos); err != nil {
 		repos.Log.Errf(err, "failed to migrate database")

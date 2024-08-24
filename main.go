@@ -1,13 +1,18 @@
 package main
 
 import (
+	"log"
+
 	"github.com/enuesaa/pinit/pkg/cli"
 	"github.com/enuesaa/pinit/pkg/repository"
 	"github.com/spf13/cobra"
 )
 
 func main() {
-	repos := repository.New()
+	repos, err := repository.New()
+	if err != nil {
+		log.Panic("failed to start up app")
+	}
 
 	app := &cobra.Command{
 		Use:     "pinit",

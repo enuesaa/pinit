@@ -11,9 +11,6 @@ func CreateInitCmd(repos repository.Repos) *cobra.Command {
 		Use:   "init",
 		Short: "Initialize pinit. Run database migration and setup pinit",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := repos.Db.Init(); err != nil {
-				return err
-			}
 			if !usecase.DBIsExist(repos) {
 				repos.Log.Info("database migration start")
 				if err := usecase.DBSetup(repos); err != nil {

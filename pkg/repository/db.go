@@ -11,8 +11,6 @@ import (
 )
 
 type DbRepositoryInterface interface {
-	Init() error
-	Use(path string)
 	IsDBExist() bool
 	CreateDB() error
 	Open() error
@@ -27,22 +25,6 @@ type DbRepositoryInterface interface {
 type DbRepository struct {
 	dbPath string
 	client *ent.Client
-}
-
-func (repo *DbRepository) Init() error {
-	if repo.dbPath != "" {
-		return nil
-	}
-	homedir, err := os.UserHomeDir()
-	if err != nil {
-		return err
-	}
-	repo.dbPath = filepath.Join(homedir, ".pinit", "pinit.db")
-	return nil
-}
-
-func (repo *DbRepository) Use(path string) {
-	repo.dbPath = path
 }
 
 func (repo *DbRepository) IsDBExist() bool {
