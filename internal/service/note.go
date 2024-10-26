@@ -10,6 +10,8 @@ import (
 )
 
 type Note struct {
+	BinderName string
+	NoteName string
 	ID        uint
 	BinderId  uint
 	Publisher string
