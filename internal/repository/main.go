@@ -6,20 +6,20 @@ type Repos struct {
 	Log    LogRepositoryInterface
 }
 
-func New() (Repos, error) {
+func New() Repos {
 	repos := Repos{
 		Fs:     &FsRepository{},
 		Db:     &DbRepository{},
 		Log:    &LogRepository{},
 	}
-	return repos, nil
+	return repos
 }
 
-func NewMock() (Repos, error) {
+func NewMock() Repos {
 	repos := Repos{
 		Fs:     &FsRepository{},
 		Db:     &DbRepository{},
 		Log:    &LogRepository{},
 	}
-	return repos, nil
+	return repos
 }

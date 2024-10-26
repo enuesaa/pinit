@@ -1,17 +1,13 @@
 package main
 
 import (
-	"log"
 	"testing"
 
 	"github.com/enuesaa/pinit/internal/repository"
 )
 
 func TestMain(m *testing.M) {
-	repos, err := repository.NewMock()
-	if err != nil {
-		log.Panic("failed to start app")
-	}
+	repos := repository.NewMock()
 
 	// run test
 	code := m.Run()

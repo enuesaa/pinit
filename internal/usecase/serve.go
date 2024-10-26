@@ -7,7 +7,6 @@ import (
 	"github.com/enuesaa/pinit/ui"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"github.com/pkg/browser"
 )
 
 type ServeCtl struct {
@@ -23,17 +22,12 @@ func (ctl *ServeCtl) Addr() string {
 	return fmt.Sprintf("localhost:%d", ctl.port)
 }
 
-func (ctl *ServeCtl) Open() error {
-	url := fmt.Sprintf("http://%s", ctl.Addr())
-	return browser.OpenURL(url)
-}
-
 func (ctl *ServeCtl) Serve() error {
 	app := fiber.New()
 	app.Get("/api/binders", ctl.BinderList)
 	app.Post("/api/binders", ctl.BinderCreate)
-	app.Delete("/api/binders/:id", ctl.BinderDelete)
-	app.Get("/api/binders/:id/notes", ctl.NoteList)
+	app.Delete("/api/binders/:binderName", ctl.BinderDelete)
+	app.Get("/api/binders/:binderName/notes", ctl.NoteList)
 	app.Post("/api/notes", ctl.NoteCreate)
 	app.Get("/api/actions", ctl.ActionList)
 	app.Post("/api/chat", ctl.Chat)
@@ -48,11 +42,5 @@ func Serve(repos repository.Repos, port int) error {
 		repos: repos,
 		port: port,
 	}
-
-	if err := ctl.Open(); err != nil {
-		// ignore this err because this is not critical for app.
-		ctl.repos.Log.Info("failed to open url because `%s`", err.Error())
-	}
-
 	return ctl.Serve()
 }

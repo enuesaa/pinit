@@ -60,8 +60,8 @@ func (srv *BinderService) Update(binder Binder) error {
 	return fmt.Errorf("not implemented")
 }
 
-func (srv *BinderService) Delete(id uint) error {
-	return fmt.Errorf("not implemented")
+func (srv *BinderService) Delete(name string) error {
+	return srv.repos.Db.Delete("@data", name)
 }
 
 func (srv *BinderService) DeleteByName(name string) error {

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/enuesaa/pinit/internal/repository"
+	"github.com/google/uuid"
 )
 
 type Note struct {
@@ -19,18 +20,20 @@ type Note struct {
 }
 
 type NoteService struct {
+	binderName string
 	repos repository.Repos
 }
 
-func NewNoteService(repos repository.Repos) *NoteService {
+func NewNoteService(binderName string, repos repository.Repos) *NoteService {
 	return &NoteService{
+		binderName: binderName,
 		repos: repos,
 	}
 }
 
 func (srv *NoteService) List() ([]Note, error) {
 	list := []Note{}
-	if err := srv.repos.Db.List("BinderName", "bidnername", &list); err != nil {
+	if err := srv.repos.Db.List("bidnername", &list); err != nil {
 		return list, err
 	}
 	return list, nil
@@ -44,27 +47,39 @@ func (srv *NoteService) Get(name string) (Note, error) {
 	return data, nil
 }
 
-// TODO return list response.
-func (srv *NoteService) GetFirstByBinderId(binderId uint) (Note, error) {
-	return srv.Get("a")
+func (srv *NoteService) Create(note Note) (string, error) {
+	note.BinderName = srv.binderName
+	note.NoteName = uuid.NewString()
+
+	if err := srv.repos.Db.Put(note); err != nil {
+		return "", err
+	}
+	return note.NoteName, nil
 }
 
-func (srv *NoteService) ListByBinderId(binderId uint) ([]Note, error) {
-	return srv.List()
+func (srv *NoteService) Update(note Note) (string, error) {
+	if note.NoteName == "" {
+		return "", fmt.Errorf("name is required")
+	}
+	if err := srv.repos.Db.Put(note); err != nil {
+		return "", err
+	}
+	return note.NoteName, nil
 }
 
-func (srv *NoteService) Create(note Note) (uint, error) {
-	return 0, fmt.Errorf("not implemented")
+func (srv *NoteService) Delete(noteName string) error {
+	return srv.repos.Db.Delete(srv.binderName, noteName)
 }
 
-func (srv *NoteService) Update(note Note) error {
-	return fmt.Errorf("not implemented")
-}
-
-func (srv *NoteService) Delete(id uint) error {
-	return fmt.Errorf("not implemented")
-}
-
-func (srv *NoteService) DeleteByBinderId(id uint) error {
-	return fmt.Errorf("not implemented")
+func (srv *NoteService) DeleteAllInBinder() error {
+	list := []Note{}
+	if err := srv.repos.Db.List(srv.binderName, &list); err != nil {
+		return err
+	}
+	for _, data := range list {
+		if err := srv.repos.Db.Delete(srv.binderName, data.NoteName); err != nil {
+			return err
+		}
+	}
+	return nil
 }
