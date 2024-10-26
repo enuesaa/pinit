@@ -6,9 +6,7 @@ import (
 )
 
 func (ctl *ServeCtl) BinderCreate(c *fiber.Ctx) error {
-	type Request struct {
-		Name string `json:"name"`
-	}
+	type Request struct {}
 	type Response struct {
 		Name string `json:"name"`
 	}
@@ -19,7 +17,7 @@ func (ctl *ServeCtl) BinderCreate(c *fiber.Ctx) error {
 	}
 	binderSrv := service.NewBinderService(ctl.repos)
 
-	name, err := binderSrv.Create(req.Name)
+	name, err := binderSrv.Create()
 	if err != nil {
 		return err
 	}

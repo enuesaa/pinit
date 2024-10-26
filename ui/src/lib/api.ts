@@ -77,16 +77,13 @@ export const useCreateBinder = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: 'createBinder',
-    mutationFn: async ({ name, content }: { name: string; content: string }) => {
+    mutationFn: async ({ content }: { content: string }) => {
       const res = await fetch('/api/binders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name,
-        }),
+        body: '{}',
       })
       const body = await res.json()
       const binderName = body.name
