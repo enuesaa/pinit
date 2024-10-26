@@ -1,12 +1,22 @@
 services:
- dynamodb:
-   image: amazon/dynamodb-local:latest
-   command: '-jar DynamoDBLocal.jar -sharedDb -dbPath ./data'
-   ports:
-     - 8000:8000
-   volumes:
-     - dynamodata:/home/dynamodblocal/data
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    command: '-jar DynamoDBLocal.jar -sharedDb -dbPath ./data'
+    ports:
+      - 8000:8000
+    volumes:
+      - dynamodata:/home/dynamodblocal/data
+    # see https://qiita.com/yuta-katayama-23/items/a8c497fe4a61f29deb34
+    user: root
+
+  admin:
+    image: aaronshaf/dynamodb-admin
+    ports:
+      - 8001:8001
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb:8000
+    depends_on:
+      - dynamodb
 
 volumes:
   dynamodata:
-
