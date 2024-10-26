@@ -1,10 +1,9 @@
 package service
 
 import (
-	"context"
+	"fmt"
 	"path/filepath"
 
-	q "github.com/enuesaa/pinit/internal/ent/appconf"
 	"github.com/enuesaa/pinit/internal/repository"
 )
 
@@ -61,31 +60,9 @@ func (srv *RegistrySrv) DeleteBufDir() error {
 }
 
 func (srv *RegistrySrv) GetOpenAiApiToken() string {
-	record, err := srv.repos.Db.Appconf().Query().Where(q.KeyEQ("openaiApiToken")).First(context.Background())
-	if err != nil {
-		return ""
-	}
-	return record.Value
+	return ""
 }
 
 func (srv *RegistrySrv) SetOpenAiApiToken(token string) error {
-	record, err := srv.repos.Db.Appconf().Query().Where(q.KeyEQ("openaiApiToken")).First(context.Background())
-	if err != nil {
-		_, err := srv.repos.Db.Appconf().Create().
-			SetKey("openaiApiToken").
-			SetValue(token).
-			Save(context.Background())
-		if err != nil {
-			return err
-		}
-		return nil
-	}
-
-	_, err = record.Update().
-		SetValue(token).
-		Save(context.Background())
-	if err != nil {
-		return err
-	}
-	return nil
+	return fmt.Errorf("not implemented")
 }

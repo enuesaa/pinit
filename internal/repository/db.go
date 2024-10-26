@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -10,21 +9,12 @@ import (
 )
 
 type DbRepositoryInterface interface {
-	IsDBExist() bool
 	Put(data interface{}) error
 	Get(name string, value interface{}, result interface{}) error
+	List(name string, value interface{}, result interface{}) error
 }
 
-type DbRepository struct {
-	dbPath string
-}
-
-func (repo *DbRepository) IsDBExist() bool {
-	if _, err := os.Stat(repo.dbPath); os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
+type DbRepository struct {}
 
 func (repo *DbRepository) getAwsConfig() (aws.Config, error) {
 	ctx := context.Background()
@@ -61,4 +51,14 @@ func (repo *DbRepository) Get(name string, value interface{}, result interface{}
 	}
 
 	return table.Get(name, value).One(ctx, &result)
+}
+
+func (repo *DbRepository) List(name string, value interface{}, result interface{}) error {
+	ctx := context.Background()
+	table, err := repo.getPinitTable()
+	if err != nil {
+		return nil
+	}
+
+	return table.Get(name, value).Limit(10).All(ctx, &result)
 }

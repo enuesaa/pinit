@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/enuesaa/pinit/internal/service"
+	// "github.com/enuesaa/pinit/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -15,18 +15,18 @@ func (ctl *ServeCtl) NoteCreate(c *fiber.Ctx) error {
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
-	note := service.Note{
-		BinderId:  req.BinderId,
-		Comment:   "",
-		Content:   req.Content,
-		Publisher: "",
-	}
+	// note := service.Note{
+	// 	BinderId:  req.BinderId,
+	// 	Comment:   "",
+	// 	Content:   req.Content,
+	// 	Publisher: "",
+	// }
 
-	noteSrv := service.NewNoteService(ctl.repos)
-	id, err := noteSrv.Create(note)
-	if err != nil {
-		return err
-	}
+	// noteSrv := service.NewNoteService(ctl.repos)
+	// id, err := noteSrv.Create(note)
+	// if err != nil {
+	// 	return err
+	// }
 
-	return c.JSON(ServeCreateResponse{Id: id})
+	return c.JSON(ServeCreateResponse{Id: 0})
 }

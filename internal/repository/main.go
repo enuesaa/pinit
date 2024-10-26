@@ -1,10 +1,5 @@
 package repository
 
-import (
-	"os"
-	"path/filepath"
-)
-
 type Repos struct {
 	Fs     FsRepositoryInterface
 	Db     DbRepositoryInterface
@@ -12,28 +7,18 @@ type Repos struct {
 }
 
 func New() (Repos, error) {
-	homedir, err := os.UserHomeDir()
-	if err != nil {
-		return Repos{}, err
-	}
-	dbPath := filepath.Join(homedir, ".pinit", "pinit.db")
 	repos := Repos{
 		Fs:     &FsRepository{},
-		Db:     &DbRepository{dbPath: dbPath},
+		Db:     &DbRepository{},
 		Log:    &LogRepository{},
 	}
 	return repos, nil
 }
 
 func NewMock() (Repos, error) {
-	homedir, err := os.UserHomeDir()
-	if err != nil {
-		return Repos{}, err
-	}
-	dbPath := filepath.Join(homedir, ".pinit", "pinitest.db")
 	repos := Repos{
 		Fs:     &FsRepository{},
-		Db:     &DbRepository{dbPath: dbPath},
+		Db:     &DbRepository{},
 		Log:    &LogRepository{},
 	}
 	return repos, nil

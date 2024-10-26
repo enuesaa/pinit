@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"fmt"
+	// "fmt"
 
-	"github.com/enuesaa/pinit/internal/service"
+	// "github.com/enuesaa/pinit/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -14,20 +14,20 @@ func (ctl *ServeCtl) NoteList(c *fiber.Ctx) error {
 	}
 
 	res := NewServeListResponse[ListNotesItem]()
-	binderId, err := c.ParamsInt("id")
-	if err != nil {
-		return err
-	}
-	noteSrv := service.NewNoteService(ctl.repos)
-	notes, err := noteSrv.ListByBinderId(uint(binderId))
-	if err != nil {
-		return err
-	}
-	for _, note := range notes {
-		res.Items = append(res.Items, ListNotesItem{
-			Id:      fmt.Sprintf("%d", note.ID),
-			Content: note.Content,
-		})
-	}
+	// binderId, err := c.ParamsInt("id")
+	// if err != nil {
+	// 	return err
+	// }
+	// noteSrv := service.NewNoteService(ctl.repos)
+	// notes, err := noteSrv.ListByBinderId(uint(binderId))
+	// if err != nil {
+	// 	return err
+	// }
+	// for _, note := range notes {
+	// 	res.Items = append(res.Items, ListNotesItem{
+	// 		Id:      fmt.Sprintf("%d", note.ID),
+	// 		Content: note.Content,
+	// 	})
+	// }
 	return c.JSON(res)
 }

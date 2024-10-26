@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/enuesaa/pinit/internal/service"
+	// "github.com/enuesaa/pinit/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -13,17 +13,17 @@ func (ctl *ServeCtl) ActionList(c *fiber.Ctx) error {
 	
 	res := NewServeListResponse[ListActionsItem]()
 
-	actionSrv := service.NewActionService(ctl.repos)
-	actions, err := actionSrv.List()
-	if err != nil {
-		return err
-	}
-	for _, action := range actions {
-		res.Items = append(res.Items, ListActionsItem{
-			Name:     action.Name,
-			Template: action.Template,
-		})
-	}
+	// actionSrv := service.NewActionService(ctl.repos)
+	// actions, err := actionSrv.List()
+	// if err != nil {
+	// 	return err
+	// }
+	// for _, action := range actions {
+	// 	res.Items = append(res.Items, ListActionsItem{
+	// 		Name:     action.Name,
+	// 		Template: action.Template,
+	// 	})
+	// }
 
 	// mock data
 	res.Items = append(res.Items, ListActionsItem{

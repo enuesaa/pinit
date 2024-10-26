@@ -26,16 +26,6 @@ func main() {
 				return cmd.Help()
 			}
 
-			if !usecase.DBIsExist(repos) {
-				if err := usecase.DBSetup(repos); err != nil {
-					return err
-				}
-			}
-			if err := usecase.DBOpen(repos); err != nil {
-				return err
-			}
-			defer usecase.DBClose(repos)
-
 			return usecase.Serve(repos, port)
 		},
 	}
