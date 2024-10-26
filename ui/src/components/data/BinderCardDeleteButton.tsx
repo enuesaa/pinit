@@ -5,14 +5,14 @@ import { FaTrash } from 'react-icons/fa'
 import styles from './BinderCardDeleteButton.css'
 
 type Props = {
-  binderId: number
+  binderName: string
 }
-export const BinderCardDeleteButton = ({ binderId }: Props) => {
+export const BinderCardDeleteButton = ({ binderName }: Props) => {
   const deleteBinder = useDeleteBinder()
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    await deleteBinder.mutateAsync(binderId)
+    await deleteBinder.mutateAsync(binderName)
   }
 
   return (

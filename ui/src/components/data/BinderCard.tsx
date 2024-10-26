@@ -6,12 +6,12 @@ type Props = {
   binder: Binder
 }
 export const BinderCard = ({ binder }: Props) => {
-  const { data: notes } = useListBinderNotes(binder.id)
+  const { data: notes } = useListBinderNotes(binder.name)
   const latestNote = (notes !== undefined ? notes.at(0) : null) ?? null
 
   return (
     <Card m='3'>
-      <BinderCardDeleteButton binderId={binder.id} />
+      <BinderCardDeleteButton binderName={binder.name} />
       <Text as='div' size='2' weight='bold' mb='2'>
         {binder.name}
       </Text>

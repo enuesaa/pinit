@@ -1,13 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 export type Binder = {
-  id: number
   name: string
 }
 
 export type Note = {
-  id: number
-  binderId: number
+  name: number
+  binderName: number
   content: string
 }
 
@@ -24,9 +23,9 @@ export const useListBinders = () =>
     return body?.items
   })
 
-export const useListBinderNotes = (id: number) =>
-  useQuery(`listBinderNotes-${id}`, async (): Promise<Note[]> => {
-    const res = await fetch(`/api/binders/${id}/notes`)
+export const useListBinderNotes = (name: string) =>
+  useQuery(`listBinderNotes-${name}`, async (): Promise<Note[]> => {
+    const res = await fetch(`/api/binders/${name}/notes`)
     const body = await res.json()
     return body?.items
   })
@@ -74,7 +73,6 @@ export const useChat = () =>
     },
   })
 
-// todo refactor
 export const useCreateBinder = () => {
   const queryClient = useQueryClient()
 
@@ -91,16 +89,13 @@ export const useCreateBinder = () => {
         }),
       })
       const body = await res.json()
-      const binderId = body.id as number
-      await fetch('/api/notes', {
+      const binderName = body.name
+      await fetch(`/api/binders/${binderName}/notes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          binderId,
-          content,
-        }),
+        body: JSON.stringify({ content }),
       })
     },
     onSuccess: () => {
@@ -114,8 +109,8 @@ export const useDeleteBinder = () => {
 
   return useMutation({
     mutationKey: 'deleteBinder',
-    mutationFn: async (id: number) => {
-      const res = await fetch(`/api/binders/${id}`, {
+    mutationFn: async (name: string) => {
+      const res = await fetch(`/api/binders/${name}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
