@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 
 	"entgo.io/ent/dialect"
-	"github.com/enuesaa/pinit/internal/ent"
 )
 
 type DbRepositoryInterface interface {
