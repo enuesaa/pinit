@@ -8,7 +8,7 @@ import (
 func main() {
 	repos := repository.New()
 
-	if err := usecase.Serve(repos, 3000); err != nil {
+	if err := usecase.Serve(repos, 8080); err != nil {
 		repos.Log.Err(err)
 	}
 }

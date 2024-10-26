@@ -9,3 +9,6 @@
 build/bin
 ui/node_modules
 ui/dist
+
+app.zip
+bootstrap
