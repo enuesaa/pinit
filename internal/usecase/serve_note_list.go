@@ -6,26 +6,25 @@ import (
 )
 
 func (ctl *ServeCtl) NoteList(c *fiber.Ctx) error {
-	binderName := c.Params("binderName")
-
-	type ListNotesItem struct {
-		Id      string `json:"id"`
+	type Item struct {
+		Name    string `json:"name"`
 		Content string `json:"content"`
 	}
 
-	res := NewServeListResponse[ListNotesItem]()
+	binderName := c.Params("binderName")
 
 	noteSrv := service.NewNoteService(binderName, ctl.repos)
 	notes, err := noteSrv.List()
 	if err != nil {
 		return err
 	}
+
+	res := NewServeListResponse[Item]()
 	for _, note := range notes {
-		res.Items = append(res.Items, ListNotesItem{
-			Id:      note.NoteName,
+		res.Items = append(res.Items, Item{
+			Name: note.NoteName,
 			Content: note.Content,
 		})
 	}
-
 	return c.JSON(res)
 }

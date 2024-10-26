@@ -6,6 +6,8 @@ import (
 )
 
 func (ctl *ServeCtl) BinderDelete(c *fiber.Ctx) error {
+	type Response struct{}
+
 	binderName := c.Params("binderName")
 
 	noteSrv := service.NewNoteService(binderName, ctl.repos)
@@ -17,6 +19,5 @@ func (ctl *ServeCtl) BinderDelete(c *fiber.Ctx) error {
 	if err := binderSrv.Delete(binderName); err != nil {
 		return err
 	}
-
-	return c.JSON(ServeDeleteResponse{})
+	return c.JSON(Response{})
 }

@@ -28,7 +28,7 @@ func (ctl *ServeCtl) Serve() error {
 	app.Post("/api/binders", ctl.BinderCreate)
 	app.Delete("/api/binders/:binderName", ctl.BinderDelete)
 	app.Get("/api/binders/:binderName/notes", ctl.NoteList)
-	app.Post("/api/notes", ctl.NoteCreate)
+	app.Post("/api/binders/:binderName/notes", ctl.NoteCreate)
 	app.Get("/api/actions", ctl.ActionList)
 	app.Post("/api/chat", ctl.Chat)
 	app.Post("/api/recog", ctl.Recog)

@@ -20,7 +20,7 @@ type DbRepository struct {}
 func (repo *DbRepository) getAwsConfig() (aws.Config, error) {
 	ctx := context.Background()
 
-	return config.LoadDefaultConfig(ctx, config.WithRegion("ap-northeast-1"))	
+	return config.LoadDefaultConfig(ctx, config.WithRegion("ap-northeast-1"))
 }
 
 func (repo *DbRepository) getPinitTable() (*dynamo.Table, error) {
@@ -51,7 +51,7 @@ func (repo *DbRepository) List(partition string, result interface{}) error {
 		return nil
 	}
 
-	return table.Get("BinderName", partition).Limit(10).All(ctx, &result)
+	return table.Get("BinderName", partition).Limit(10).All(ctx, result)
 }
 
 func (repo *DbRepository) Get(partition string, rangev string, result interface{}) error {
@@ -63,7 +63,7 @@ func (repo *DbRepository) Get(partition string, rangev string, result interface{
 	query := table.Get("BinderName", partition)
 	query.Range("NoteName", dynamo.Equal, rangev)
 
-	return query.One(ctx, &result)
+	return query.One(ctx, result)
 }
 
 func (repo *DbRepository) Delete(partition string, rangev string) error {

@@ -1,16 +1,15 @@
 package service
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/enuesaa/pinit/internal/repository"
 )
 
 type Binder struct {
-	ID         uint
-	Name       string
-	Category   string
+	InternalBinderName string `dynamo:"BinderName"`
+	Name       string `dynamo:"NoteName"`
+
 	ArchivedAt *time.Time
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
@@ -27,16 +26,19 @@ type BinderService struct {
 }
 
 func (srv *BinderService) List() ([]Binder, error) {
-	return make([]Binder, 0), fmt.Errorf("not implemented")
+	list := []Binder{}
+	if err := srv.repos.Db.List("@data", &list); err != nil {
+		return list, err
+	}
+	return list, nil
 }
 
-func (srv *BinderService) Get(id uint) (Binder, error) {
-	return Binder{}, fmt.Errorf("not implemented")
-
-}
-
-func (srv *BinderService) GetByName(name string) (Binder, error) {
-	return Binder{}, fmt.Errorf("not implemented")
+func (srv *BinderService) Get(name string) (Binder, error) {
+	data := Binder{}
+	if err := srv.repos.Db.Get("@data", name, &data); err != nil {
+		return data, err
+	}
+	return data, nil
 }
 
 func (srv *BinderService) CheckNameAvailable(name string) error {
@@ -52,18 +54,17 @@ func (srv *BinderService) CheckNameAvailable(name string) error {
 	return nil
 }
 
-func (srv *BinderService) Create(binder Binder) (uint, error) {
-	return 0, fmt.Errorf("not implemented")
-}
-
-func (srv *BinderService) Update(binder Binder) error {
-	return fmt.Errorf("not implemented")
+func (srv *BinderService) Create(name string) (string, error) {
+	binder := Binder{
+		InternalBinderName: "@data",
+		Name: name,
+	}
+	if err := srv.repos.Db.Put(binder); err != nil {
+		return "", err
+	}
+	return binder.Name, nil
 }
 
 func (srv *BinderService) Delete(name string) error {
 	return srv.repos.Db.Delete("@data", name)
-}
-
-func (srv *BinderService) DeleteByName(name string) error {
-	return fmt.Errorf("not implemented")
 }

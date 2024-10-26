@@ -33,7 +33,7 @@ func NewNoteService(binderName string, repos repository.Repos) *NoteService {
 
 func (srv *NoteService) List() ([]Note, error) {
 	list := []Note{}
-	if err := srv.repos.Db.List("bidnername", &list); err != nil {
+	if err := srv.repos.Db.List(srv.binderName, &list); err != nil {
 		return list, err
 	}
 	return list, nil
@@ -41,7 +41,7 @@ func (srv *NoteService) List() ([]Note, error) {
 
 func (srv *NoteService) Get(name string) (Note, error) {
 	data := Note{}
-	if err := srv.repos.Db.Get("BinderName", "bidnername", &data); err != nil {
+	if err := srv.repos.Db.Get(srv.binderName, name, &data); err != nil {
 		return data, err
 	}
 	return data, nil
