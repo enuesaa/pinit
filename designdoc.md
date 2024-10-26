@@ -13,4 +13,4 @@
 - Primary Key を Binder Name へ Sort Key を Note Name にすれば、ある程度耐えられると思う
 
 ## 構成図
-![構成図](./docs/architecture.png)
+![構成図](./architecture.png)

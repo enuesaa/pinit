@@ -6,20 +6,18 @@ import (
 )
 
 func (ctl *ServeCtl) BinderDelete(c *fiber.Ctx) error {
-	binderId, err := c.ParamsInt("id")
-	if err != nil {
-		return err
-	}
+	type Response struct{}
 
-	noteSrv := service.NewNoteService(ctl.repos)
+	binderName := c.Params("binderName")
+
+	noteSrv := service.NewNoteService(binderName, ctl.repos)
 	binderSrv := service.NewBinderService(ctl.repos)
 
-	if err := noteSrv.DeleteByBinderId(uint(binderId)); err != nil {
+	if err := noteSrv.DeleteAllInBinder(); err != nil {
 		return err
 	}
-	if err := binderSrv.Delete(uint(binderId)); err != nil {
+	if err := binderSrv.Delete(binderName); err != nil {
 		return err
 	}
-
-	return c.JSON(ServeDeleteResponse{})
+	return c.JSON(Response{})
 }

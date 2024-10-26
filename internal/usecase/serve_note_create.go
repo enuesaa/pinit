@@ -6,27 +6,29 @@ import (
 )
 
 func (ctl *ServeCtl) NoteCreate(c *fiber.Ctx) error {
-	type CreateNoteRequest struct {
-		BinderId uint   `json:"binderId"`
+	type Request struct {
 		Content  string `json:"content"`
 	}
+	type Response struct {
+		Name string `json:"name"`
+	}
 
-	var req CreateNoteRequest
+	binderName := c.Params("binderName")
+
+	var req Request
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
-	note := service.Note{
-		BinderId:  req.BinderId,
+	noteSrv := service.NewNoteService(binderName, ctl.repos)
+
+	note := service.NoteCreation{
 		Comment:   "",
 		Content:   req.Content,
 		Publisher: "",
 	}
-
-	noteSrv := service.NewNoteService(ctl.repos)
-	id, err := noteSrv.Create(note)
+	name, err := noteSrv.Create(note)
 	if err != nil {
 		return err
 	}
-
-	return c.JSON(ServeCreateResponse{Id: id})
+	return c.JSON(Response{Name: name})
 }

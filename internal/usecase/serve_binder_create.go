@@ -6,24 +6,22 @@ import (
 )
 
 func (ctl *ServeCtl) BinderCreate(c *fiber.Ctx) error {
-	type CreateBinderRequest struct {
+	type Request struct {
+		Name string `json:"name"`
+	}
+	type Response struct {
 		Name string `json:"name"`
 	}
 
-	var req CreateBinderRequest
+	var req Request
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
 	binderSrv := service.NewBinderService(ctl.repos)
 
-	binder := service.Binder{
-		Name:     req.Name,
-		Category: "",
-	}
-	id, err := binderSrv.Create(binder)
+	name, err := binderSrv.Create(req.Name)
 	if err != nil {
 		return err
 	}
-
-	return c.JSON(ServeCreateResponse{Id: id})
+	return c.JSON(Response{Name: name})
 }

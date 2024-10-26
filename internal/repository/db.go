@@ -2,82 +2,78 @@ package repository
 
 import (
 	"context"
-	"fmt"
-	"os"
-	"path/filepath"
 
-	"entgo.io/ent/dialect"
-	"github.com/enuesaa/pinit/internal/ent"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/guregu/dynamo/v2"
 )
 
 type DbRepositoryInterface interface {
-	IsDBExist() bool
-	CreateDB() error
-	Open() error
-	Close() error
-	Appconf() *ent.AppconfClient
-	Binder() *ent.BinderClient
-	Note() *ent.NoteClient
-	Action() *ent.ActionClient
-	Migrate() error
+	Put(data interface{}) error
+	List(partition string, result interface{}) error
+	Get(partition string, rangev string, result interface{}) error
+	Delete(partition string, rangev string) error
 }
 
-type DbRepository struct {
-	dbPath string
-	client *ent.Client
+type DbRepository struct {}
+
+func (repo *DbRepository) getAwsConfig() (aws.Config, error) {
+	ctx := context.Background()
+
+	return config.LoadDefaultConfig(ctx, config.WithRegion("ap-northeast-1"))
 }
 
-func (repo *DbRepository) IsDBExist() bool {
-	if _, err := os.Stat(repo.dbPath); os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
-
-func (repo *DbRepository) CreateDB() error {
-	return os.MkdirAll(filepath.Dir(repo.dbPath), os.ModePerm)
-}
-
-func (repo *DbRepository) dsn() string {
-	return fmt.Sprintf("file:%s?_fk=1", repo.dbPath)
-}
-
-func (repo *DbRepository) Open() error {
-	dsn := repo.dsn()
-	client, err := ent.Open(dialect.SQLite, dsn)
+func (repo *DbRepository) getPinitTable() (*dynamo.Table, error) {
+	awsconf, err := repo.getAwsConfig()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	repo.client = client
-	return nil
+	db := dynamo.New(awsconf)
+	table := db.Table("pinit")
+
+	return &table, nil
 }
 
-func (repo *DbRepository) Close() error {
-	if repo.client == nil {
+func (repo *DbRepository) Put(data interface{}) error {
+	ctx := context.Background()
+	table, err := repo.getPinitTable()
+	if err != nil {
 		return nil
 	}
-	return repo.client.Close()
+
+	return table.Put(data).Run(ctx)
 }
 
-func (repo *DbRepository) Migrate() error {
-	if err := repo.Open(); err != nil {
-		return err
+func (repo *DbRepository) List(partition string, result interface{}) error {
+	ctx := context.Background()
+	table, err := repo.getPinitTable()
+	if err != nil {
+		return nil
 	}
-	return repo.client.Schema.Create(context.Background())
+
+	return table.Get("BinderName", partition).Limit(10).All(ctx, result)
 }
 
-func (repo *DbRepository) Appconf() *ent.AppconfClient {
-	return repo.client.Appconf
+func (repo *DbRepository) Get(partition string, rangev string, result interface{}) error {
+	ctx := context.Background()
+	table, err := repo.getPinitTable()
+	if err != nil {
+		return nil
+	}
+	query := table.Get("BinderName", partition)
+	query.Range("NoteName", dynamo.Equal, rangev)
+
+	return query.One(ctx, result)
 }
 
-func (repo *DbRepository) Binder() *ent.BinderClient {
-	return repo.client.Binder
-}
+func (repo *DbRepository) Delete(partition string, rangev string) error {
+	ctx := context.Background()
+	table, err := repo.getPinitTable()
+	if err != nil {
+		return nil
+	}
+	query := table.Delete("BinderName", partition)
+	query.Range("NoteName", rangev)
 
-func (repo *DbRepository) Note() *ent.NoteClient {
-	return repo.client.Note
-}
-
-func (repo *DbRepository) Action() *ent.ActionClient {
-	return repo.client.Action
+	return query.Run(ctx)
 }

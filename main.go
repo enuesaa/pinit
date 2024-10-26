@@ -1,18 +1,13 @@
 package main
 
 import (
-	"log"
-
 	"github.com/enuesaa/pinit/internal/repository"
 	"github.com/enuesaa/pinit/internal/usecase"
 	"github.com/spf13/cobra"
 )
 
 func main() {
-	repos, err := repository.New()
-	if err != nil {
-		log.Panic("failed to start up app")
-	}
+	repos := repository.New()
 
 	app := &cobra.Command{
 		Use:     "pinit",
@@ -25,16 +20,6 @@ func main() {
 			if !isServe {
 				return cmd.Help()
 			}
-
-			if !usecase.DBIsExist(repos) {
-				if err := usecase.DBSetup(repos); err != nil {
-					return err
-				}
-			}
-			if err := usecase.DBOpen(repos); err != nil {
-				return err
-			}
-			defer usecase.DBClose(repos)
 
 			return usecase.Serve(repos, port)
 		},

@@ -1,31 +1,28 @@
 package usecase
 
 import (
-	"fmt"
-
 	"github.com/enuesaa/pinit/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
 
 func (ctl *ServeCtl) NoteList(c *fiber.Ctx) error {
-	type ListNotesItem struct {
-		Id      string `json:"id"`
+	type Item struct {
+		Name    string `json:"name"`
 		Content string `json:"content"`
 	}
 
-	res := NewServeListResponse[ListNotesItem]()
-	binderId, err := c.ParamsInt("id")
+	binderName := c.Params("binderName")
+
+	noteSrv := service.NewNoteService(binderName, ctl.repos)
+	notes, err := noteSrv.List()
 	if err != nil {
 		return err
 	}
-	noteSrv := service.NewNoteService(ctl.repos)
-	notes, err := noteSrv.ListByBinderId(uint(binderId))
-	if err != nil {
-		return err
-	}
+
+	res := NewServeListResponse[Item]()
 	for _, note := range notes {
-		res.Items = append(res.Items, ListNotesItem{
-			Id:      fmt.Sprintf("%d", note.ID),
+		res.Items = append(res.Items, Item{
+			Name: note.NoteName,
 			Content: note.Content,
 		})
 	}
