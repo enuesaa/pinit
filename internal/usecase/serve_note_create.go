@@ -19,13 +19,13 @@ func (ctl *ServeCtl) NoteCreate(c *fiber.Ctx) error {
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
-	note := service.Note{
+	noteSrv := service.NewNoteService(binderName, ctl.repos)
+
+	note := service.NoteCreation{
 		Comment:   "",
 		Content:   req.Content,
 		Publisher: "",
 	}
-
-	noteSrv := service.NewNoteService(binderName, ctl.repos)
 	name, err := noteSrv.Create(note)
 	if err != nil {
 		return err

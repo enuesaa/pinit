@@ -41,23 +41,13 @@ func (srv *BinderService) Get(name string) (Binder, error) {
 	return data, nil
 }
 
-func (srv *BinderService) CheckNameAvailable(name string) error {
-	// count, err := srv.repos.Db.Binder().Query().
-	// 	Where(q.NameEQ(name)).
-	// 	Count(context.Background())
-	// if err != nil {
-	// 	return err
-	// }
-	// if count > 0 {
-	// 	return fmt.Errorf("binder name already exists.")
-	// }
-	return nil
-}
-
 func (srv *BinderService) Create(name string) (string, error) {
 	binder := Binder{
 		InternalBinderName: "@data",
 		Name: name,
+		ArchivedAt: nil,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 	if err := srv.repos.Db.Put(binder); err != nil {
 		return "", err

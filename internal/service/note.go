@@ -9,7 +9,7 @@ import (
 )
 
 type Note struct {
-	BinderName string   `dynamo:"BinderName"`
+	InternalBinderName string   `dynamo:"BinderName"`
 	NoteName  string    `dynamo:"NoteName"`
 
 	Publisher string    `dynamo:"Publisher"`
@@ -17,6 +17,11 @@ type Note struct {
 	Content   string    `dynamo:"Content"`
 	CreatedAt time.Time `dynamo:"CreatedAt"`
 	UpdatedAt time.Time `dynamo:"UpdatedAt"`
+}
+type NoteCreation struct {
+	Publisher string    `dynamo:"Publisher"`
+	Comment   string    `dynamo:"Comment"`
+	Content   string    `dynamo:"Content"`
 }
 
 type NoteService struct {
@@ -47,10 +52,16 @@ func (srv *NoteService) Get(name string) (Note, error) {
 	return data, nil
 }
 
-func (srv *NoteService) Create(note Note) (string, error) {
-	note.BinderName = srv.binderName
-	note.NoteName = uuid.NewString()
-
+func (srv *NoteService) Create(creation NoteCreation) (string, error) {
+	note := Note{
+		InternalBinderName: srv.binderName,
+		NoteName: uuid.NewString(),
+		Content: creation.Content,
+		Comment: creation.Comment,
+		Publisher: creation.Publisher,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
 	if err := srv.repos.Db.Put(note); err != nil {
 		return "", err
 	}
