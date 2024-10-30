@@ -1,6 +1,7 @@
 import { Box, Flex } from '@radix-ui/themes'
 import { ReactNode } from 'react'
 import { ListBinders } from '../data/ListBinders'
+import { BinderCreateBtn } from '../data/BinderCreateBtn'
 import { Header } from './Header'
 
 type Props = {
@@ -11,7 +12,7 @@ export const WithSidebar = ({ children }: Props) => {
     <Flex gap='5'>
       <Box flexGrow='0' flexShrink='0' style={{ width: '500px' }}>
         <Header />
-        create
+        <BinderCreateBtn />
         <ListBinders />
       </Box>
       <Box flexGrow='1' flexShrink='1'>

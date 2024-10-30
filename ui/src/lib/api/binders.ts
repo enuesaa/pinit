@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query'
-import { mutateDelete, queryGet } from './base'
+import { mutateDelete, mutatePost, queryGet } from './base'
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE ?? ''
 
@@ -16,7 +16,11 @@ export const useListBinders = () => queryGet<{items: Binder[]}>('/api/binders')
 
 export const useListBinderNotes = (name: string) => queryGet<{items: Note[]}>(`/api/binders/${name}/notes`)
 
-export const useCreateBinder = () => {
+export const useCreateBinder = () => mutatePost<void, void>(`/api/binders`, {
+  invalidate: [],
+})
+
+export const useCreateBinderOld = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -30,13 +34,13 @@ export const useCreateBinder = () => {
       })
       const body = await res.json()
       const binderName = body.name
-      await fetch(`/api/binders/${binderName}/notes`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ content }),
-      })
+      // await fetch(`/api/binders/${binderName}/notes`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ content }),
+      // })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: 'listBinders' })
