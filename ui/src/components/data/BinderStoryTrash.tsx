@@ -1,4 +1,4 @@
-import { useSetStoryInput } from '@/lib/state'
+import { useSetStoryInput } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaTrash } from 'react-icons/fa'

@@ -1,5 +1,5 @@
 import { useRecog } from '@/lib/api/recog'
-import { useGetStory, useSetStoryInput } from '@/lib/state'
+import { useGetStory, useSetStoryInput } from '@/lib/state/story'
 import { PauseIcon } from '@radix-ui/react-icons'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler, useEffect } from 'react'
@@ -18,7 +18,7 @@ export const BinderStoryRecorder = () => {
     }
     ;(async () => {
       const text = await invokeRecogApi.mutateAsync(mediaBlobUrl)
-      setInput(`${story.input}\n\n${text}`)
+      setInput(`${story.noteInput}\n\n${text}`)
     })()
   }, [mediaBlobUrl])
 
