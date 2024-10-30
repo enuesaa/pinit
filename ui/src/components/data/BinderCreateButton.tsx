@@ -3,7 +3,7 @@ import { useSetBinderName } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler, useEffect } from 'react'
 
-export const BinderCreateBtn = () => {
+export const BinderCreateButton = () => {
   const createBinder = useCreateBinder()
   const setBinderName = useSetBinderName()
 
@@ -19,7 +19,7 @@ export const BinderCreateBtn = () => {
   }, [createBinder.data?.name])
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} style={{ width: '90%', display: 'block', margin: '0 auto', cursor: 'pointer' }}>
       Create
     </Button>
   )

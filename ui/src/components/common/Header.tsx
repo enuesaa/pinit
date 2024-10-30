@@ -1,4 +1,4 @@
-import { Container, Link, Separator } from '@radix-ui/themes'
+import { Container, Link } from '@radix-ui/themes'
 import { FaBolt } from 'react-icons/fa'
 import styles from './Header.css'
 
@@ -11,7 +11,6 @@ export const Header = () => {
           pinit
         </Link>
       </Container>
-      <Separator size='4' />
     </header>
   )
 }

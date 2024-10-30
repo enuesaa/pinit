@@ -1,5 +1,5 @@
-import { useCreateBinderOld } from '@/lib/api/binders'
-import { useGetStory } from '@/lib/state'
+import { useUpdateBinderNote } from '@/lib/api/binders'
+import { useGetStory } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaCheck } from 'react-icons/fa'
@@ -7,13 +7,12 @@ import styles from './BinderStoryChatButton.css'
 
 export const BinderStorySaveButton = () => {
   const story = useGetStory()
-  const createBinder = useCreateBinderOld()
+  const updateNote = useUpdateBinderNote(story.binderName, story.noteName)
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    const content = story.input
-    // output
-    await createBinder.mutateAsync({ content })
+    const content = story.noteInput
+    await updateNote.mutateAsync({ content })
   }
 
   return (

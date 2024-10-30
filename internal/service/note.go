@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/enuesaa/pinit/internal/repository"
@@ -68,10 +67,14 @@ func (srv *NoteService) Create(creation NoteCreation) (string, error) {
 	return note.NoteName, nil
 }
 
-func (srv *NoteService) Update(note Note) (string, error) {
-	if note.NoteName == "" {
-		return "", fmt.Errorf("name is required")
+func (srv *NoteService) Update(name string, creation NoteCreation) (string, error) {
+	note, err := srv.Get(name)
+	if err != nil {
+		return "", err
 	}
+	note.Content = creation.Content
+	note.Comment = creation.Comment
+	note.UpdatedAt = time.Now()
 	if err := srv.repos.Db.Put(note); err != nil {
 		return "", err
 	}

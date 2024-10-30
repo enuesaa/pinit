@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query'
-import { mutateDelete, mutatePost, queryGet } from './base'
+import { mutateDelete, mutatePost, mutatePut, queryGet } from './base'
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE ?? ''
 
@@ -20,37 +20,13 @@ export const useCreateBinder = () => mutatePost<{}, {name: string}>(`/api/binder
   invalidate: [],
 })
 
-export const useCreateBinderNote = (name: string) => mutatePost<{}, {name: string}>(`/api/binders/${name}/notes`, {
+export const useCreateBinderNote = (binderName: string) => mutatePost<{}, {name: string}>(`/api/binders/${binderName}/notes`, {
   invalidate: [],
 })
 
-export const useCreateBinderOld = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async ({ content }: { content: string }) => {
-      const res = await fetch(`${apiBaseUrl}/api/binders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: '{}',
-      })
-      const body = await res.json()
-      const binderName = body.name
-      // await fetch(`/api/binders/${binderName}/notes`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ content }),
-      // })
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: 'listBinders' })
-    },
-  })
-}
+export const useUpdateBinderNote = (binderName: string, noteName: string) => mutatePut<{content: string}, {}>(`/api/binders/${binderName}/notes/${noteName}`, {
+  invalidate: [],
+})
 
 export const useDeleteBinder = (name: string) => mutateDelete<void, void>(`/api/binders/${name}`, {
   invalidate: ['/api/binders'],

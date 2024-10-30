@@ -1,5 +1,5 @@
 import { useChat } from '@/lib/api/chat'
-import { useGetStory, useSetStoryOuptut } from '@/lib/state'
+import { useGetStory } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaCaretRight, FaHourglassStart } from 'react-icons/fa'
@@ -9,12 +9,12 @@ import styles from './BinderStoryChatButton.css'
 export const BinderStoryChatButton = () => {
   const chat = useChat()
   const story = useGetStory()
-  const setStoryOutput = useSetStoryOuptut()
+  // const setStoryOutput = useSetStoryOuptut()
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    const output = await chat.mutateAsync({message: story.input})
-    setStoryOutput(output.message)
+    const output = await chat.mutateAsync({message: story.noteInput})
+    // setStoryOutput(output.message)
   }
 
   if (chat.isLoading) {

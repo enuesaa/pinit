@@ -36,9 +36,9 @@ export const useSetBinderName = () => {
   return (name: string) => setter({ binderName: name })
 }
 
-export const useSetNoteName = () => {
+export const useSetNote = () => {
   const [_, setter] = useStory()
-  return (name: string) => setter({ noteName: name })
+  return (name: string, input: string) => setter({ noteName: name, noteInput: input })
 }
 
 export const useSetStoryInput = () => {

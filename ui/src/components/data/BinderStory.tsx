@@ -27,9 +27,9 @@ export const BinderStory = () => {
           <Box key={i}>
             <BinderStoryRecorder />
             <BinderStoryTrash />
-            <BinderStoryInput note={v} />
             <BinderStoryChatButton />
             <BinderStorySaveButton />
+            <BinderStoryInput note={v} />
           </Box>
         )
       })}
