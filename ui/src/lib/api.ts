@@ -1,6 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
+import { mutateDelete, mutatePost, queryGet } from './api/base'
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? ''
+const apiBaseUrl = import.meta.env.VITE_API_BASE ?? ''
 
 export type Binder = {
   name: string
@@ -18,19 +19,9 @@ export type Action = {
   template: string
 }
 
-export const useListBinders = () =>
-  useQuery('listBinders', async (): Promise<Binder[]> => {
-    const res = await fetch(`${apiBaseUrl}/api/binders`)
-    const body = await res.json()
-    return body?.items
-  })
+export const useListBinders = () => queryGet<{items: Binder[]}>('/api/binders')
 
-export const useListBinderNotes = (name: string) =>
-  useQuery(`listBinderNotes-${name}`, async (): Promise<Note[]> => {
-    const res = await fetch(`${apiBaseUrl}/api/binders/${name}/notes`)
-    const body = await res.json()
-    return body?.items
-  })
+export const useListBinderNotes = (name: string) => queryGet<{items: Note[]}>(`/api/binders/${name}/notes`)
 
 export const useRecog = () =>
   useMutation({
@@ -50,23 +41,9 @@ export const useRecog = () =>
     },
   })
 
-export const useChat = () =>
-  useMutation({
-    mutationKey: 'chat',
-    mutationFn: async (message: string): Promise<string> => {
-      const res = await fetch(`${apiBaseUrl}/api/chat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message,
-        }),
-      })
-      const body = await res.json()
-      return body?.message ?? ''
-    },
-  })
+export const useChat = () => mutatePost<{message: string}, {message: string}>(`/api/chat`, {
+  invalidate: [],
+})
 
 export const useCreateBinder = () => {
   const queryClient = useQueryClient()
@@ -96,22 +73,6 @@ export const useCreateBinder = () => {
   })
 }
 
-export const useDeleteBinder = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationKey: 'deleteBinder',
-    mutationFn: async (name: string) => {
-      const res = await fetch(`${apiBaseUrl}/api/binders/${name}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      await res.json()
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: 'listBinders' })
-    },
-  })
-}
+export const useDeleteBinder = (name: string) => mutateDelete<void, void>(`/api/binders/${name}`, {
+  invalidate: ['/api/binders'],
+})

@@ -7,7 +7,7 @@ type Props = {
 }
 export const BinderCard = ({ binder }: Props) => {
   const { data: notes } = useListBinderNotes(binder.name)
-  const latestNote = (notes !== undefined ? notes.at(0) : null) ?? null
+  const latestNote = (notes !== undefined ? notes?.items.at(0) : null) ?? null
 
   return (
     <Card m='3'>

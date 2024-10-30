@@ -13,8 +13,8 @@ export const BinderStoryChatButton = () => {
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    const output = await chat.mutateAsync(story.input)
-    setStoryOutput(output)
+    const output = await chat.mutateAsync({message: story.input})
+    setStoryOutput(output.message)
   }
 
   if (chat.isLoading) {

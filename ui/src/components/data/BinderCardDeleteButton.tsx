@@ -8,11 +8,11 @@ type Props = {
   binderName: string
 }
 export const BinderCardDeleteButton = ({ binderName }: Props) => {
-  const deleteBinder = useDeleteBinder()
+  const deleteBinder = useDeleteBinder(binderName)
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    await deleteBinder.mutateAsync(binderName)
+    await deleteBinder.mutateAsync()
   }
 
   return (
