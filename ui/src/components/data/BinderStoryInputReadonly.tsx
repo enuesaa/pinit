@@ -7,7 +7,7 @@ import { MouseEventHandler } from 'react'
 type Props = {
   note: Note
 }
-export const BinderStoryReadonly = ({ note }: Props) => {
+export const BinderStoryInputReadonly = ({ note }: Props) => {
   const setNote = useSetNote()
 
   const handleClick: MouseEventHandler<HTMLTextAreaElement> = (e) => {

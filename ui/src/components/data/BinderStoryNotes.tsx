@@ -5,7 +5,7 @@ import { BinderStoryTrash } from './BinderStoryTrash'
 import { BinderStoryRecorder } from './BinderStoryRecorder'
 import { BinderStoryChatButton } from './BinderStoryChatButton'
 import { BinderStorySaveButton } from './BinderStorySaveButton'
-import { BinderStoryReadonly } from './BinderStoryInputReadonly'
+import { BinderStoryInputReadonly } from './BinderStoryInputReadonly'
 
 type Props = {
   name: string
@@ -16,13 +16,13 @@ export const BinderStoryNotes = ({ name, selectedNoteName }: Props) => {
 
   return (
     <>
-      {notes.data?.items?.map((v,i) => {
+      {notes.data?.items?.map(v => {
         if (v.name !== selectedNoteName) {
-          return <BinderStoryReadonly note={v} key={i} />
+          return <BinderStoryInputReadonly note={v} key={v.name} />
         }
 
         return (
-          <Box key={i}>
+          <Box key={v.name}>
             <BinderStoryRecorder />
             <BinderStoryTrash />
             <BinderStoryChatButton />
