@@ -6,6 +6,7 @@ import (
 	"github.com/enuesaa/pinit/internal/repository"
 	"github.com/enuesaa/pinit/ui"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/google/uuid"
 )
 
@@ -24,6 +25,11 @@ func (ctl *ServeCtl) Addr() string {
 
 func (ctl *ServeCtl) Serve() error {
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000",
+	}))
+	
 	app.Get("/api/binders", ctl.BinderList)
 	app.Post("/api/binders", ctl.BinderCreate)
 	app.Delete("/api/binders/:binderName", ctl.BinderDelete)

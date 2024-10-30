@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? ''
+
 export type Binder = {
   name: string
 }
@@ -18,21 +20,14 @@ export type Action = {
 
 export const useListBinders = () =>
   useQuery('listBinders', async (): Promise<Binder[]> => {
-    const res = await fetch(`/api/binders`)
+    const res = await fetch(`${apiBaseUrl}/api/binders`)
     const body = await res.json()
     return body?.items
   })
 
 export const useListBinderNotes = (name: string) =>
   useQuery(`listBinderNotes-${name}`, async (): Promise<Note[]> => {
-    const res = await fetch(`/api/binders/${name}/notes`)
-    const body = await res.json()
-    return body?.items
-  })
-
-export const useListActions = () =>
-  useQuery('listActions', async (): Promise<Action[]> => {
-    const res = await fetch(`/api/actions`)
+    const res = await fetch(`${apiBaseUrl}/api/binders/${name}/notes`)
     const body = await res.json()
     return body?.items
   })
@@ -43,7 +38,7 @@ export const useRecog = () =>
       const response = await fetch(blobUrl)
       const blob = await response.blob()
       const file = new File([blob], 'hello', { type: blob.type })
-      const res = await fetch('/api/recog', {
+      const res = await fetch(`${apiBaseUrl}/api/recog`, {
         method: 'POST',
         headers: {
           'Content-Type': 'audio/wav',
@@ -59,7 +54,7 @@ export const useChat = () =>
   useMutation({
     mutationKey: 'chat',
     mutationFn: async (message: string): Promise<string> => {
-      const res = await fetch('/api/chat', {
+      const res = await fetch(`${apiBaseUrl}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +73,7 @@ export const useCreateBinder = () => {
 
   return useMutation({
     mutationFn: async ({ content }: { content: string }) => {
-      const res = await fetch('/api/binders', {
+      const res = await fetch(`${apiBaseUrl}/api/binders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +102,7 @@ export const useDeleteBinder = () => {
   return useMutation({
     mutationKey: 'deleteBinder',
     mutationFn: async (name: string) => {
-      const res = await fetch(`/api/binders/${name}`, {
+      const res = await fetch(`${apiBaseUrl}/api/binders/${name}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
