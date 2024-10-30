@@ -11,6 +11,7 @@ export const WithSidebar = ({ children }: Props) => {
     <Flex gap='5'>
       <Box flexGrow='0' flexShrink='0' style={{ width: '500px' }}>
         <Header />
+        create
         <ListBinders />
       </Box>
       <Box flexGrow='1' flexShrink='1'>
