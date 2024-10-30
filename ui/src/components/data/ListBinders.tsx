@@ -1,4 +1,4 @@
-import { useListBinders } from '@/lib/api'
+import { useListBinders } from '@/lib/api/binders'
 import { Section } from '@radix-ui/themes'
 import { BinderCard } from './BinderCard'
 

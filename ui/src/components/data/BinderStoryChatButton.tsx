@@ -1,4 +1,4 @@
-import { useChat } from '@/lib/api'
+import { useChat } from '@/lib/api/chat'
 import { useGetStory, useSetStoryOuptut } from '@/lib/state'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'

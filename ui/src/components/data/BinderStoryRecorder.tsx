@@ -1,4 +1,4 @@
-import { useRecog } from '@/lib/api'
+import { useRecog } from '@/lib/api/recog'
 import { useGetStory, useSetStoryInput } from '@/lib/state'
 import { PauseIcon } from '@radix-ui/react-icons'
 import { Button } from '@radix-ui/themes'

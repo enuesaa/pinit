@@ -1,4 +1,4 @@
-import { useDeleteBinder } from '@/lib/api'
+import { useDeleteBinder } from '@/lib/api/binders'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaTrash } from 'react-icons/fa'

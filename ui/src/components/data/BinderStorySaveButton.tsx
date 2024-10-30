@@ -1,4 +1,4 @@
-import { useCreateBinder } from '@/lib/api'
+import { useCreateBinder } from '@/lib/api/binders'
 import { useGetStory } from '@/lib/state'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'

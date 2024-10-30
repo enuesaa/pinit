@@ -1,4 +1,4 @@
-import { Binder, useListBinderNotes } from '@/lib/api'
+import { Binder, useListBinderNotes } from '@/lib/api/binders'
 import { Card, Text } from '@radix-ui/themes'
 import { BinderCardDeleteButton } from './BinderCardDeleteButton'
 
