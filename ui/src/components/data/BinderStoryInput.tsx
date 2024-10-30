@@ -2,12 +2,8 @@ import { useGetStory, useSetStoryInput } from '@/lib/state/story'
 import { TextArea } from '@radix-ui/themes'
 import { KeyboardEventHandler, useEffect, useRef } from 'react'
 import styles from './BinderStoryInput.css'
-import { Note } from '@/lib/api/binders'
 
-type Props = {
-  note: Note
-}
-export const BinderStoryInput = ({ note }: Props) => {
+export const BinderStoryInput = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const story = useGetStory()
   const setInput = useSetStoryInput()
@@ -16,10 +12,10 @@ export const BinderStoryInput = ({ note }: Props) => {
     if (textareaRef.current === null) {
       return
     }
-    textareaRef.current.value = story.noteInput
-  }, [story.noteInput])
+    textareaRef.current.value = story.noteContent
+  }, [story.noteContent])
 
-  const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+  const handleKeyUp: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     setInput(e.currentTarget.value)
   }
 
@@ -28,8 +24,8 @@ export const BinderStoryInput = ({ note }: Props) => {
       className={styles.textarea}
       ref={textareaRef}
       size='3'
-      defaultValue={note.content}
-      onKeyDown={handleKeyDown}
+      defaultValue={story.noteContent}
+      onKeyUp={handleKeyUp}
     />
   )
 }
