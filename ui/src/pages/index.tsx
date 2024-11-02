@@ -1,5 +1,5 @@
-import { Main } from '@/components/common/Main'
 import { Story } from '@/components/binder/Story'
+import { Main } from '@/components/common/Main'
 
 export default function Page() {
   return (

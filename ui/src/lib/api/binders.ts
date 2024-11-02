@@ -3,29 +3,38 @@ import { mutateDelete, mutatePost, mutatePut, queryGet } from './base'
 export type Binder = {
   name: string
 }
-export type Note = {
+
+type ListResponse = {
+  items: Binder[]
+}
+export const useListBinders = () => queryGet<ListResponse>('/api/binders')
+
+
+type GetResponse = Binder & {
+  content: string
+}
+export const useGetBinder = (name: string) => queryGet<GetResponse>(`/api/binders/${name}`)
+
+
+type CreateResponse = {
   name: string
-  binderName: string
-  content: string
 }
-export type BinderWithContent = Binder & {
-  content: string
-}
-
-export const useListBinders = () => queryGet<{items: Binder[]}>('/api/binders')
-
-export const useGetBinder = (name: string) => queryGet<BinderWithContent>(`/api/binders/${name}`)
-
-export const useCreateBinder = () => mutatePost<{}, {name: string}>(`/api/binders`, {
+export const useCreateBinder = () => mutatePost<{}, CreateResponse>(`/api/binders`, {
   invalidate: [],
 })
 
-export const useUpdateBinder = (binderName: string) => mutatePut<{content: string}, {name: string}>(`/api/binders/${binderName}`, {
+
+type UpdateRequest = {
+  name: string
+}
+type UpdateResponse = {
+  name: string
+}
+export const useUpdateBinder = (binderName: string) => mutatePut<UpdateRequest, UpdateResponse>(`/api/binders/${binderName}`, {
   invalidate: [],
 })
+
 
 export const useDeleteBinder = (name: string) => mutateDelete<void, void>(`/api/binders/${name}`, {
   invalidate: ['/api/binders'],
 })
-
-export const useListBinderNotes = (name: string) => queryGet<{items: Note[]}>(`/api/binders/${name}/notes`)

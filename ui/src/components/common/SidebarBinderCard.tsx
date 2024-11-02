@@ -1,8 +1,8 @@
 import { useGetBinder } from '@/lib/api/binders'
-import { Card, Text } from '@radix-ui/themes'
-import { SidebarBinderDeleteButton } from './SidebarBinderDeleteButton'
 import { useSetStory } from '@/lib/state/story'
+import { Card, Text } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
+import { SidebarBinderDeleteButton } from './SidebarBinderDeleteButton'
 
 type Props = {
   binderName: string

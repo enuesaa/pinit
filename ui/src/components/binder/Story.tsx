@@ -1,11 +1,11 @@
-import { Section } from '@radix-ui/themes'
 import { useGetStory } from '@/lib/state/story'
+import { Section } from '@radix-ui/themes'
 import { HistoryDialog } from './HistoryDialog'
-import { StoryRecorder } from './StoryRecorder'
-import { StoryTrash } from './StoryTrash'
 import { StoryChatButton } from './StoryChatButton'
-import { StorySaveButton } from './StorySaveButton'
 import { StoryInput } from './StoryInput'
+import { StoryRecorder } from './StoryRecorder'
+import { StorySaveButton } from './StorySaveButton'
+import { StoryTrash } from './StoryTrash'
 
 export const Story = () => {
   const story = useGetStory()

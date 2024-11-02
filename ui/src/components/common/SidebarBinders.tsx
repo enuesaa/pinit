@@ -10,9 +10,7 @@ export const SidebarBinders = () => {
 
   return (
     <Section p='2'>
-      {binders.data?.items.map((binder, i) => (
-        <SidebarBinderCard key={i} binderName={binder.name} />
-      ))}
+      {binders.data?.items.map((binder, i) => <SidebarBinderCard key={i} binderName={binder.name} />)}
     </Section>
   )
 }

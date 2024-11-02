@@ -12,7 +12,7 @@ export const StoryChatButton = () => {
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    const output = await chat.mutateAsync({message: story.content})
+    const output = await chat.mutateAsync({ message: story.content })
     // setStoryOutput(output.message)
   }
 
