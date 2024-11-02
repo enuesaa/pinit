@@ -42,6 +42,13 @@ func (srv *BinderService) Get(name string) (Binder, error) {
 	return data, nil
 }
 
+func (srv *BinderService) IsExist(name string) bool {
+	if _, err := srv.Get(name); err != nil {
+		return false
+	}
+	return true
+}
+
 func (srv *BinderService) Create() (string, error) {
 	binder := Binder{
 		InternalBinderName: "@data",
@@ -54,6 +61,18 @@ func (srv *BinderService) Create() (string, error) {
 		return "", err
 	}
 	return binder.Name, nil
+}
+
+func (srv *BinderService) Rename(from string, to string) error {
+	binder, err := srv.Get(from)
+	if err != nil {
+		return err
+	}
+	binder.Name = to
+	if err := srv.repos.Db.Put(binder); err != nil {
+		return err
+	}
+	return srv.Delete(from)
 }
 
 func (srv *BinderService) Delete(name string) error {

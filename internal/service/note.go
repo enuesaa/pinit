@@ -81,6 +81,20 @@ func (srv *NoteService) Update(name string, creation NoteCreation) (string, erro
 	return note.NoteName, nil
 }
 
+func (srv *NoteService) TransferAllInBinder(to string) error {
+	list := []Note{}
+	if err := srv.repos.Db.List(srv.binderName, &list); err != nil {
+		return err
+	}
+	for _, note := range list {
+		note.InternalBinderName = to
+		if err := srv.repos.Db.Put(note); err != nil {
+			return err
+		}
+	}
+	return srv.DeleteAllInBinder()
+}
+
 func (srv *NoteService) Delete(noteName string) error {
 	return srv.repos.Db.Delete(srv.binderName, noteName)
 }

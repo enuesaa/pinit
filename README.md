@@ -1,39 +1,23 @@
 # pinit
-A personal note-taking app.
-
-> [!Note]
-> Work in progress.. `pinit` is currently under development.
-
-## Usage
-```console
-$ pinit --help
 A personal note-taking app
 
-Usage:
-  pinit [flags]
+## Refactor Plan
+- cloudnative に組み直す
+- メモ帳 + 音声認識 (Whisper API) + LLM (ChatGPT) のようなアプリへ
 
-Flags:
-      --help       Show help information
-      --port int   port. Default: 3000 (default 3000)
-      --serve      Start pinit app
-      --version    Show version
+## Stacks
+- DynamoDB
+- CloudFront
+- Lambda
 
-$ pinit --serve
- ┌───────────────────────────────────────────────────┐
- │                   Fiber v2.52.4                   │
- │               http://127.0.0.1:3000               │
- │                                                   │
- │ Handlers ............ 13  Processes ........... 1 │
- │ Prefork ....... Disabled  PID ............. 58300 │
- └───────────────────────────────────────────────────┘
-```
+## 構成
+- バイナリにフロントエンドの dist を embed しておりコマンドラインからそのまま立ち上げ可能
+- バイナリを Lambda へデプロイし Web Adapter を介してホストする
+- 認証機構はスコープ外
 
-## How to develop
-```bash
-go generate ./...
-go run . serve
-```
+![構成図](./architecture.png)
 
-## TODO
-- [app] set openai api token on web
-- [note] enable to add multiple notes to binder.
+
+## データ設計
+- 検索機能なし。データ設計する上で気になる要件はない
+- Primary Key を Binder Name へ Sort Key を Note Name にすれば、ある程度耐えられると思う

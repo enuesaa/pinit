@@ -5,6 +5,7 @@ import { StoryChatButton } from './StoryChatButton'
 import { StoryInput } from './StoryInput'
 import { StoryRecorder } from './StoryRecorder'
 import { StoryTrash } from './StoryTrash'
+import { StoryName } from './StoryName'
 
 export const Story = () => {
   const story = useGetStory()
@@ -15,7 +16,7 @@ export const Story = () => {
 
   return (
     <Section p='1' className='relative'>
-      <div>{story.binderName}</div>
+      <StoryName name={story.binderName} />
 
       <StoryRecorder />
       <StoryTrash />
