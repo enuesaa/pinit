@@ -1,11 +1,11 @@
 import { useCreateBinder } from '@/lib/api/binders'
-import { useSetBinderName } from '@/lib/state/story'
+import { useSetStory } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler, useEffect } from 'react'
 
 export const BinderCreateButton = () => {
   const createBinder = useCreateBinder()
-  const setBinderName = useSetBinderName()
+  const setStory = useSetStory()
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault()
@@ -14,7 +14,7 @@ export const BinderCreateButton = () => {
 
   useEffect(() => {
     if (createBinder.data?.name !== undefined) {
-      setBinderName(createBinder.data.name)
+      setStory(createBinder.data.name, '')
     }
   }, [createBinder.data?.name])
 

@@ -18,7 +18,7 @@ export const BinderStoryRecorder = () => {
     }
     ;(async () => {
       const text = await invokeRecogApi.mutateAsync(mediaBlobUrl)
-      setInput(`${story.noteContent}\n\n${text}`)
+      setInput(`${story.content}\n\n${text}`)
     })()
   }, [mediaBlobUrl])
 

@@ -14,8 +14,7 @@ export const BinderStorySaveButton = ({ binderName }: Props) => {
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    const content = story.noteContent
-    await updateBinder.mutateAsync({ content })
+    await updateBinder.mutateAsync({ content: story.content })
   }
 
   return (

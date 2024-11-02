@@ -1,20 +1,20 @@
 import { Binder, useListBinderNotes } from '@/lib/api/binders'
 import { Card, Text } from '@radix-ui/themes'
 import { BinderCardDeleteButton } from './BinderCardDeleteButton'
-import { useSetBinderName } from '@/lib/state/story'
+import { useSetStory } from '@/lib/state/story'
 import { MouseEventHandler } from 'react'
 
 type Props = {
   binder: Binder
 }
 export const BinderCard = ({ binder }: Props) => {
-  const setBinderName = useSetBinderName()
+  const setStory = useSetStory()
   const { data: notes } = useListBinderNotes(binder.name)
   const latestNote = (notes !== undefined ? notes?.items.at(0) : null) ?? null
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
-    setBinderName(binder.name)
+    setStory(binder.name, latestNote?.content ?? '')
   }
 
   return (

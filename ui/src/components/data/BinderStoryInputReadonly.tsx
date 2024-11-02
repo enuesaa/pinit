@@ -12,6 +12,7 @@ export const BinderStoryInputReadonly = ({ note }: Props) => {
       size='3'
       defaultValue={note.content}
       readOnly
+      style={{ minHeight: '10vh', height: 'fit-content', margin: '10px' }}
     />
   )
 }

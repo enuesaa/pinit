@@ -2,11 +2,11 @@ import { atom, useAtom } from 'jotai'
 
 type Story = {
   binderName: string
-  noteContent: string
+  content: string
 }
 const state = atom<Partial<Story>>({
   binderName: '',
-  noteContent: '',
+  content: '',
 })
 
 const useStory = (): [Story, (newone: Partial<Story>) => void] => {
@@ -15,7 +15,7 @@ const useStory = (): [Story, (newone: Partial<Story>) => void] => {
 
   const data = {
     binderName: value.binderName ?? '',
-    noteContent: value.noteContent ?? '',
+    content: value.content ?? '',
   }
   return [data, setter]
 }
@@ -25,12 +25,12 @@ export const useGetStory = () => {
   return data
 }
 
-export const useSetBinderName = () => {
+export const useSetStory = () => {
   const [_, setter] = useStory()
-  return (name: string) => setter({ binderName: name })
+  return (binderName: string, content: string) => setter({ binderName, content })
 }
 
 export const useSetStoryInput = () => {
   const [_, setter] = useStory()
-  return (content: string) => setter({ noteContent: content })
+  return (content: string) => setter({ content })
 }

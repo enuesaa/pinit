@@ -12,8 +12,8 @@ export const BinderStoryInput = () => {
     if (textareaRef.current === null) {
       return
     }
-    textareaRef.current.value = story.noteContent
-  }, [story.noteContent])
+    textareaRef.current.value = story.content
+  }, [story.content])
 
   const handleKeyUp: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     setInput(e.currentTarget.value)
@@ -24,7 +24,7 @@ export const BinderStoryInput = () => {
       className={styles.textarea}
       ref={textareaRef}
       size='3'
-      defaultValue={story.noteContent}
+      defaultValue={story.content}
       onKeyUp={handleKeyUp}
     />
   )
