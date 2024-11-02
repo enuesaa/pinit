@@ -20,7 +20,7 @@ export const useCreateBinder = () => mutatePost<{}, {name: string}>(`/api/binder
   invalidate: [],
 })
 
-export const useCreateBinderNote = (binderName: string) => mutatePost<{}, {name: string}>(`/api/binders/${binderName}/notes`, {
+export const useCreateBinderNote = (binderName: string) => mutatePost<{content: string}, {name: string}>(`/api/binders/${binderName}/notes`, {
   invalidate: [],
 })
 
