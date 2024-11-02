@@ -3,7 +3,7 @@ import { useSetStory } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler, useEffect } from 'react'
 
-export const BinderCreateButton = () => {
+export const SidebarCreateButton = () => {
   const createBinder = useCreateBinder()
   const setStory = useSetStory()
 

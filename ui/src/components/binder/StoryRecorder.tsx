@@ -6,7 +6,7 @@ import { MouseEventHandler, useEffect } from 'react'
 import { FaMicrophone } from 'react-icons/fa'
 import { useReactMediaRecorder } from 'react-media-recorder'
 
-export const BinderStoryRecorder = () => {
+export const StoryRecorder = () => {
   const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({})
   const invokeRecogApi = useRecog()
   const story = useGetStory()

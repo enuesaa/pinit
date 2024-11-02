@@ -2,12 +2,12 @@ import { useDeleteBinder } from '@/lib/api/binders'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaTrash } from 'react-icons/fa'
-import styles from './BinderCardDeleteButton.css'
+import styles from './SidebarBinderCard.css'
 
 type Props = {
   binderName: string
 }
-export const BinderCardDeleteButton = ({ binderName }: Props) => {
+export const SidebarBinderDeleteButton = ({ binderName }: Props) => {
   const deleteBinder = useDeleteBinder(binderName)
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {

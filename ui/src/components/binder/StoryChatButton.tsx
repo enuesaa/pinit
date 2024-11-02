@@ -4,9 +4,9 @@ import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaCaretRight, FaHourglassStart } from 'react-icons/fa'
 import { IoWarningOutline } from 'react-icons/io5'
-import styles from './BinderStoryChatButton.css'
+import styles from './StoryChatButton.css'
 
-export const BinderStoryChatButton = () => {
+export const StoryChatButton = () => {
   const chat = useChat()
   const story = useGetStory()
   // const setStoryOutput = useSetStoryOuptut()

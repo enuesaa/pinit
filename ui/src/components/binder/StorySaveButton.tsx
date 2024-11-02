@@ -3,12 +3,12 @@ import { useGetStory } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaCheck } from 'react-icons/fa'
-import styles from './BinderStoryChatButton.css'
+import styles from './StoryChatButton.css'
 
 type Props = {
   binderName: string
 }
-export const BinderStorySaveButton = ({ binderName }: Props) => {
+export const StorySaveButton = ({ binderName }: Props) => {
   const story = useGetStory()
   const updateBinder = useUpdateBinder(binderName)
 

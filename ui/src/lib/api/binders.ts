@@ -8,10 +8,13 @@ export type Note = {
   binderName: string
   content: string
 }
+export type BinderWithContent = Binder & {
+  content: string
+}
 
 export const useListBinders = () => queryGet<{items: Binder[]}>('/api/binders')
 
-export const useListBinderNotes = (name: string) => queryGet<{items: Note[]}>(`/api/binders/${name}/notes`)
+export const useGetBinder = (name: string) => queryGet<BinderWithContent>(`/api/binders/${name}`)
 
 export const useCreateBinder = () => mutatePost<{}, {name: string}>(`/api/binders`, {
   invalidate: [],
@@ -24,3 +27,5 @@ export const useUpdateBinder = (binderName: string) => mutatePut<{content: strin
 export const useDeleteBinder = (name: string) => mutateDelete<void, void>(`/api/binders/${name}`, {
   invalidate: ['/api/binders'],
 })
+
+export const useListBinderNotes = (name: string) => queryGet<{items: Note[]}>(`/api/binders/${name}/notes`)

@@ -1,9 +1,9 @@
 import { useGetStory, useSetStoryInput } from '@/lib/state/story'
 import { TextArea } from '@radix-ui/themes'
 import { KeyboardEventHandler, useEffect, useRef } from 'react'
-import styles from './BinderStoryInput.css'
+import styles from './StoryInput.css'
 
-export const BinderStoryInput = () => {
+export const StoryInput = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const story = useGetStory()
   const setInput = useSetStoryInput()

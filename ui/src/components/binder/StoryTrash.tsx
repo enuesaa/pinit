@@ -3,7 +3,7 @@ import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaTrash } from 'react-icons/fa'
 
-export const BinderStoryTrash = () => {
+export const StoryTrash = () => {
   const setInput = useSetStoryInput()
 
   const handleClick: MouseEventHandler<HTMLSpanElement> = (e) => {

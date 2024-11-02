@@ -1,10 +1,10 @@
-import { WithSidebar } from '@/components/common/WithSidebar'
-import { BinderStory } from '@/components/data/BinderStory'
+import { Main } from '@/components/common/Main'
+import { Story } from '@/components/binder/Story'
 
 export default function Page() {
   return (
-    <WithSidebar>
-      <BinderStory />
-    </WithSidebar>
+    <Main>
+      <Story />
+    </Main>
   )
 }

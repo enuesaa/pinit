@@ -1,6 +1,6 @@
 import { useListBinderNotes } from '@/lib/api/binders'
 import { Button, Dialog } from '@radix-ui/themes'
-import { BinderStoryInputReadonly } from './BinderStoryInputReadonly'
+import { StoryInputReadonly } from './StoryInputReadonly'
 import { BsThreeDots } from "react-icons/bs";
 
 type Props = {
@@ -19,7 +19,7 @@ export const HistoryDialog = ({ name }: Props) => {
         <Dialog.Title>History</Dialog.Title>
 
         {notes?.data?.items.map(v => (
-          <BinderStoryInputReadonly note={v} key={v.name} />
+          <StoryInputReadonly note={v} key={v.name} />
         ))}
 
         <Dialog.Close>

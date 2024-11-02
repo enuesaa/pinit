@@ -26,6 +26,7 @@ func (ctl *ServeCtl) Serve() error {
 	}))
 	
 	app.Get("/api/binders", ctl.BinderList)
+	app.Get("/api/binders/:binderName", ctl.BinderView)
 	app.Post("/api/binders", ctl.BinderCreate)
 	app.Put("/api/binders/:binderName", ctl.BinderUpdate)
 	app.Delete("/api/binders/:binderName", ctl.BinderDelete)
