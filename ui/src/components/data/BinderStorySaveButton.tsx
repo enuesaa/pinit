@@ -20,7 +20,7 @@ export const BinderStorySaveButton = ({ binderName, name }: Props) => {
   }
 
   return (
-    <Button variant='surface' m='2' className={styles.main} onClick={handleClick} style={{ fontSize: '20px' }}>
+    <Button m='2' className={styles.main} onClick={handleClick} style={{ fontSize: '20px' }}>
       <FaCheck />
     </Button>
   )

@@ -22,11 +22,13 @@ export const BinderStoryNotes = ({ name, selectedNoteName }: Props) => {
         }
 
         return (
-          <Box key={v.name}>
-            <BinderStoryRecorder />
-            <BinderStoryTrash />
-            <BinderStoryChatButton />
-            <BinderStorySaveButton binderName={name} name={selectedNoteName} />
+          <Box key={v.name} style={{ position: 'relative' }}>
+            <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+              <BinderStoryRecorder />
+              <BinderStoryTrash />
+              <BinderStoryChatButton />
+              <BinderStorySaveButton binderName={name} name={selectedNoteName} />
+            </div>
             <BinderStoryInput />
           </Box>
         )

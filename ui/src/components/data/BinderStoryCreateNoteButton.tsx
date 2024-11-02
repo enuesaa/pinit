@@ -22,8 +22,8 @@ export const BinderStoryCreateNoteButton = ({ name }: Props) => {
   }, [createNote.data?.name])
 
   return (
-    <Button onClick={handleClick} m='2' style={{ display: 'block', width: '100px', cursor: 'pointer' }}>
-      Create
+    <Button onClick={handleClick} m='2' mt='6' variant='surface' style={{ display: 'block', width: '100px', cursor: 'pointer' }}>
+      Add
     </Button>
   )
 }
