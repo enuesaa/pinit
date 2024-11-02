@@ -5,11 +5,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (ctl *ServeCtl) NoteCreate(c *fiber.Ctx) error {
+func (ctl *ServeCtl) BinderUpdate(c *fiber.Ctx) error {
 	type Request struct {
-		Content  string `json:"content"`
+		Content string `json:"content"`
 	}
-	type Response struct {
+	type Response struct{
 		Name string `json:"name"`
 	}
 
@@ -19,16 +19,16 @@ func (ctl *ServeCtl) NoteCreate(c *fiber.Ctx) error {
 	if err := c.BodyParser(&req); err != nil {
 		return err
 	}
-	noteSrv := service.NewNoteService(binderName, ctl.repos)
 
+	noteSrv := service.NewNoteService(binderName, ctl.repos)
 	note := service.NoteCreation{
-		Comment:   "",
-		Content:   req.Content,
+		Comment: "",
+		Content: req.Content,
 		Publisher: "",
 	}
-	name, err := noteSrv.Create(note)
-	if err != nil {
+	if _, err := noteSrv.Create(note); err != nil {
 		return err
 	}
-	return c.JSON(Response{Name: name})
+
+	return c.JSON(Response{ Name: binderName })
 }

@@ -8,14 +8,13 @@ import { BinderStorySaveButton } from './BinderStorySaveButton'
 
 type Props = {
   name: string
-  selectedNoteName: string
 }
-export const BinderStoryNote = ({ name, selectedNoteName }: Props) => {
+export const BinderStoryNote = ({ name }: Props) => {
   const notes = useListBinderNotes(name)
 
-  if (notes.data?.items.length === 0) {
-    return <></>
-  }
+  // if (notes.data?.items.length === 0) {
+  //   return <></>
+  // }
 
   return (
     <Box style={{ position: 'relative' }}>
@@ -23,7 +22,7 @@ export const BinderStoryNote = ({ name, selectedNoteName }: Props) => {
         <BinderStoryRecorder />
         <BinderStoryTrash />
         <BinderStoryChatButton />
-        <BinderStorySaveButton binderName={name} name={selectedNoteName} />
+        <BinderStorySaveButton binderName={name} />
       </div>
       <BinderStoryInput />
     </Box>

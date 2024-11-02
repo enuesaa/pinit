@@ -32,10 +32,9 @@ func (ctl *ServeCtl) Serve() error {
 	
 	app.Get("/api/binders", ctl.BinderList)
 	app.Post("/api/binders", ctl.BinderCreate)
+	app.Put("/api/binders/:binderName", ctl.BinderUpdate)
 	app.Delete("/api/binders/:binderName", ctl.BinderDelete)
 	app.Get("/api/binders/:binderName/notes", ctl.NoteList)
-	app.Post("/api/binders/:binderName/notes", ctl.NoteCreate)
-	app.Put("/api/binders/:binderName/notes/:noteName", ctl.NoteUpdate)
 	app.Get("/api/actions", ctl.ActionList)
 	app.Post("/api/chat", ctl.Chat)
 	app.Post("/api/recog", ctl.Recog)

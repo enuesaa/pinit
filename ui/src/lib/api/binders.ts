@@ -1,7 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
 import { mutateDelete, mutatePost, mutatePut, queryGet } from './base'
-
-const apiBaseUrl = import.meta.env.VITE_API_BASE ?? ''
 
 export type Binder = {
   name: string
@@ -20,11 +17,7 @@ export const useCreateBinder = () => mutatePost<{}, {name: string}>(`/api/binder
   invalidate: [],
 })
 
-export const useCreateBinderNote = (binderName: string) => mutatePost<{content: string}, {name: string}>(`/api/binders/${binderName}/notes`, {
-  invalidate: [],
-})
-
-export const useUpdateBinderNote = (binderName: string, noteName: string) => mutatePut<{content: string}, {}>(`/api/binders/${binderName}/notes/${noteName}`, {
+export const useUpdateBinder = (binderName: string) => mutatePut<{content: string}, {name: string}>(`/api/binders/${binderName}`, {
   invalidate: [],
 })
 

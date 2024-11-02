@@ -15,7 +15,7 @@ export const BinderStory = () => {
     <Section p='1'>
       <HistoryDialog name={story.binderName} />
       <BinderStoryName name={story.binderName} />
-      <BinderStoryNote name={story.binderName} selectedNoteName={story.noteName} />
+      <BinderStoryNote name={story.binderName} />
     </Section>
   )
 }
