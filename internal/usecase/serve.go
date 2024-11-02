@@ -34,6 +34,8 @@ func (ctl *ServeCtl) Serve() error {
 	app.Get("/api/actions", ctl.ActionList)
 	app.Post("/api/chat", ctl.Chat)
 	app.Post("/api/recog", ctl.Recog)
+	app.Get("/api/setting", ctl.SettingView)
+	app.Put("/api/setting", ctl.SettingUpdate)
 	app.Get("/*", ui.Serve)
 
 	return app.Listen(ctl.Addr())

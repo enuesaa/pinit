@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './app.css'
 import TopPage from './pages/index'
+import SettingPage from './pages/setting'
 
 export const App = () => {
   const queryClient = new QueryClient()
@@ -13,6 +14,7 @@ export const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<TopPage />} />
+            <Route path='/setting' element={<SettingPage />} />
           </Routes>
         </BrowserRouter>
       </Theme>

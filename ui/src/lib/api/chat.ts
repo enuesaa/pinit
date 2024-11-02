@@ -1,5 +1,11 @@
 import { mutatePost } from './base'
 
-export const useChat = () => mutatePost<{ message: string }, { message: string }>(`/api/chat`, {
+type Request = {
+  message: string
+}
+type Response = {
+  message: string
+}
+export const useChat = () => mutatePost<Request, Response>(`/api/chat`, {
   invalidate: [],
 })

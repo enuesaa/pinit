@@ -1,14 +1,20 @@
 package service
 
 import (
-	"fmt"
-	"path/filepath"
+	"time"
 
 	"github.com/enuesaa/pinit/internal/repository"
 )
 
 type AppConfig struct {
-	chatgpttoken string
+	InternalBinderName string `dynamo:"BinderName"`
+	InternalNoteName   string `dynamo:"NoteName"`
+	OpenaiToken string `dynamo:"openaiToken"`
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+}
+type AppConfigCreation struct {
+	OpenaiToken string
 }
 
 func NewRegistrySrv(repos repository.Repos) RegistrySrv {
@@ -21,48 +27,24 @@ type RegistrySrv struct {
 	repos repository.Repos
 }
 
-func (srv *RegistrySrv) GetPath() (string, error) {
-	homedir, err := srv.repos.Fs.HomeDir()
-	if err != nil {
-		return "", err
+func (srv *RegistrySrv) Get() AppConfig {
+	data := AppConfig{
+		OpenaiToken: "",
 	}
-	return filepath.Join(homedir, ".pinit"), nil
+	if err := srv.repos.Db.Get("@app", "config", &data); err != nil {
+		// return default config
+		return data
+	}
+	return data
 }
 
-func (srv *RegistrySrv) IsExist() bool {
-	path, err := srv.GetPath()
-	if err != nil {
-		return false
+func (srv *RegistrySrv) Update(creation AppConfigCreation) error {
+	config := AppConfig{
+		InternalBinderName: "@app",
+		InternalNoteName: "config",
+		OpenaiToken: creation.OpenaiToken,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
-	return srv.repos.Fs.IsExist(path)
-}
-
-func (srv *RegistrySrv) Create() error {
-	if srv.IsExist() {
-		return nil
-	}
-	path, err := srv.GetPath()
-	if err != nil {
-		return err
-	}
-	return srv.repos.Fs.CreateDir(path)
-}
-
-func (srv *RegistrySrv) DeleteBufDir() error {
-	if !srv.IsExist() {
-		return nil
-	}
-	path, err := srv.GetPath()
-	if err != nil {
-		return err
-	}
-	return srv.repos.Fs.Remove(path)
-}
-
-func (srv *RegistrySrv) GetOpenAiApiToken() string {
-	return ""
-}
-
-func (srv *RegistrySrv) SetOpenAiApiToken(token string) error {
-	return fmt.Errorf("not implemented")
+	return srv.repos.Db.Put(config)
 }

@@ -25,7 +25,7 @@ export const useCreateBinder = () => mutatePost<{}, CreateResponse>(`/api/binder
 
 
 type UpdateRequest = {
-  name: string
+  content: string
 }
 type UpdateResponse = {
   name: string

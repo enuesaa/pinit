@@ -19,7 +19,9 @@ func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
 
 	id := ulid.Make().String()
 	registrySrv := service.NewRegistrySrv(ctl.repos)
-	text, err := aiSrv.Speak(registrySrv.GetOpenAiApiToken(), bytes.NewReader(body))
+	config := registrySrv.Get()
+
+	text, err := aiSrv.Speak(config.OpenaiToken, bytes.NewReader(body))
 	if err != nil {
 		return err
 	}
