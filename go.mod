@@ -6,7 +6,6 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.32.2
 	github.com/aws/aws-sdk-go-v2/config v1.28.0
 	github.com/gofiber/fiber/v2 v2.52.5
-	github.com/google/uuid v1.6.0
 	github.com/guregu/dynamo/v2 v2.2.1
 	github.com/oklog/ulid/v2 v2.1.0
 	github.com/sashabaranov/go-openai v1.28.3
@@ -31,6 +30,7 @@ require (
 	github.com/aws/smithy-go v1.22.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

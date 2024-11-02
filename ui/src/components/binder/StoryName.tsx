@@ -15,7 +15,7 @@ export const StoryName = ({ name }: Props) => {
       setModify(true)
     }
   
-    return <div onClick={handleClick} className='my-5 font-semibold text-xl'>{name}</div>
+    return <div onClick={handleClick} className='m-5 font-semibold text-xl'>{name}</div>
   }
 
   const handleSave: FormEventHandler<HTMLFormElement> = (e) => {
@@ -34,7 +34,7 @@ export const StoryName = ({ name }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSave} className='my-5'>
+    <form onSubmit={handleSave} className='m-5'>
       <TextField.Root 
         name='newName'
         defaultValue={name}
