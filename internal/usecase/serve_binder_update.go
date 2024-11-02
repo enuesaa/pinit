@@ -21,6 +21,15 @@ func (ctl *ServeCtl) BinderUpdate(c *fiber.Ctx) error {
 	}
 
 	noteSrv := service.NewNoteService(binderName, ctl.repos)
+
+	histories, err := noteSrv.List()
+	if err != nil || len(histories) > 0 {
+		if histories[0].Content == req.Content {
+			// Do not create a new note if the content has not been updated.
+			return c.JSON(Response{ Name: binderName })
+		}
+	}
+
 	note := service.NoteCreation{
 		Comment: "",
 		Content: req.Content,
