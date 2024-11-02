@@ -4,7 +4,6 @@ import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaCaretRight, FaHourglassStart } from 'react-icons/fa'
 import { IoWarningOutline } from 'react-icons/io5'
-import styles from './StoryChatButton.css'
 
 export const StoryChatButton = () => {
   const chat = useChat()
@@ -19,7 +18,7 @@ export const StoryChatButton = () => {
 
   if (chat.isLoading) {
     return (
-      <Button variant='surface' m='2' className={styles.main} onClick={handleClick}>
+      <Button variant='surface' m='2' className='px-[30px] py-[10px] text-[25px] leading-[15px]' onClick={handleClick}>
         <FaHourglassStart />
       </Button>
     )
@@ -27,14 +26,14 @@ export const StoryChatButton = () => {
 
   if (chat.isError) {
     return (
-      <Button variant='surface' m='2' className={styles.main} onClick={handleClick}>
+      <Button variant='surface' m='2' className='px-[30px] py-[10px] text-[25px] leading-[15px]' onClick={handleClick}>
         <IoWarningOutline />
       </Button>
     )
   }
 
   return (
-    <Button variant='surface' m='2' className={styles.main} onClick={handleClick}>
+    <Button variant='surface' m='2' className='px-[30px] py-[10px] text-[25px] leading-[15px]' onClick={handleClick}>
       <FaCaretRight />
     </Button>
   )

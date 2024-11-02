@@ -3,7 +3,6 @@ import { useGetStory } from '@/lib/state/story'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaCheck } from 'react-icons/fa'
-import styles from './StoryChatButton.css'
 
 type Props = {
   binderName: string
@@ -18,7 +17,7 @@ export const StorySaveButton = ({ binderName }: Props) => {
   }
 
   return (
-    <Button m='2' className={styles.main} onClick={handleClick} style={{ fontSize: '20px' }}>
+    <Button m='2' className='px-[30px] py-[10px] text-[25px] leading-[15px]' onClick={handleClick} style={{ fontSize: '20px' }}>
       <FaCheck />
     </Button>
   )

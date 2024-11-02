@@ -17,7 +17,7 @@ export const SidebarBinderCard = ({ binderName }: Props) => {
   }
 
   return (
-    <Card m='3' onClick={handleClick}>
+    <Card onClick={handleClick} className='m-3'>
       <SidebarBinderDeleteButton binderName={binderName} />
       <Text as='div' size='2' weight='bold' mb='2'>
         {binderName}

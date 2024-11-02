@@ -21,7 +21,7 @@ export const StoryInput = () => {
 
   return (
     <TextArea
-      className={styles.textarea}
+      className='min-h-[80vh] p-[10px] outline-none'
       ref={textareaRef}
       size='3'
       defaultValue={story.content}

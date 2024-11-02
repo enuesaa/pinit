@@ -1,6 +1,5 @@
 import { useRecog } from '@/lib/api/recog'
 import { useGetStory, useSetStoryInput } from '@/lib/state/story'
-import { PauseIcon } from '@radix-ui/react-icons'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler, useEffect } from 'react'
 import { FaMicrophone } from 'react-icons/fa'
@@ -30,7 +29,7 @@ export const StoryRecorder = () => {
   if (status === 'recording') {
     return (
       <Button m='2' variant='soft' onClick={stopRecording}>
-        <PauseIcon />
+        stop
       </Button>
     )
   }

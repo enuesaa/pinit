@@ -2,7 +2,6 @@ import { useDeleteBinder } from '@/lib/api/binders'
 import { Button } from '@radix-ui/themes'
 import { MouseEventHandler } from 'react'
 import { FaTrash } from 'react-icons/fa'
-import styles from './SidebarBinderCard.css'
 
 type Props = {
   binderName: string
@@ -16,7 +15,7 @@ export const SidebarBinderDeleteButton = ({ binderName }: Props) => {
   }
 
   return (
-    <Button onClick={handleClick} variant='outline' size='1' className={styles.main}>
+    <Button onClick={handleClick} variant='outline' className='px-2 py-1 absolute right-5'>
       <FaTrash />
     </Button>
   )

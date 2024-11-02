@@ -1,5 +1,4 @@
 import { TextArea } from '@radix-ui/themes'
-import styles from './StoryInput.css'
 import { Note } from '@/lib/api/binders'
 
 type Props = {
@@ -8,7 +7,7 @@ type Props = {
 export const StoryInputReadonly = ({ note }: Props) => {
   return (
     <TextArea
-      className={styles.textarea}
+      className='min-h-[80vh] p-[10px] outline-none'
       size='3'
       defaultValue={note.content}
       readOnly

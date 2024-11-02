@@ -1,9 +1,8 @@
 import { Theme } from '@radix-ui/themes'
-import '@radix-ui/themes/styles.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import TopPage from './pages/index'
-import './styles/app.css'
+import './app.css'
 
 export const App = () => {
   const queryClient = new QueryClient()
