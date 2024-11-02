@@ -4,7 +4,6 @@ import { HistoryDialog } from './HistoryDialog'
 import { StoryChatButton } from './StoryChatButton'
 import { StoryInput } from './StoryInput'
 import { StoryRecorder } from './StoryRecorder'
-import { StorySaveButton } from './StorySaveButton'
 import { StoryTrash } from './StoryTrash'
 
 export const Story = () => {
@@ -15,16 +14,15 @@ export const Story = () => {
   }
 
   return (
-    <Section p='1' style={{ position: 'relative' }}>
+    <Section p='1' className='relative'>
       <div>{story.binderName}</div>
 
       <StoryRecorder />
       <StoryTrash />
       <StoryChatButton />
-      <StorySaveButton binderName={story.binderName} />
       <HistoryDialog name={story.binderName} />
 
-      <StoryInput />
+      <StoryInput name={story.binderName} />
     </Section>
   )
 }

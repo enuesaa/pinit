@@ -1,11 +1,17 @@
+import { useUpdateBinder } from '@/lib/api/binders'
 import { useGetStory, useSetStoryInput } from '@/lib/state/story'
 import { TextArea } from '@radix-ui/themes'
-import { KeyboardEventHandler, useEffect, useRef } from 'react'
+import { FocusEventHandler, KeyboardEventHandler, useEffect, useRef } from 'react'
+import { FaCheck } from 'react-icons/fa'
 
-export const StoryInput = () => {
+type Props = {
+  name: string
+}
+export const StoryInput = ({ name }: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const story = useGetStory()
   const setInput = useSetStoryInput()
+  const updateBinder = useUpdateBinder(name)
 
   useEffect(() => {
     if (textareaRef.current === null) {
@@ -18,13 +24,24 @@ export const StoryInput = () => {
     setInput(e.currentTarget.value)
   }
 
+  const handleSave: FocusEventHandler<HTMLTextAreaElement> = (e) => {
+    updateBinder.mutate({ content: story.content })
+    setTimeout(() => updateBinder.reset(), 1000)
+  }
+
   return (
-    <TextArea
-      className='min-h-[80vh] p-[10px] outline-none'
-      ref={textareaRef}
-      size='3'
-      defaultValue={story.content}
-      onKeyUp={handleKeyUp}
-    />
+    <>
+      <TextArea
+        className='min-h-[80vh] p-[10px] outline-none'
+        ref={textareaRef}
+        size='3'
+        defaultValue={story.content}
+        onKeyUp={handleKeyUp}
+        onBlur={handleSave}
+      />
+      {updateBinder.isSuccess && (
+        <div className='absolute top-5 right-5'><FaCheck /></div>
+      )}
+    </>
   )
 }
