@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 const textarea = style({
-  height: '300px',
+  minHeight: '80vh',
   padding: '10px',
 })
 

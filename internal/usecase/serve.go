@@ -7,16 +7,11 @@ import (
 	"github.com/enuesaa/pinit/ui"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/google/uuid"
 )
 
 type ServeCtl struct {
 	repos repository.Repos
 	port int
-}
-
-func (ctl *ServeCtl) CreateId() string {
-	return uuid.New().String()
 }
 
 func (ctl *ServeCtl) Addr() string {

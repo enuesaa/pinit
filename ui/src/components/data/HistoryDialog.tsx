@@ -1,6 +1,7 @@
 import { useListBinderNotes } from '@/lib/api/binders'
 import { Button, Dialog } from '@radix-ui/themes'
 import { BinderStoryInputReadonly } from './BinderStoryInputReadonly'
+import { BsThreeDots } from "react-icons/bs";
 
 type Props = {
   name: string
@@ -11,7 +12,7 @@ export const HistoryDialog = ({ name }: Props) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button variant='surface'>History</Button>
+        <Button variant='soft' m='2'><BsThreeDots /></Button>
       </Dialog.Trigger>
 
       <Dialog.Content maxWidth='90%'>
@@ -22,7 +23,7 @@ export const HistoryDialog = ({ name }: Props) => {
         ))}
 
         <Dialog.Close>
-          <Button variant='surface'>Cancel</Button>
+          <Button variant='surface' m='2'>Cancel</Button>
         </Dialog.Close>
       </Dialog.Content>
     </Dialog.Root>

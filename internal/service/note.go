@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/enuesaa/pinit/internal/repository"
-	"github.com/google/uuid"
+	"github.com/oklog/ulid/v2"
 )
 
 type Note struct {
@@ -54,7 +54,7 @@ func (srv *NoteService) Get(name string) (Note, error) {
 func (srv *NoteService) Create(creation NoteCreation) (string, error) {
 	note := Note{
 		InternalBinderName: srv.binderName,
-		NoteName: uuid.NewString(),
+		NoteName: ulid.Make().String(),
 		Content: creation.Content,
 		Comment: creation.Comment,
 		Publisher: creation.Publisher,

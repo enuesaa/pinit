@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/enuesaa/pinit/internal/repository"
-	"github.com/google/uuid"
+	"github.com/oklog/ulid/v2"
 )
 
 type Binder struct {
@@ -45,7 +45,7 @@ func (srv *BinderService) Get(name string) (Binder, error) {
 func (srv *BinderService) Create() (string, error) {
 	binder := Binder{
 		InternalBinderName: "@data",
-		Name: uuid.NewString(),
+		Name: ulid.Make().String(),
 		ArchivedAt: nil,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),

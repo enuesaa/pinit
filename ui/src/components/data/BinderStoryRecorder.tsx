@@ -29,14 +29,14 @@ export const BinderStoryRecorder = () => {
 
   if (status === 'recording') {
     return (
-      <Button m='2' variant='soft' style={{ cursor: 'pointer' }} onClick={stopRecording}>
+      <Button m='2' variant='soft' onClick={stopRecording}>
         <PauseIcon />
       </Button>
     )
   }
 
   return (
-    <Button m='2' variant='soft' style={{ cursor: 'pointer' }} onClick={handleStart}>
+    <Button m='2' variant='soft' onClick={handleStart}>
       <FaMicrophone />
     </Button>
   )

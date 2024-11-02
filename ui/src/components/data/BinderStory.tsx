@@ -1,8 +1,11 @@
 import { Section } from '@radix-ui/themes'
-import { BinderStoryName } from './BinderStoryName'
 import { useGetStory } from '@/lib/state/story'
-import { BinderStoryNote } from './BinderStoryNote'
 import { HistoryDialog } from './HistoryDialog'
+import { BinderStoryRecorder } from './BinderStoryRecorder'
+import { BinderStoryTrash } from './BinderStoryTrash'
+import { BinderStoryChatButton } from './BinderStoryChatButton'
+import { BinderStorySaveButton } from './BinderStorySaveButton'
+import { BinderStoryInput } from './BinderStoryInput'
 
 export const BinderStory = () => {
   const story = useGetStory()
@@ -12,10 +15,16 @@ export const BinderStory = () => {
   }
 
   return (
-    <Section p='1'>
+    <Section p='1' style={{ position: 'relative' }}>
+      <div>{story.binderName}</div>
+
+      <BinderStoryRecorder />
+      <BinderStoryTrash />
+      <BinderStoryChatButton />
+      <BinderStorySaveButton binderName={story.binderName} />
       <HistoryDialog name={story.binderName} />
-      <BinderStoryName name={story.binderName} />
-      <BinderStoryNote name={story.binderName} />
+
+      <BinderStoryInput />
     </Section>
   )
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/enuesaa/pinit/internal/service"
 	"github.com/gofiber/fiber/v2"
+	"github.com/oklog/ulid/v2"
 )
 
 func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
@@ -16,7 +17,7 @@ func (ctl *ServeCtl) Recog(c *fiber.Ctx) error {
 	body := c.BodyRaw()
 	aiSrv := service.NewAiService(ctl.repos)
 
-	id := ctl.CreateId()
+	id := ulid.Make().String()
 	registrySrv := service.NewRegistrySrv(ctl.repos)
 	text, err := aiSrv.Speak(registrySrv.GetOpenAiApiToken(), bytes.NewReader(body))
 	if err != nil {

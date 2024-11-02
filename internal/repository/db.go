@@ -51,7 +51,7 @@ func (repo *DbRepository) List(partition string, result interface{}) error {
 		return nil
 	}
 
-	return table.Get("BinderName", partition).Limit(10).All(ctx, result)
+	return table.Get("BinderName", partition).Order(dynamo.Descending).Limit(10).All(ctx, result)
 }
 
 func (repo *DbRepository) Get(partition string, rangev string, result interface{}) error {
