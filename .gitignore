@@ -10,6 +10,3 @@ build/bin
 ui/node_modules
 ui/dist
 ui/.env.dev.local
-
-app.zip
-bootstrap
