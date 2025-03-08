@@ -15,7 +15,9 @@ type DbRepositoryInterface interface {
 	Delete(partition string, rangev string) error
 }
 
-type DbRepository struct {}
+type DbRepository struct {
+	TableName string
+}
 
 func (repo *DbRepository) getAwsConfig() (aws.Config, error) {
 	ctx := context.Background()
@@ -29,7 +31,7 @@ func (repo *DbRepository) getPinitTable() (*dynamo.Table, error) {
 		return nil, err
 	}
 	db := dynamo.New(awsconf)
-	table := db.Table("pinit")
+	table := db.Table(repo.TableName)
 
 	return &table, nil
 }
